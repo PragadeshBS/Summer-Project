@@ -11,6 +11,10 @@ app.use(express.json());
 app.use("/api/events", eventRoutes);
 app.use("/api/users", userRoutes);
 
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static("frontend/build"));
+}
+
 mongoose.connect(process.env.MONGO_URI).then(() => {
   app.listen(process.env.PORT, () => {
     console.log(
