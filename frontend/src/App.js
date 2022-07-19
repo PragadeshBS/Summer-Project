@@ -1,5 +1,9 @@
+import EventDetail from "./pages/eventDetails/eventDetails";
+
 function App() {
-  return <div>Hello world</div>;
+  return <div>
+    <EventDetail />
+  </div>;
 }
 
 export default App;
