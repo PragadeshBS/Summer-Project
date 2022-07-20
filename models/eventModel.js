@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const User = require("./userModel");
 
 const eventSchema = mongoose.Schema({
   eventName: {
@@ -31,6 +32,10 @@ const eventSchema = mongoose.Schema({
   },
   otherInfo: {
     type: String,
+  },
+  participants: {
+    type: [mongoose.Schema.Types.ObjectId],
+    ref: "User",
   },
 });
 

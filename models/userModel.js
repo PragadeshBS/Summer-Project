@@ -19,6 +19,14 @@ const userSchema = mongoose.Schema({
     unique: true,
     required: true,
   },
+  participatedEvents: {
+    type: [mongoose.Schema.Types.ObjectId],
+    ref: "Event",
+  },
+  organizedEvents: {
+    type: [mongoose.Schema.Types.ObjectId],
+    ref: "Event",
+  },
 });
 
 module.exports = mongoose.model("User", userSchema);
