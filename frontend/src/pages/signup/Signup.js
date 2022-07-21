@@ -1,8 +1,9 @@
 import Header from "../../components/EventCreationForm/Header";
 import { useForm } from "react-hook-form";
-import "./UserCreation.css";
+import "./Signup.css";
 import axios from "axios";
-const UserCreation = () => {
+
+const Signup = () => {
   const {
     register,
     handleSubmit,
@@ -11,16 +12,14 @@ const UserCreation = () => {
   } = useForm();
   const additem = (data) => {
     console.log(data);
-    axios
-      .post("/api/users", data)
-      .then((res) => {
-        if (res.ok) {
-          console.log("success");
-        }
-      })
-      // .catch((err) => {
-      //   console.log(err);
-      // });
+    axios.post("/api/users", data).then((res) => {
+      if (res.ok) {
+        console.log("success");
+      }
+    });
+    // .catch((err) => {
+    //   console.log(err);
+    // });
   };
   return (
     <div className="EventCreationPage container">
@@ -30,12 +29,14 @@ const UserCreation = () => {
           <div className="EventCreationForm  my-3 py-4 px-5 border shadow rounded">
             <form className="pt-3" onSubmit={handleSubmit(additem)}>
               <div className="form-group">
-                <label>Name</label>
+                <label>
+                  Name <span className="text-danger">*</span>
+                </label>
 
                 <input
                   type="text"
                   {...register("userName", {
-                    required: "User Name Field is Required",
+                    required: "Name is Required",
                   })}
                   className={`form-control m-3 w-75 ${
                     errors.userName ? "errorinput" : ""
@@ -56,7 +57,9 @@ const UserCreation = () => {
                 ></input>
               </div>
               <div className="form-group">
-                <label>Mobile Number</label>
+                <label>
+                  Mobile Number <span className="text-danger">*</span>
+                </label>
                 <input
                   type="number"
                   className={`form-control m-3 w-75 ${
@@ -81,7 +84,9 @@ const UserCreation = () => {
                 ></input>
               </div>
               <div className="form-group">
-                <label>Email</label>
+                <label>
+                  Email <span className="text-danger">*</span>
+                </label>
                 <input
                   type="text"
                   className={`form-control m-3 w-75 ${
@@ -108,4 +113,4 @@ const UserCreation = () => {
     </div>
   );
 };
-export default UserCreation;
+export default Signup;
