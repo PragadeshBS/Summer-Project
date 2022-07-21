@@ -1,12 +1,13 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Navbar = () => {
+  const navigate = useNavigate();
   return (
     <nav className="navbar navbar-expand-lg bg-light">
       <div className="container-fluid">
-        <a className="navbar-brand" href="#">
-          Navbar
-        </a>
+        <Link className="navbar-brand" to="/">
+          Events
+        </Link>
         <button
           className="navbar-toggler"
           type="button"
@@ -21,16 +22,26 @@ const Navbar = () => {
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
             <li className="nav-item">
-              <a className="nav-link active" aria-current="page" href="#">
-                Home
-              </a>
+              <Link className="nav-link active" to="/viewevents">
+                View Events
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link className="nav-link active" to="/eventcreationform">
+                Create Event
+              </Link>
             </li>
           </ul>
           <div className="m-2">
             <button className="btn btn-outline-primary">Login</button>
           </div>
           <div className="m-2">
-            <button className="btn btn-primary">Sign Up</button>
+            <button
+              className="btn btn-primary"
+              onClick={() => navigate("/signup")}
+            >
+              Sign Up
+            </button>
           </div>
           <form className="d-flex" role="search">
             <input
