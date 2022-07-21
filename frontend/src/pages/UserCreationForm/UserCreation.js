@@ -10,20 +10,9 @@ const UserCreation = () => {
     reset,
   } = useForm();
   const additem = (data) => {
-    const sdata = {
-      eventName: data.name,
-      eventStartDate: data.starttime,
-      eventEndDate: data.endtime,
-      venue: data.venue,
-      dept: data.department,
-      contactName: data.contactname,
-      contactNumber: data.ContactNumber,
-      contactEmail: data.contactemail,
-      otherInfo: data.otherinfo,
-    };
-    console.log(sdata);
+    console.log(data);
     axios
-      .post("/api/events", sdata)
+      .post("/api/users", data)
       .then((res) => {
         if (res.ok) {
           console.log("success");
@@ -69,7 +58,7 @@ const UserCreation = () => {
               <div className="form-group">
                 <label>Mobile Number</label>
                 <input
-                  type="datetime-local"
+                  type="number"
                   className={`form-control m-3 w-75 ${
                     errors.mobile ? "errorinput" : ""
                   }`}
@@ -95,8 +84,10 @@ const UserCreation = () => {
                 <label>Email</label>
                 <input
                   type="text"
-                  className="form-control m-3 w-75"
-                  {...register("email")}
+                  className={`form-control m-3 w-75 ${
+                    errors.email ? "errorinput" : ""
+                  }`}
+                  {...register("email", { required: "Email is required" })}
                 ></input>
                 {errors.email && (
                   <span className="error w-75">{errors.email.message}</span>
