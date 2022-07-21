@@ -14,6 +14,7 @@ function App() {
               path="/eventcreationform"
               element={<EventCreationForm />}
             ></Route>
+             <Route path="/viewevents" element={<Viewevents />}></Route>
           </Routes>
         </div>
       </BrowserRouter>
