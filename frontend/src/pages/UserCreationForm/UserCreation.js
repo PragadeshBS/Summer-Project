@@ -18,9 +18,9 @@ const UserCreation = () => {
           console.log("success");
         }
       })
-      .catch((err) => {
-        console.log(err);
-      });
+      // .catch((err) => {
+      //   console.log(err);
+      // });
   };
   return (
     <div className="EventCreationPage container">
@@ -30,7 +30,7 @@ const UserCreation = () => {
           <div className="EventCreationForm  my-3 py-4 px-5 border shadow rounded">
             <form className="pt-3" onSubmit={handleSubmit(additem)}>
               <div className="form-group">
-                <label>User Name</label>
+                <label>Name</label>
 
                 <input
                   type="text"

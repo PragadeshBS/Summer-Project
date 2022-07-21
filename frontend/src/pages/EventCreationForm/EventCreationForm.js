@@ -17,7 +17,7 @@ const EventCreationForm = () => {
       venue: data.venue,
       dept: data.department,
       contactName: data.contactname,
-      contactNumber: data.ContactNumber,
+      contactPhone: data.ContactNumber,
       contactEmail: data.contactemail,
       otherInfo: data.otherinfo,
     };
