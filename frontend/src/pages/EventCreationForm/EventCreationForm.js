@@ -37,7 +37,7 @@ const EventCreationForm = () => {
     <div className="EventCreationPage container">
       <Header title={"Event Creation Form"} />
       <div className="row">
-        <div className="col-8">
+        <div className="col-lg-8">
           <div className="EventCreationForm  my-3 py-4 px-5 border shadow rounded">
             <form className="pt-3" onSubmit={handleSubmit(additem)}>
               <div className="form-group">
