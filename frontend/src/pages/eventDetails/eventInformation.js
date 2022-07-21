@@ -6,7 +6,7 @@ const EventInformation = (props) => {
                 <h6>Venue</h6>
             </div>
             <div className="col-lg-10">
-                <h6>venue info</h6>
+                <h6>{props.detail.venue}</h6>
             </div>
         </div>
         <div className="row ps-5">
@@ -14,7 +14,7 @@ const EventInformation = (props) => {
                 <h6>Contact Name</h6>
             </div>
             <div className="col-lg-10">
-                <h6>contact info</h6>
+                <h6>{props.detail.contactName}</h6>
             </div>
         </div>
         <div className="row ps-5">
@@ -22,7 +22,7 @@ const EventInformation = (props) => {
                 <h6>Contact Number</h6>
             </div>
             <div className="col-lg-10">
-                <h6>contact info</h6>
+                <h6>{props.detail.contactPhone}</h6>
             </div>
         </div>
         <div className="row ps-5">
@@ -30,7 +30,7 @@ const EventInformation = (props) => {
                 <h6>Email</h6>
             </div>
             <div className="col-lg-10">
-                <h6>email info</h6>
+                <h6>{props.detail.contactEmail}</h6>
             </div>
         </div>
         <div className="row ps-5">
@@ -38,7 +38,7 @@ const EventInformation = (props) => {
                 <h6>Description</h6>
             </div>
             <div className="col-lg-10">
-                <h6>description</h6>
+                <h6>{props.detail.otherInfo}</h6>
             </div>
         </div>
     </div>

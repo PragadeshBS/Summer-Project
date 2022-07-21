@@ -2,6 +2,7 @@ import image1 from '../../images/e1.png'
 import axios from 'axios'
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { format, compareAsc } from 'date-fns'
 const Viewevents = () => {
     const [detail, setDetail] = useState([]);
     useEffect(() => {
@@ -22,9 +23,12 @@ const Viewevents = () => {
                         <img src={image1} className="card-img-top" alt="..." />
                         <div className="card-body">
                             <h5 className="card-title">{item.eventName}</h5>
-                            <p className="card-text">{item.eventStartDate}</p>
-                            <Link to="/eventdetails">
-                                <a href="#" className="btn btn-primary">View Details</a>
+                            <p className="card-text">{
+                                format(new Date(item.eventStartDate), 'dd MMM yyyy-h:mm a')
+                            }
+                            </p>
+                            <Link to={`/eventdetails/${item._id}`}>
+                                <span className="btn btn-primary">View Details</span>
                             </Link>
                         </div>
                     </div>
