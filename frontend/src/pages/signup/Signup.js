@@ -1,33 +1,42 @@
 import Header from "../../components/EventCreationForm/Header";
 import { useForm } from "react-hook-form";
-import "./Signup.css";
+import signupStyles from "./signupStyles.module.css";
 import axios from "axios";
+import { useState } from "react";
 
 const Signup = () => {
+  const [error, setError] = useState("");
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
   } = useForm();
-  const additem = (data) => {
-    console.log(data);
-    axios.post("/api/users", data).then((res) => {
-      if (res.ok) {
-        console.log("success");
-      }
-    });
-    // .catch((err) => {
-    //   console.log(err);
-    // });
+
+  const addUser = (data) => {
+    if (data.password !== data.confirmPassword) {
+      setError("Passwords do not match");
+      return;
+    }
+    axios
+      .post("/api/users", data)
+      .then((res) => {
+        reset();
+        setError("");
+        console.log(res.data);
+      })
+      .catch((err) => {
+        setError(err.response.data.error);
+      });
   };
+
   return (
     <div className="EventCreationPage container">
       <Header title={"Sign up"} />
       <div className="row">
         <div className="col-lg-8">
           <div className="EventCreationForm  my-3 py-4 px-5 border shadow rounded">
-            <form className="pt-3" onSubmit={handleSubmit(additem)}>
+            <form className="pt-3" onSubmit={handleSubmit(addUser)}>
               <div className="form-group">
                 <label>
                   Name <span className="text-danger">*</span>
@@ -39,11 +48,13 @@ const Signup = () => {
                     required: "Name is Required",
                   })}
                   className={`form-control m-3 w-75 ${
-                    errors.userName ? "errorinput" : ""
+                    errors.userName ? signupStyles.errorInput : ""
                   }`}
                 ></input>
                 {errors.userName && (
-                  <span className="error w-75">{errors.userName.message}</span>
+                  <span className={`${signupStyles.error} w-75`}>
+                    {errors.userName.message}
+                  </span>
                 )}
               </div>
               <div className="form-group">
@@ -51,9 +62,9 @@ const Signup = () => {
                 <input
                   type="text"
                   className={`form-control m-3 w-75 ${
-                    errors.regNo ? "errorinput" : ""
+                    errors.regNo ? signupStyles.errorInput : ""
                   }`}
-                  {...register("reqNo")}
+                  {...register("regNo")}
                 ></input>
               </div>
               <div className="form-group">
@@ -63,14 +74,16 @@ const Signup = () => {
                 <input
                   type="number"
                   className={`form-control m-3 w-75 ${
-                    errors.mobile ? "errorinput" : ""
+                    errors.mobile ? signupStyles.errorInput : ""
                   }`}
                   {...register("mobile", {
                     required: "Mobile Number is Required",
                   })}
                 ></input>
                 {errors.mobile && (
-                  <span className="error w-75">{errors.mobile.message}</span>
+                  <span className={`${signupStyles.error} w-75`}>
+                    {errors.mobile.message}
+                  </span>
                 )}
               </div>
               <div className="form-group">
@@ -78,7 +91,7 @@ const Signup = () => {
                 <input
                   type="text"
                   className={`form-control m-3 w-75 ${
-                    errors.dept ? "errorinput" : ""
+                    errors.dept ? signupStyles.errorInput : ""
                   }`}
                   {...register("dept")}
                 ></input>
@@ -90,14 +103,55 @@ const Signup = () => {
                 <input
                   type="text"
                   className={`form-control m-3 w-75 ${
-                    errors.email ? "errorinput" : ""
+                    errors.email ? signupStyles.errorInput : ""
                   }`}
                   {...register("email", { required: "Email is required" })}
                 ></input>
                 {errors.email && (
-                  <span className="error w-75">{errors.email.message}</span>
+                  <span className={`${signupStyles.error} w-75`}>
+                    {errors.email.message}
+                  </span>
                 )}
               </div>
+              <div className="form-group">
+                <label>
+                  Password <span className="text-danger">*</span>
+                </label>
+                <input
+                  type="text"
+                  className={`form-control m-3 w-75 ${
+                    errors.email ? signupStyles.errorInput : ""
+                  }`}
+                  {...register("password", {
+                    required: "Password is required",
+                  })}
+                ></input>
+                {errors.password && (
+                  <span className={`${signupStyles.error} w-75`}>
+                    {errors.password.message}
+                  </span>
+                )}
+              </div>
+              <div className="form-group">
+                <label>
+                  Confirm Password <span className="text-danger">*</span>
+                </label>
+                <input
+                  type="text"
+                  className={`form-control m-3 w-75 ${
+                    errors.email ? signupStyles.errorInput : ""
+                  }`}
+                  {...register("confirmPassword", {
+                    required: "Confirm Password is required",
+                  })}
+                ></input>
+                {errors.confirmPassword && (
+                  <span className={`${signupStyles.error} w-75`}>
+                    {errors.confirmPassword.message}
+                  </span>
+                )}
+              </div>
+              {error && <div className="alert alert-danger">{error}</div>}
               <div className="form-group w-75 text-center">
                 <button
                   type="submit"

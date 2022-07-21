@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const jwt = require("jsonwebtoken");
 
 const userSchema = mongoose.Schema({
   userName: {
@@ -22,6 +23,10 @@ const userSchema = mongoose.Schema({
     unique: true,
     required: true,
   },
+  password: {
+    type: String,
+    required: true,
+  },
   participatedEvents: {
     type: [mongoose.Schema.Types.ObjectId],
     ref: "Event",
@@ -31,5 +36,12 @@ const userSchema = mongoose.Schema({
     ref: "Event",
   },
 });
+
+userSchema.statics.generateAuthToken = function () {
+  const token = jwt.sign({ _id: this._id }, process.env.JWT_PRIVATE_KEY, {
+    expiresIn: "7d",
+  });
+  return token;
+};
 
 module.exports = mongoose.model("User", userSchema);

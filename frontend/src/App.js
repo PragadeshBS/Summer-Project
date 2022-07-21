@@ -6,6 +6,7 @@ import Viewevents from "./pages/viewEvents/viewEvents";
 import Navbar from "./components/Navbar";
 import Signup from "./pages/signup/Signup";
 import UpdateEvent from "./pages/EventUpdateForm/EventUpdateForm";
+import Login from "./pages/login/Login";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
             <Route path="/eventcreationform" element={<EventCreationForm />} />
             <Route path="/viewevents" element={<Viewevents />} />
             <Route path="/signup" element={<Signup />} />
+            <Route path="/login" element={<Login />} />
           </Routes>
         </div>
       </BrowserRouter>
