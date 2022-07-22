@@ -35,13 +35,15 @@ const EventCreationForm = () => {
   };
   return (
     <div className="EventCreationPage container">
-      <Header title={"Event Creation Form"} />
+      <Header title={"Create an Event"} />
       <div className="row">
         <div className="col-lg-8">
-          <div className="EventCreationForm  my-3 py-4 px-5 border shadow rounded">
+          <div className="EventCreationForm  my-3 py-3 px-5 border shadow rounded">
             <form className="pt-3" onSubmit={handleSubmit(additem)}>
               <div className="form-group">
-                <label>Event Name</label>
+                <label>
+                  Event Name <span className="text-danger">*</span>
+                </label>
 
                 <input
                   type="text"
@@ -55,7 +57,9 @@ const EventCreationForm = () => {
                 )}
               </div>
               <div className="form-group">
-                <label>Event Start Time</label>
+                <label>
+                  Event Start Time <span className="text-danger">*</span>
+                </label>
                 <input
                   type="datetime-local"
                   className={`form-control m-3 w-75 ${
@@ -87,7 +91,9 @@ const EventCreationForm = () => {
                 )}
               </div>
               <div className="form-group">
-                <label>Venue</label>
+                <label>
+                  Venue <span className="text-danger">*</span>
+                </label>
                 <input
                   type="text"
                   className={`form-control m-3 w-75 ${
@@ -108,7 +114,9 @@ const EventCreationForm = () => {
                 ></input>
               </div>
               <div className="form-group">
-                <label>Contact Name</label>
+                <label>
+                  Contact Name <span className="text-danger">*</span>
+                </label>
                 <input
                   type="text"
                   className="form-control m-3 w-75"

@@ -22,6 +22,10 @@ const userSchema = mongoose.Schema({
     unique: true,
     required: true,
   },
+  password: {
+    type: String,
+    required: true,
+  },
   participatedEvents: {
     type: [mongoose.Schema.Types.ObjectId],
     ref: "Event",
