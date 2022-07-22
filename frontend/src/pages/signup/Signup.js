@@ -19,7 +19,7 @@ const Signup = () => {
       return;
     }
     axios
-      .post("/api/users", data)
+      .post("/api/auth/signup", data)
       .then((res) => {
         reset();
         setError("");
@@ -118,7 +118,7 @@ const Signup = () => {
                   Password <span className="text-danger">*</span>
                 </label>
                 <input
-                  type="text"
+                  type="password"
                   className={`form-control m-3 w-75 ${
                     errors.email ? signupStyles.errorInput : ""
                   }`}
@@ -137,7 +137,7 @@ const Signup = () => {
                   Confirm Password <span className="text-danger">*</span>
                 </label>
                 <input
-                  type="text"
+                  type="password"
                   className={`form-control m-3 w-75 ${
                     errors.email ? signupStyles.errorInput : ""
                   }`}

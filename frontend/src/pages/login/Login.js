@@ -15,7 +15,7 @@ const Login = () => {
 
   const addUser = (data) => {
     axios
-      .post("/api/auth", data)
+      .post("/api/auth/login", data)
       .then((res) => {
         reset();
         setError("");
@@ -54,7 +54,7 @@ const Login = () => {
                   Password <span className="text-danger">*</span>
                 </label>
                 <input
-                  type="text"
+                  type="password"
                   className={`form-control m-3 w-75 ${
                     errors.email ? loginStyles.errorInput : ""
                   }`}
