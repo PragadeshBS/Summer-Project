@@ -30,7 +30,11 @@ const Viewevents = () => {
               className="card m-5 p-1 col-1 mx-auto"
               style={{ width: "18rem" }}
             >
-              <img src={image1} className="card-img-top" alt="..." />
+              <img
+                src={item.image ? `/api/events/image/${item._id}` : image1}
+                className="card-img-top"
+                alt="..."
+              />
               <div className="card-body">
                 <h5 className="card-title">{item.eventName}</h5>
                 <p className="card-text">

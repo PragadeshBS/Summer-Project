@@ -21,9 +21,10 @@ const EventDetail = () => {
       <div>
         <section className="eventDetail">
           <img
-            src={image1}
-            className="img-fluid m-5 p-3 mx-auto d-block eventDetailImage"
+            src={data.image ? `/api/events/image/${data._id}` : image1}
+            className="img-fluid my-3 rounded mx-auto d-block eventDetailImage"
             alt="..."
+            style={{ maxWidth: "500px" }}
           />
         </section>
         <hr />

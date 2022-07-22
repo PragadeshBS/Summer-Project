@@ -6,9 +6,15 @@ const {
   getParticipants,
   updateEvent,
   addParticipant,
+  uploadEventImage,
+  getEventImage,
 } = require("../controllers/eventController");
 
 const router = express.Router();
+
+const multer = require("multer");
+const multerStorage = multer.memoryStorage();
+const upload = multer({ storage: multerStorage });
 
 // get all events
 router.get("/", getEvents);
@@ -18,6 +24,12 @@ router.get("/:id", getEvent);
 
 // add a new event
 router.post("/", createEvent);
+
+// add image to event
+router.post("/image", upload.single("img"), uploadEventImage);
+
+// get image for an event
+router.get("/image/:id", getEventImage);
 
 // update a event
 router.patch("/:id", updateEvent);

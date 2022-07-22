@@ -2,6 +2,7 @@ const Event = require("../models/eventModel");
 const User = require("../models/userModel");
 const mongoose = require("mongoose");
 const Joi = require("joi");
+const EventImage = require("../models/eventImageModel");
 
 const createEvent = async (req, res) => {
   const { error } = validateEvent(req.body);
@@ -18,6 +19,7 @@ const createEvent = async (req, res) => {
     contactName,
     contactPhone,
     contactEmail,
+    image,
   } = req.body;
   try {
     const event = await Event.create({
@@ -30,6 +32,7 @@ const createEvent = async (req, res) => {
       contactName,
       contactPhone,
       contactEmail,
+      image,
     });
     return res.status(200).json(event);
   } catch (error) {
@@ -51,6 +54,28 @@ const updateEvent = async (req, res) => {
     return res.status(400).error({ error: "No such event" });
   }
   res.status(200).json(event);
+};
+
+const uploadEventImage = async (req, res) => {
+  const image = {
+    data: new Buffer.from(req.file.buffer, "base64"),
+    contentType: req.file.mimetype,
+  };
+  const savedImage = await EventImage.create({ image });
+  res.send(savedImage);
+};
+
+const getEventImage = async (req, res) => {
+  const { id } = req.params;
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(400).error({ error: "No such event" });
+  }
+  const event = await Event.findById(id).populate("image");
+  if (!event || !event.image) {
+    return res.status(400).json({ error: "No such event image" });
+  }
+  res.set("Content-type", event.image.contentType);
+  res.send(event.image.image.data);
 };
 
 const getEvents = async (req, res) => {
@@ -122,6 +147,7 @@ const validateEvent = (data) => {
     contactPhone: Joi.string().empty("").label("Contact phone"),
     contactEmail: Joi.string().email().empty("").label("Contact email"),
     otherInfo: Joi.string().empty("").label("Other Info"),
+    image: Joi.string().empty("").label("Event image"),
   });
   return schema.validate(data);
 };
@@ -133,4 +159,6 @@ module.exports = {
   getParticipants,
   updateEvent,
   addParticipant,
+  uploadEventImage,
+  getEventImage,
 };
