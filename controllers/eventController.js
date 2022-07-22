@@ -1,8 +1,13 @@
 const Event = require("../models/eventModel");
 const User = require("../models/userModel");
 const mongoose = require("mongoose");
+const Joi = require("joi");
 
 const createEvent = async (req, res) => {
+  const { error } = validateEvent(req.body);
+  if (error) {
+    return res.status(400).json({ error: error.details[0].message });
+  }
   const {
     eventName,
     eventStartDate,
@@ -36,6 +41,10 @@ const updateEvent = async (req, res) => {
   const { id } = req.params;
   if (!mongoose.Types.ObjectId.isValid(id)) {
     return res.status(400).error({ error: "No such event" });
+  }
+  const { error } = validateEvent(req.body);
+  if (error) {
+    return res.status(400).json({ error: error.details[0].message });
   }
   const event = await Event.findOneAndUpdate({ _id: id }, { ...req.body });
   if (!event) {
@@ -100,6 +109,21 @@ const getEvent = async (req, res) => {
     return res.status(400).error({ error: "No such event" });
   }
   res.status(200).json(event);
+};
+
+const validateEvent = (data) => {
+  const schema = Joi.object({
+    eventName: Joi.string().required().label("Event name"),
+    eventStartDate: Joi.date().required().label("Event startDate"),
+    eventEndDate: Joi.date().label("Event end Date"),
+    venue: Joi.string().required().label("Venue"),
+    dept: Joi.string().empty("").label("Dept"),
+    contactName: Joi.string().required().label("Contact name"),
+    contactPhone: Joi.string().empty("").label("Contact phone"),
+    contactEmail: Joi.string().email().empty("").label("Contact email"),
+    otherInfo: Joi.string().empty("").label("Other Info"),
+  });
+  return schema.validate(data);
 };
 
 module.exports = {

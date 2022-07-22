@@ -1,8 +1,11 @@
 import Header from "../../components/EventCreationForm/Header";
 import { useForm } from "react-hook-form";
 import "./EventCreationForm.css";
+import { useState } from "react";
 import axios from "axios";
+
 const EventCreationForm = () => {
+  const [error, setError] = useState("");
   const {
     register,
     handleSubmit,
@@ -21,16 +24,15 @@ const EventCreationForm = () => {
       contactEmail: data.contactemail,
       otherInfo: data.otherinfo,
     };
-    console.log(sdata);
     axios
       .post("/api/events", sdata)
       .then((res) => {
-        if (res.ok) {
-          console.log("success");
-        }
+        setError("");
+        reset();
+        console.log(res.data);
       })
       .catch((err) => {
-        console.log(err);
+        setError(err.response.data.error);
       });
   };
   return (
@@ -47,7 +49,7 @@ const EventCreationForm = () => {
 
                 <input
                   type="text"
-                  {...register("name", { required: "Name Field is Required" })}
+                  {...register("name", { required: "Event name is Required" })}
                   className={`form-control m-3 w-75 ${
                     errors.name ? "errorinput" : ""
                   }`}
@@ -119,7 +121,9 @@ const EventCreationForm = () => {
                 </label>
                 <input
                   type="text"
-                  className="form-control m-3 w-75"
+                  className={`form-control m-3 w-75 ${
+                    errors.contactname ? "errorinput" : ""
+                  }`}
                   {...register("contactname", {
                     required: "Contact Name is Required",
                   })}
@@ -137,15 +141,8 @@ const EventCreationForm = () => {
                   className={`form-control m-3 w-75 ${
                     errors.ContactNumber ? "errorinput" : ""
                   }`}
-                  {...register("ContactNumber", {
-                    required: "Contact Number is Required",
-                  })}
+                  {...register("ContactNumber", {})}
                 ></input>
-                {errors.ContactNumber && (
-                  <span className="error w-75">
-                    {errors.ContactNumber.message}
-                  </span>
-                )}
               </div>
               <div className="form-group">
                 <label>Contact Email</label>
@@ -174,6 +171,7 @@ const EventCreationForm = () => {
                   style={{ resize: "none" }}
                 ></textarea>
               </div>
+              {error && <div className="alert alert-danger">{error}</div>}
               <div className="form-group ">
                 <button
                   type="submit"
