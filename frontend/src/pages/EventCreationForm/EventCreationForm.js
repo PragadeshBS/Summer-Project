@@ -3,9 +3,11 @@ import { useForm } from "react-hook-form";
 import "./EventCreationForm.css";
 import { useState } from "react";
 import axios from "axios";
+import UploadImage from "./UploadImage";
 
 const EventCreationForm = () => {
   const [error, setError] = useState("");
+  const [imageId, setImageId] = useState("");
   const {
     register,
     handleSubmit,
@@ -23,6 +25,7 @@ const EventCreationForm = () => {
       contactPhone: data.ContactNumber,
       contactEmail: data.contactemail,
       otherInfo: data.otherinfo,
+      image: imageId,
     };
     axios
       .post("/api/events", sdata)
@@ -41,6 +44,7 @@ const EventCreationForm = () => {
       <div className="row">
         <div className="col-lg-8">
           <div className="EventCreationForm  my-3 py-3 px-5 border shadow rounded">
+            <h3>Event details</h3>
             <form className="pt-3" onSubmit={handleSubmit(additem)}>
               <div className="form-group">
                 <label>
@@ -151,15 +155,8 @@ const EventCreationForm = () => {
                   className={`form-control m-3 w-75 ${
                     errors.contactemail ? "errorinput" : ""
                   }`}
-                  {...register("contactemail", {
-                    required: "Contact Email is Required",
-                  })}
+                  {...register("contactemail", {})}
                 ></input>
-                {errors.contactemail && (
-                  <span className="error w-75">
-                    {errors.contactemail.message}
-                  </span>
-                )}
               </div>
 
               <div className="form-group">
@@ -182,6 +179,9 @@ const EventCreationForm = () => {
               </div>
             </form>
           </div>
+        </div>
+        <div className="col-lg-4">
+          <UploadImage setImageId={setImageId} />
         </div>
       </div>
     </div>

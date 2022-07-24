@@ -44,7 +44,7 @@ const UpdateEvent = () => {
       setEvent(response.data);
       setLoading(false);
     });
-  }, []);
+  }, [id]);
 
   if (loading) {
     return <div>Loading...</div>;
