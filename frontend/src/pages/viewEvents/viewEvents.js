@@ -3,8 +3,7 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { format, compareAsc } from "date-fns";
-import Loading from '../loader/loading.svg'
-import '../loader/loading.css'
+import Loading from "../loader/loading.svg";
 
 const Viewevents = () => {
   const [loading, setLoading] = useState(true);
@@ -19,14 +18,21 @@ const Viewevents = () => {
     fetchDetail();
   }, []);
   if (loading) {
-    return <div className="container d-block mx-auto">
-      <h1 className="display-5 mt-5">Events</h1>
-      <div className="row mt-5 mb-5">
-        <div className="col d-flex justify-content-center">
-          <img src={Loading} style={{ backgroundColor: "white" }} className="img-fluid" alt="..." />
+    return (
+      <div className="container d-block mx-auto">
+        <h1 className="display-5 mt-5">Events</h1>
+        <div className="row mt-5 mb-5">
+          <div className="col d-flex justify-content-center">
+            <img
+              src={Loading}
+              style={{ backgroundColor: "white" }}
+              className="img-fluid"
+              alt="..."
+            />
+          </div>
         </div>
       </div>
-    </div>
+    );
   }
   return (
     <div className="container">
@@ -49,7 +55,7 @@ const Viewevents = () => {
                 src={item.image ? `/api/events/image/${item._id}` : image1}
                 className="card-img-top"
                 alt="..."
-              />              
+              />
               <div className="card-body">
                 <h5 className="card-title">{item.eventName}</h5>
                 <p className="card-text">
