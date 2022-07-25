@@ -2,21 +2,27 @@ import image1 from "../../images/e1.png";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { format, compareAsc } from "date-fns";
+import { format } from "date-fns";
 import Loading from "../loader/loading.svg";
+import { useAuthContext } from "../../hooks/useAuthContext";
 
 const Viewevents = () => {
   const [loading, setLoading] = useState(true);
   const [detail, setDetail] = useState([]);
+  const { user } = useAuthContext();
   useEffect(() => {
     const fetchDetail = () => {
-      axios.get("/api/events").then((response) => {
-        setDetail(response.data);
-        setLoading(false);
-      });
+      axios
+        .get("/api/events", {
+          headers: { Authorization: `Bearer ${user}` },
+        })
+        .then((response) => {
+          setDetail(response.data);
+          setLoading(false);
+        });
     };
     fetchDetail();
-  }, []);
+  }, [user]);
   if (loading) {
     return (
       <div className="container d-block mx-auto">

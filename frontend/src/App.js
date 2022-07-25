@@ -10,8 +10,11 @@ import Login from "./pages/login/Login";
 import { useAuthContext } from "./hooks/useAuthContext";
 
 function App() {
-  const { user } = useAuthContext();
+  const { user, loading } = useAuthContext();
 
+  if (loading) {
+    return <div>Loading...</div>;
+  }
   return (
     <div className="App">
       <BrowserRouter>
@@ -36,8 +39,14 @@ function App() {
               path="/viewevents"
               element={!user ? <Navigate to="/login" /> : <Viewevents />}
             />
-            <Route path="/signup" element={<Signup />} />
-            <Route path="/login" element={<Login />} />
+            <Route
+              path="/signup"
+              element={!user ? <Signup /> : <Navigate to="/" />}
+            />
+            <Route
+              path="/login"
+              element={!user ? <Login /> : <Navigate to="/" />}
+            />
           </Routes>
         </div>
       </BrowserRouter>
