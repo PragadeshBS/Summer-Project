@@ -33,7 +33,12 @@ const Navbar = () => {
             </li>
           </ul>
           <div className="m-2">
-            <button className="btn btn-outline-primary">Login</button>
+            <button
+              onClick={() => navigate("/login")}
+              className="btn btn-outline-primary"
+            >
+              Login
+            </button>
           </div>
           <div className="m-2">
             <button
