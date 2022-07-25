@@ -9,6 +9,7 @@ export const useSignup = () => {
   const signup = async (data) => {
     setIsLoading(true);
     setError(null);
+    console.log(data);
 
     const response = await fetch("/api/user/signup", {
       method: "POST",
@@ -26,7 +27,10 @@ export const useSignup = () => {
       localStorage.setItem("user", JSON.stringify(json));
 
       // update the auth context
-      dispatch({ type: "LOGIN", payload: json });
+      dispatch({
+        type: "LOGIN",
+        payload: { email: json.data._doc.email, token: json.data.token },
+      });
 
       // update loading state
       setIsLoading(false);
