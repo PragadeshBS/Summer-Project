@@ -22,11 +22,7 @@ const EventDetail = () => {
   if (loading) {
     return <div className="container d-block mx-auto">
       <h1 className="display-5 mt-5">Events</h1>
-      <div className="row mt-5 mb-5"
-        style={{
-          boxShadow:
-            "rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px",
-        }}>
+      <div className="row mt-5 mb-5">
         <div className="col d-flex justify-content-center">
           <img src={Loading} alt="..." />
         </div>
