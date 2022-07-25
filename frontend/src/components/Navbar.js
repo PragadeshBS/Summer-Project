@@ -1,6 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
-
+import { useLogout } from "../hooks/useLogout";
 const Navbar = () => {
+  const { logout } = useLogout();
   const navigate = useNavigate();
   return (
     <nav className="navbar navbar-expand-lg bg-light">
@@ -46,6 +47,16 @@ const Navbar = () => {
               onClick={() => navigate("/signup")}
             >
               Sign Up
+            </button>
+          </div>
+          <div className="m-2">
+            <button
+              className="btn btn-primary"
+              onClick={() => {
+                logout();
+              }}
+            >
+              Logout
             </button>
           </div>
           <form className="d-flex" role="search">

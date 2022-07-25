@@ -1,11 +1,11 @@
 import Header from "../../components/EventCreationForm/Header";
 import { useForm } from "react-hook-form";
-import axios from "axios";
 import loginStyles from "./loginStyles.module.css";
-import { useState } from "react";
+import { useLogin } from "../../hooks/useLogin";
 
 const Login = () => {
-  const [error, setError] = useState("");
+  const { login, error, isLoading } = useLogin();
+  console.log(error);
   const {
     register,
     handleSubmit,
@@ -13,16 +13,8 @@ const Login = () => {
     reset,
   } = useForm();
 
-  const addUser = (data) => {
-    axios
-      .post("/api/auth/login", data)
-      .then((res) => {
-        reset();
-        setError("");
-      })
-      .catch((err) => {
-        setError(err.response.data.error);
-      });
+  const addUser = async (data) => {
+    await login(data);
   };
 
   return (

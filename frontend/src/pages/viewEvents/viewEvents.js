@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { format, compareAsc } from "date-fns";
 import Loading from '../loader/loading.svg'
+import '../loader/loading.css'
 
 const Viewevents = () => {
   const [loading, setLoading] = useState(true);
@@ -20,13 +21,9 @@ const Viewevents = () => {
   if (loading) {
     return <div className="container d-block mx-auto">
       <h1 className="display-5 mt-5">Events</h1>
-      <div className="row mt-5 mb-5"
-        style={{
-          boxShadow:
-            "rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px",
-        }}>
+      <div className="row mt-5 mb-5">
         <div className="col d-flex justify-content-center">
-          <img src={Loading} alt="..." />
+          <img src={Loading} style={{ backgroundColor: "white" }} className="img-fluid" alt="..." />
         </div>
       </div>
     </div>
