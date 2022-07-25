@@ -3,47 +3,30 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { format, compareAsc } from "date-fns";
-import Loading from "../loader/loading.svg";
-import { useAuthContext } from "../../hooks/useAuthContext";
+import Loading from '../loader/loading.svg'
+import '../loader/loading.css'
 
 const Viewevents = () => {
-  const { user } = useAuthContext();
-
   const [loading, setLoading] = useState(true);
   const [detail, setDetail] = useState([]);
   useEffect(() => {
     const fetchDetail = () => {
-      axios
-        .get("/api/events", {
-          headers: { Authorization: `Bearer ${user.token}` },
-        })
-        .then((response) => {
-          setDetail(response.data);
-          setLoading(false);
-        })
-        .catch((err) => {
-          console.log("Not autorised");
-        });
+      axios.get("/api/events").then((response) => {
+        setDetail(response.data);
+        setLoading(false);
+      });
     };
     fetchDetail();
   }, []);
   if (loading) {
-    return (
-      <div className="container d-block mx-auto">
-        <h1 className="display-5 mt-5">Events</h1>
-        <div
-          className="row mt-5 mb-5"
-          style={{
-            boxShadow:
-              "rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px",
-          }}
-        >
-          <div className="col d-flex justify-content-center">
-            <img src={Loading} alt="..." />
-          </div>
+    return <div className="container d-block mx-auto">
+      <h1 className="display-5 mt-5">Events</h1>
+      <div className="row mt-5 mb-5">
+        <div className="col d-flex justify-content-center">
+          <img src={Loading} style={{ backgroundColor: "white" }} className="img-fluid" alt="..." />
         </div>
       </div>
-    );
+    </div>
   }
   return (
     <div className="container">
