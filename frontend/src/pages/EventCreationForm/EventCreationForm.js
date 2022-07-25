@@ -1,8 +1,13 @@
 import Header from "../../components/EventCreationForm/Header";
 import { useForm } from "react-hook-form";
 import "./EventCreationForm.css";
+import { useState } from "react";
 import axios from "axios";
+import UploadImage from "./UploadImage";
+
 const EventCreationForm = () => {
+  const [error, setError] = useState("");
+  const [imageId, setImageId] = useState("");
   const {
     register,
     handleSubmit,
@@ -20,17 +25,17 @@ const EventCreationForm = () => {
       contactPhone: data.ContactNumber,
       contactEmail: data.contactemail,
       otherInfo: data.otherinfo,
+      image: imageId,
     };
-    console.log(sdata);
     axios
       .post("/api/events", sdata)
       .then((res) => {
-        if (res.ok) {
-          console.log("success");
-        }
+        setError("");
+        reset();
+        console.log(res.data);
       })
       .catch((err) => {
-        console.log(err);
+        setError(err.response.data.error);
       });
   };
   return (
@@ -39,6 +44,7 @@ const EventCreationForm = () => {
       <div className="row">
         <div className="col-lg-8">
           <div className="EventCreationForm  my-3 py-3 px-5 border shadow rounded">
+            <h3>Event details</h3>
             <form className="pt-3" onSubmit={handleSubmit(additem)}>
               <div className="form-group">
                 <label>
@@ -47,7 +53,7 @@ const EventCreationForm = () => {
 
                 <input
                   type="text"
-                  {...register("name", { required: "Name Field is Required" })}
+                  {...register("name", { required: "Event name is Required" })}
                   className={`form-control m-3 w-75 ${
                     errors.name ? "errorinput" : ""
                   }`}
@@ -119,7 +125,9 @@ const EventCreationForm = () => {
                 </label>
                 <input
                   type="text"
-                  className="form-control m-3 w-75"
+                  className={`form-control m-3 w-75 ${
+                    errors.contactname ? "errorinput" : ""
+                  }`}
                   {...register("contactname", {
                     required: "Contact Name is Required",
                   })}
@@ -137,15 +145,8 @@ const EventCreationForm = () => {
                   className={`form-control m-3 w-75 ${
                     errors.ContactNumber ? "errorinput" : ""
                   }`}
-                  {...register("ContactNumber", {
-                    required: "Contact Number is Required",
-                  })}
+                  {...register("ContactNumber", {})}
                 ></input>
-                {errors.ContactNumber && (
-                  <span className="error w-75">
-                    {errors.ContactNumber.message}
-                  </span>
-                )}
               </div>
               <div className="form-group">
                 <label>Contact Email</label>
@@ -154,15 +155,8 @@ const EventCreationForm = () => {
                   className={`form-control m-3 w-75 ${
                     errors.contactemail ? "errorinput" : ""
                   }`}
-                  {...register("contactemail", {
-                    required: "Contact Email is Required",
-                  })}
+                  {...register("contactemail", {})}
                 ></input>
-                {errors.contactemail && (
-                  <span className="error w-75">
-                    {errors.contactemail.message}
-                  </span>
-                )}
               </div>
 
               <div className="form-group">
@@ -174,6 +168,7 @@ const EventCreationForm = () => {
                   style={{ resize: "none" }}
                 ></textarea>
               </div>
+              {error && <div className="alert alert-danger">{error}</div>}
               <div className="form-group ">
                 <button
                   type="submit"
@@ -184,6 +179,9 @@ const EventCreationForm = () => {
               </div>
             </form>
           </div>
+        </div>
+        <div className="col-lg-4">
+          <UploadImage setImageId={setImageId} />
         </div>
       </div>
     </div>

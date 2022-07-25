@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 const UpdateEvent = () => {
+  const [error, setError] = useState("");
   const { id } = useParams();
   const [event, setEvent] = useState({});
   const [loading, setLoading] = useState(true);
@@ -29,10 +30,12 @@ const UpdateEvent = () => {
     axios
       .patch(`/api/events/${id}`, sdata)
       .then((res) => {
-        console.log("success");
+        setError("");
+        reset();
+        console.log(res.data);
       })
       .catch((err) => {
-        console.log(err);
+        setError(err.response.data.error);
       });
   };
 
@@ -41,7 +44,7 @@ const UpdateEvent = () => {
       setEvent(response.data);
       setLoading(false);
     });
-  }, []);
+  }, [id]);
 
   if (loading) {
     return <div>Loading...</div>;
@@ -158,14 +161,8 @@ const UpdateEvent = () => {
                   }`}
                   {...register("ContactNumber", {
                     value: event.contactPhone,
-                    required: "Contact Number is Required",
                   })}
                 ></input>
-                {errors.ContactNumber && (
-                  <span className="error w-75">
-                    {errors.ContactNumber.message}
-                  </span>
-                )}
               </div>
               <div className="form-group">
                 <label>Contact Email</label>
@@ -195,6 +192,7 @@ const UpdateEvent = () => {
                   style={{ resize: "none" }}
                 ></textarea>
               </div>
+              {error && <div className="alert alert-danger">{error}</div>}
               <div className="form-group ">
                 <button
                   type="submit"
