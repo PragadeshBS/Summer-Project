@@ -7,36 +7,67 @@ import UploadImage from "./UploadImage";
 
 const EventCreationForm = () => {
   const [error, setError] = useState("");
-  const [imageId, setImageId] = useState("");
+  const [existingImage, setExistingImage] = useState(null);
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [uploading, setUploading] = useState(false);
+  const [success, setSuccess] = useState("");
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
   } = useForm();
-  const additem = (data) => {
-    const sdata = {
-      eventName: data.name,
-      eventStartDate: data.starttime,
-      eventEndDate: data.endtime,
-      venue: data.venue,
-      dept: data.department,
-      contactName: data.contactname,
-      contactPhone: data.ContactNumber,
-      contactEmail: data.contactemail,
-      otherInfo: data.otherinfo,
-      image: imageId,
+  const addEvent = (data) => {
+    const submitEventForm = (imgId) => {
+      const sdata = {
+        eventName: data.name,
+        eventStartDate: data.starttime,
+        eventEndDate: data.endtime,
+        venue: data.venue,
+        dept: data.department,
+        contactName: data.contactname,
+        contactPhone: data.ContactNumber,
+        contactEmail: data.contactemail,
+        otherInfo: data.otherinfo,
+      };
+      if (imgId) {
+        sdata.image = imgId;
+      }
+      axios
+        .post("/api/events", sdata)
+        .then(() => {
+          setError("");
+          setSuccess("Event created successfully");
+          reset();
+        })
+        .catch((err) => {
+          setError(err.response.data.error);
+        });
     };
-    axios
-      .post("/api/events", sdata)
-      .then((res) => {
-        setError("");
-        reset();
-        console.log(res.data);
-      })
-      .catch((err) => {
-        setError(err.response.data.error);
-      });
+
+    const uploadImage = () => {
+      setUploading(true);
+      setSuccess("");
+      setError("");
+      const formData = new FormData();
+      formData.append("img", selectedImage);
+      axios
+        .post("api/events/image", formData)
+        .then((res) => {
+          setUploading(false);
+          setSuccess("Image uploaded successfully...");
+          submitEventForm(res.data._id);
+        })
+        .catch((err) => {
+          setError(err.message);
+          setUploading(false);
+        });
+    };
+    if (selectedImage) {
+      uploadImage();
+    } else {
+      submitEventForm();
+    }
   };
   return (
     <div className="EventCreationPage container">
@@ -45,7 +76,7 @@ const EventCreationForm = () => {
         <div className="col-lg-8">
           <div className="EventCreationForm  my-3 py-3 px-5 border shadow rounded">
             <h3>Event details</h3>
-            <form className="pt-3" onSubmit={handleSubmit(additem)}>
+            <form className="pt-3" onSubmit={handleSubmit(addEvent)}>
               <div className="form-group">
                 <label>
                   Event Name <span className="text-danger">*</span>
@@ -169,19 +200,31 @@ const EventCreationForm = () => {
                 ></textarea>
               </div>
               {error && <div className="alert alert-danger">{error}</div>}
+              {success && <div className="alert alert-success">{success}</div>}
+              {uploading && (
+                <div className="alert alert-secondary w-50">
+                  Uploading your image...
+                </div>
+              )}
               <div className="form-group ">
                 <button
                   type="submit"
                   className="btn btn-primary my-2 ms-1 btn-lg"
                 >
-                  Create
+                  {selectedImage ? "Upload image & create event" : "Create"}
                 </button>
               </div>
             </form>
           </div>
         </div>
         <div className="col-lg-4">
-          <UploadImage setImageId={setImageId} />
+          <UploadImage
+            existingImage={existingImage}
+            setExistingImage={setExistingImage}
+            selectedImage={selectedImage}
+            setSelectedImage={setSelectedImage}
+            setImageModified={() => {}}
+          />
         </div>
       </div>
     </div>

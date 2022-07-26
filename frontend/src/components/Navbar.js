@@ -1,6 +1,9 @@
 import { Link, useNavigate } from "react-router-dom";
+import { useAuthContext } from "../hooks/useAuthContext";
 import { useLogout } from "../hooks/useLogout";
+
 const Navbar = () => {
+  const { user } = useAuthContext();
   const { logout } = useLogout();
   const navigate = useNavigate();
   return (
@@ -33,32 +36,57 @@ const Navbar = () => {
               </Link>
             </li>
           </ul>
-          <div className="m-2">
-            <button
-              onClick={() => navigate("/login")}
-              className="btn btn-outline-primary"
-            >
-              Login
-            </button>
-          </div>
-          <div className="m-2">
-            <button
-              className="btn btn-primary"
-              onClick={() => navigate("/signup")}
-            >
-              Sign Up
-            </button>
-          </div>
-          <div className="m-2">
-            <button
-              className="btn btn-primary"
-              onClick={() => {
-                logout();
-              }}
-            >
-              Logout
-            </button>
-          </div>
+          {!user && (
+            <>
+              <div className="m-2">
+                <button
+                  onClick={() => navigate("/login")}
+                  className="btn btn-outline-primary"
+                >
+                  Login
+                </button>
+              </div>
+              <div className="m-2">
+                <button
+                  className="btn btn-primary"
+                  onClick={() => navigate("/signup")}
+                >
+                  Sign Up
+                </button>
+              </div>
+            </>
+          )}
+          {user && (
+            <ul className="navbar-nav">
+              <li className="nav-item dropdown">
+                <span
+                  className="nav-link dropdown-toggle"
+                  role="button"
+                  data-bs-toggle="dropdown"
+                >
+                  {user}
+                </span>
+                <ul className="dropdown-menu">
+                  <li>
+                    <Link className="dropdown-item" to="/profile">
+                      My profile
+                    </Link>
+                  </li>
+                  <li>
+                    <button
+                      className="dropdown-item"
+                      onClick={() => {
+                        logout();
+                        navigate("/");
+                      }}
+                    >
+                      Logout
+                    </button>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          )}
           <form className="d-flex" role="search">
             <input
               className="form-control me-2"
