@@ -2,15 +2,16 @@ import image1 from "../../images/e1.png";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { format, compareAsc } from "date-fns";
+import { format, compareAsc, set } from "date-fns";
 import Loading from "../loader/loading.svg";
 import { useAuthContext } from "../../hooks/useAuthContext";
 
 const Viewevents = () => {
   const { user } = useAuthContext();
-
   const [loading, setLoading] = useState(true);
   const [detail, setDetail] = useState([]);
+  const [filteredDetail, setFilteredDetail] = useState(detail);
+
   useEffect(() => {
     const fetchDetail = () => {
       axios
@@ -27,10 +28,26 @@ const Viewevents = () => {
     };
     fetchDetail();
   }, []);
+  const search = (e) => {
+    console.log(e.target.value);
+    setFilteredDetail(
+      detail.filter((x) => {
+        return x.eventName.toLowerCase() === e.target.value;
+      })
+    );
+  };
   if (loading) {
     return (
       <div className="container d-block mx-auto">
         <h1 className="display-5 mt-5">Events</h1>
+        <input
+          type="text"
+          id="myInput"
+          onChange={search}
+          placeholder="Search for names.."
+          title="Type in a name"
+        />
+
         <div
           className="row mt-5 mb-5"
           style={{
@@ -55,7 +72,7 @@ const Viewevents = () => {
             "rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px",
         }}
       >
-        {detail.map((item) => {
+        {filteredDetail.map((item) => {
           return (
             <div
               key={item._id}
