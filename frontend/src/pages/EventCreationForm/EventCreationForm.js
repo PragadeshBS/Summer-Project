@@ -4,8 +4,10 @@ import "./EventCreationForm.css";
 import { useState } from "react";
 import axios from "axios";
 import UploadImage from "./UploadImage";
+import { useAuthContext } from "../../hooks/useAuthContext";
 
 const EventCreationForm = () => {
+  const { token } = useAuthContext();
   const [error, setError] = useState("");
   const [existingImage, setExistingImage] = useState(null);
   const [selectedImage, setSelectedImage] = useState(null);
@@ -34,7 +36,9 @@ const EventCreationForm = () => {
         sdata.image = imgId;
       }
       axios
-        .post("/api/events", sdata)
+        .post("/api/events", sdata, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
         .then(() => {
           setError("");
           setSuccess("Event created successfully");

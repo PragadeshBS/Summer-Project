@@ -15,6 +15,7 @@ const UploadImage = ({
             <img
               width={"250px"}
               src={existingImage || URL.createObjectURL(selectedImage)}
+              alt="..."
               className="d-block mx-auto rounded"
             />
             <br />

@@ -10,11 +10,9 @@ export const useLogin = () => {
   const login = async (data) => {
     setIsLoading(true);
     setError(null);
-    console.log(data);
     axios
       .post("/api/auth/login", data)
       .then((res) => {
-        console.log(res);
         localStorage.setItem(
           "user",
           JSON.stringify({ user: res.data.email, token: res.data.token })
@@ -28,7 +26,7 @@ export const useLogin = () => {
       .catch((err) => {
         console.log("err", err);
         setIsLoading(false);
-        setError(err.message);
+        setError(err.response.data.error);
       });
   };
 

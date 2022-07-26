@@ -14,7 +14,9 @@ const Login = () => {
 
   const addUser = async (data) => {
     await login(data);
-    reset();
+    if (!error) {
+      reset();
+    }
   };
 
   return (
