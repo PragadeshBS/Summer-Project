@@ -1,23 +1,27 @@
 import { useState } from "react";
 import { useAuthContext } from "./useAuthContext";
 import axios from "axios";
+
 export const useLogin = () => {
   const [error, setError] = useState(null);
-  const [isLoading, setIsLoading] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
   const { dispatch } = useAuthContext();
 
   const login = async (data) => {
-    console.log(data);
     setIsLoading(true);
     setError(null);
-
+    console.log(data);
     axios
       .post("/api/auth/login", data)
       .then((res) => {
-        localStorage.setItem("user", JSON.stringify(res.data.token));
+        console.log(res);
+        localStorage.setItem(
+          "user",
+          JSON.stringify({ user: res.data.email, token: res.data.token })
+        );
         dispatch({
           type: "LOGIN",
-          payload: { email: res.data._doc.email, token: res.data.token },
+          payload: { user: res.data.email, token: res.data.token },
         });
         setIsLoading(false);
       })

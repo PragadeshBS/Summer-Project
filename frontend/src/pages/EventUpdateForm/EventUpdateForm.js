@@ -3,8 +3,14 @@ import { useForm } from "react-hook-form";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
+import UploadImage from "../EventCreationForm/UploadImage";
 
 const UpdateEvent = () => {
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [uploading, setUploading] = useState(false);
+  const [imageModified, setImageModified] = useState(false);
+  const [existingImage, setExistingImage] = useState("");
+  const [success, setSuccess] = useState("");
   const [error, setError] = useState("");
   const { id } = useParams();
   const [event, setEvent] = useState({});
@@ -15,33 +21,69 @@ const UpdateEvent = () => {
     formState: { errors },
     reset,
   } = useForm();
+
   const updateEvent = (data) => {
-    const sdata = {
-      eventName: data.name,
-      eventStartDate: data.starttime,
-      eventEndDate: data.endtime,
-      venue: data.venue,
-      dept: data.department,
-      contactName: data.contactname,
-      contactPhone: data.ContactNumber,
-      contactEmail: data.contactemail,
-      otherInfo: data.otherinfo,
+    const uploadImage = () => {
+      setUploading(true);
+      setSuccess("");
+      setError("");
+      const formData = new FormData();
+      formData.append("img", selectedImage);
+      axios
+        .post("/api/events/image", formData)
+        .then((res) => {
+          setUploading(false);
+          submitEventForm(res.data._id);
+          setSuccess("Image uploaded successfully...");
+        })
+        .catch((err) => {
+          setError(err.message);
+          setUploading(false);
+        });
     };
-    axios
-      .patch(`/api/events/${id}`, sdata)
-      .then((res) => {
-        setError("");
-        reset();
-        console.log(res.data);
-      })
-      .catch((err) => {
-        setError(err.response.data.error);
-      });
+    const submitEventForm = (imgId) => {
+      const sdata = {
+        eventName: data.name,
+        eventStartDate: data.starttime,
+        eventEndDate: data.endtime,
+        venue: data.venue,
+        dept: data.department,
+        contactName: data.contactname,
+        contactPhone: data.ContactNumber,
+        contactEmail: data.contactemail,
+        otherInfo: data.otherinfo,
+      };
+      if (imageModified) {
+        if (selectedImage) {
+          sdata.image = imgId;
+        } else {
+          sdata.image = "";
+        }
+      }
+      axios
+        .patch(`/api/events/${id}`, sdata)
+        .then((res) => {
+          setError("");
+          setSuccess("Event updated successfully");
+          reset();
+        })
+        .catch((err) => {
+          setError(err.response.data.error);
+        });
+    };
+    if (imageModified && selectedImage) {
+      uploadImage();
+    } else {
+      submitEventForm(existingImage);
+    }
   };
 
   useEffect(() => {
     axios.get(`/api/events/${id}`).then((response) => {
       setEvent(response.data);
+      if (response.data.image) {
+        setExistingImage(`/api/events/image/${response.data._id}`);
+      }
       setLoading(false);
     });
   }, [id]);
@@ -173,14 +215,8 @@ const UpdateEvent = () => {
                   }`}
                   {...register("contactemail", {
                     value: event.contactEmail,
-                    required: "Contact Email is Required",
                   })}
                 ></input>
-                {errors.contactemail && (
-                  <span className="error w-75">
-                    {errors.contactemail.message}
-                  </span>
-                )}
               </div>
 
               <div className="form-group">
@@ -193,16 +229,32 @@ const UpdateEvent = () => {
                 ></textarea>
               </div>
               {error && <div className="alert alert-danger">{error}</div>}
+              {error && <div className="alert alert-danger">{error}</div>}
+              {success && <div className="alert alert-success">{success}</div>}
+              {uploading && (
+                <div className="alert alert-secondary w-50">
+                  Uploading your image...
+                </div>
+              )}
               <div className="form-group ">
                 <button
                   type="submit"
                   className="btn btn-primary my-2 ms-1 btn-lg"
                 >
-                  Update
+                  {selectedImage ? "Upload image & update event" : "Update"}
                 </button>
               </div>
             </form>
           </div>
+        </div>
+        <div className="col-lg-4">
+          <UploadImage
+            existingImage={existingImage}
+            setExistingImage={setExistingImage}
+            selectedImage={selectedImage}
+            setSelectedImage={setSelectedImage}
+            setImageModified={setImageModified}
+          />
         </div>
       </div>
     </div>

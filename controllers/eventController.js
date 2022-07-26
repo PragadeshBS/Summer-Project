@@ -49,7 +49,11 @@ const updateEvent = async (req, res) => {
   if (error) {
     return res.status(400).json({ error: error.details[0].message });
   }
-  const event = await Event.findOneAndUpdate({ _id: id }, { ...req.body });
+  const newEvent = { ...req.body };
+  if (newEvent["image"] === "") {
+    newEvent["image"] = null;
+  }
+  const event = await Event.findOneAndUpdate({ _id: id }, newEvent);
   if (!event) {
     return res.status(400).error({ error: "No such event" });
   }
@@ -129,7 +133,7 @@ const getEvent = async (req, res) => {
   if (!mongoose.Types.ObjectId.isValid(id)) {
     return res.status(400).error({ error: "No such event" });
   }
-  const event = await Event.findById(id);
+  const event = await Event.findById(id).populate("image");
   if (!event) {
     return res.status(400).error({ error: "No such event" });
   }
