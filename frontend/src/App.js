@@ -8,6 +8,7 @@ import Signup from "./pages/signup/Signup";
 import UpdateEvent from "./pages/EventUpdateForm/EventUpdateForm";
 import Login from "./pages/login/Login";
 import { useAuthContext } from "./hooks/useAuthContext";
+import Profile from "./pages/profile/Profile";
 
 function App() {
   const { user, loading } = useAuthContext();
@@ -46,6 +47,10 @@ function App() {
             <Route
               path="/login"
               element={!user ? <Login /> : <Navigate to="/" />}
+            />
+            <Route
+              path="/profile"
+              element={!user ? <Navigate to="/login" /> : <Profile />}
             />
           </Routes>
         </div>

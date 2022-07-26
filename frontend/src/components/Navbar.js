@@ -59,25 +59,22 @@ const Navbar = () => {
           {user && (
             <ul className="navbar-nav">
               <li className="nav-item dropdown">
-                <a
+                <span
                   className="nav-link dropdown-toggle"
-                  href="#"
                   role="button"
                   data-bs-toggle="dropdown"
-                  aria-expanded="false"
                 >
                   {user}
-                </a>
+                </span>
                 <ul className="dropdown-menu">
                   <li>
-                    <a className="dropdown-item" href="#">
+                    <Link className="dropdown-item" to="/profile">
                       My profile
-                    </a>
+                    </Link>
                   </li>
                   <li>
                     <button
                       className="dropdown-item"
-                      href="#"
                       onClick={() => {
                         logout();
                         navigate("/");

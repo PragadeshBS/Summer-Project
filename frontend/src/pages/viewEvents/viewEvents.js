@@ -9,7 +9,7 @@ import { useAuthContext } from "../../hooks/useAuthContext";
 const Viewevents = () => {
   const [loading, setLoading] = useState(true);
   const [detail, setDetail] = useState([]);
-  const { user, token } = useAuthContext();
+  const { token } = useAuthContext();
   useEffect(() => {
     const fetchDetail = () => {
       axios
@@ -22,7 +22,7 @@ const Viewevents = () => {
         });
     };
     fetchDetail();
-  }, [user]);
+  }, [token]);
   if (loading) {
     return (
       <div className="container d-block mx-auto">
