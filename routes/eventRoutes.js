@@ -9,6 +9,7 @@ const {
   uploadEventImage,
   getEventImage,
 } = require("../controllers/eventController");
+const { protect } = require("../middleware/authMiddleware");
 
 const router = express.Router();
 
@@ -17,7 +18,7 @@ const multerStorage = multer.memoryStorage();
 const upload = multer({ storage: multerStorage });
 
 // get all events
-router.get("/", getEvents);
+router.get("/", protect, getEvents);
 
 // get a specific event by id
 router.get("/:id", getEvent);
