@@ -2,61 +2,39 @@ import image1 from "../../images/e1.png";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { format, compareAsc, set } from "date-fns";
+import { format } from "date-fns";
 import Loading from "../loader/loading.svg";
 import { useAuthContext } from "../../hooks/useAuthContext";
 
 const Viewevents = () => {
-  const { user } = useAuthContext();
   const [loading, setLoading] = useState(true);
   const [detail, setDetail] = useState([]);
-  const [filteredDetail, setFilteredDetail] = useState(detail);
-
+  const { token } = useAuthContext();
   useEffect(() => {
     const fetchDetail = () => {
       axios
         .get("/api/events", {
-          headers: { Authorization: `Bearer ${user.token}` },
+          headers: { Authorization: `Bearer ${token}` },
         })
         .then((response) => {
           setDetail(response.data);
           setLoading(false);
-        })
-        .catch((err) => {
-          console.log("Not autorised");
         });
     };
     fetchDetail();
-  }, []);
-  const search = (e) => {
-    console.log(e.target.value);
-    setFilteredDetail(
-      detail.filter((x) => {
-        return x.eventName.toLowerCase() === e.target.value;
-      })
-    );
-  };
+  }, [token]);
   if (loading) {
     return (
       <div className="container d-block mx-auto">
         <h1 className="display-5 mt-5">Events</h1>
-        <input
-          type="text"
-          id="myInput"
-          onChange={search}
-          placeholder="Search for names.."
-          title="Type in a name"
-        />
-
-        <div
-          className="row mt-5 mb-5"
-          style={{
-            boxShadow:
-              "rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px",
-          }}
-        >
+        <div className="row mt-5 mb-5">
           <div className="col d-flex justify-content-center">
-            <img src={Loading} alt="..." />
+            <img
+              src={Loading}
+              style={{ backgroundColor: "white" }}
+              className="img-fluid"
+              alt="..."
+            />
           </div>
         </div>
       </div>
@@ -72,7 +50,7 @@ const Viewevents = () => {
             "rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px",
         }}
       >
-        {filteredDetail.map((item) => {
+        {detail.map((item) => {
           return (
             <div
               key={item._id}
