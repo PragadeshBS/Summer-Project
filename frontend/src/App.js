@@ -10,6 +10,8 @@ import Login from "./pages/login/Login";
 import { useAuthContext } from "./hooks/useAuthContext";
 import Profile from "./pages/profile/Profile";
 import ViewRegistrations from "./pages/viewRegistrations/ViewRegistrations";
+import OrganisedEvents from "./pages/organisedEvents/OrganisedEvents";
+import ParticipatedEvents from "./pages/Participated Events/ParticipatedEvents";
 
 function App() {
   const { user, loading } = useAuthContext();
@@ -50,6 +52,14 @@ function App() {
             <Route
               path="view-registrations/:id"
               element={user ? <ViewRegistrations /> : <Navigate to="/login" />}
+            />
+            <Route
+              path="organised-events"
+              element={user ? <OrganisedEvents /> : <Navigate to="/login" />}
+            />
+            <Route
+              path="participated-events"
+              element={user ? <ParticipatedEvents /> : <Navigate to="/login" />}
             />
           </Routes>
         </div>

@@ -10,6 +10,9 @@ const UploadImage = ({
       <div>
         <h3>Upload image</h3>
         <p>Upload an image, such as a poster for the event</p>
+        <p className="small text-muted">
+          Must be &lt; 5 MB, preferred ratio 16:9
+        </p>
         {(existingImage || selectedImage) && (
           <div>
             <img
@@ -37,6 +40,7 @@ const UploadImage = ({
           type="file"
           required={true}
           name="img"
+          accept="image/*"
           className="form-control"
           onChange={(event) => {
             setExistingImage(null);

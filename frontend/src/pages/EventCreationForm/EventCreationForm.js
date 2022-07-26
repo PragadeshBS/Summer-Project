@@ -20,6 +20,11 @@ const EventCreationForm = () => {
     reset,
   } = useForm();
   const addEvent = (data) => {
+    if (selectedImage && selectedImage.size > 5000000) {
+      setError("Image size must be less than 5 MB");
+      setSuccess("");
+      return;
+    }
     const submitEventForm = (imgId) => {
       const sdata = {
         eventName: data.name,

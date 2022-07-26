@@ -73,6 +73,16 @@ const Navbar = () => {
                     </Link>
                   </li>
                   <li>
+                    <Link className="dropdown-item" to="/organised-events">
+                      Organised events
+                    </Link>
+                  </li>
+                  <li>
+                    <Link className="dropdown-item" to="/participated-events">
+                      Participated events
+                    </Link>
+                  </li>
+                  <li>
                     <button
                       className="dropdown-item"
                       onClick={() => {
