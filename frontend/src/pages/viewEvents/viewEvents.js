@@ -9,12 +9,12 @@ import { useAuthContext } from "../../hooks/useAuthContext";
 const Viewevents = () => {
   const [loading, setLoading] = useState(true);
   const [detail, setDetail] = useState([]);
-  const { user } = useAuthContext();
+  const { user, token } = useAuthContext();
   useEffect(() => {
     const fetchDetail = () => {
       axios
         .get("/api/events", {
-          headers: { Authorization: `Bearer ${user}` },
+          headers: { Authorization: `Bearer ${token}` },
         })
         .then((response) => {
           setDetail(response.data);
