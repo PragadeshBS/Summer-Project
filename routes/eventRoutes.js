@@ -24,7 +24,7 @@ router.get("/", getEvents);
 router.get("/:id", getEvent);
 
 // add a new event
-router.post("/", createEvent);
+router.post("/", protect, createEvent);
 
 // add image to event
 router.post("/image", upload.single("img"), uploadEventImage);
@@ -36,9 +36,9 @@ router.get("/image/:id", getEventImage);
 router.patch("/:id", updateEvent);
 
 // add participants for an event
-router.post("/participants/:id", addParticipant);
+router.post("/participants/:id", protect, addParticipant);
 
 // get participants for an event
-router.get("/participants/:id", getParticipants);
+router.get("/participants/:id", protect, getParticipants);
 
 module.exports = router;
