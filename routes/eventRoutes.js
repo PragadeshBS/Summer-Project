@@ -18,7 +18,7 @@ const multerStorage = multer.memoryStorage();
 const upload = multer({ storage: multerStorage });
 
 // get all events
-router.get("/", protect, getEvents);
+router.get("/", getEvents);
 
 // get a specific event by id
 router.get("/:id", getEvent);
