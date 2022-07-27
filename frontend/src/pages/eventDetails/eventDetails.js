@@ -16,6 +16,9 @@ const EventDetail = () => {
   const [data, setData] = useState([]);
   const [registered, setRegistered] = useState(false);
 
+  const [classname, setClassname] = useState("hide");
+  const [loadclass, setLoadClass] = useState("view");
+
   const register = () => {
     axios
       .post(
@@ -74,10 +77,15 @@ const EventDetail = () => {
         <section className="eventDetail">
           <img
             src={data.image ? `/api/events/image/${data._id}` : image1}
-            className="card-img-top d-block mx-auto m-3"
+            className={`card-img-top d-block mx-auto m-3 ${classname}`}
             alt="..."
             style={{ maxWidth: "500px" }}
+            onLoad={() => {
+              setClassname("view");
+              setLoadClass("hide");
+            }}
           />
+          <img src={Loading} alt="..." className={`mx-auto ${loadclass}`} />
         </section>
         <hr />
         <EventAbstract

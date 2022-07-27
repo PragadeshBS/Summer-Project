@@ -10,6 +10,7 @@ const SearchBar = () => {
   const [filteredDetail, setFilteredDetail] = useState(detail);
   const [Search, setSearch] = useState("*");
   const [Focus, setFocus] = useState(false);
+
   useEffect(() => {
     const fetchDetail = () => {
       axios
@@ -42,7 +43,14 @@ const SearchBar = () => {
   };
 
   return (
-    <div className="d-flex flex-column search-container">
+    <div
+      className="d-flex flex-column search-container"
+      onBlur={() => {
+        setTimeout(() => {
+          setFocus(false);
+        }, 200);
+      }}
+    >
       <input
         className="form-control me-2"
         type="search"

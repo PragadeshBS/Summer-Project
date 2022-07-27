@@ -1,13 +1,10 @@
 import { Link } from "react-router-dom";
 import "./SearchList.css";
+import { useRef } from "react";
 
 const SearchList = (props) => {
   return (
-    <div
-      onBlur={() => {
-        props.setFocus(false);
-      }}
-    >
+    <div>
       {props.loading ? (
         <div>Loading</div>
       ) : props.details.length !== 0 ? (

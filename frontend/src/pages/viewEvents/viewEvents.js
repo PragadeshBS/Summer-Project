@@ -12,9 +12,13 @@ const Viewevents = () => {
   const [loading, setLoading] = useState(true);
   const [detail, setDetail] = useState([]);
   const [filter, setFilterDetail] = useState(detail);
+  const [imgload, setImgLoad] = useState(false);
   useEffect(() => {
     const fetchDetail = () => {
       axios.get("/api/events").then((response) => {
+        response.data.forEach((event) => {
+          event.imageLoading = true;
+        });
         setDetail(response.data);
         setFilterDetail(response.data);
         setLoading(false);
@@ -51,6 +55,7 @@ const Viewevents = () => {
       })
     );
   };
+
   if (loading) {
     return (
       <div className="container d-block mx-auto">
@@ -138,9 +143,28 @@ const Viewevents = () => {
             >
               <img
                 src={item.image ? `/api/events/image/${item._id}` : image1}
-                className="card-img-top"
-                style={{ maxHeight: "200px" }}
+                className={`card-img-top ${
+                  item.imageLoading ? "hide" : "view"
+                }`}
+                style={{
+                  maxHeight: "200px",
+                }}
                 alt="..."
+                onLoad={() => {
+                  let temp = filter.map((event) => {
+                    if (event._id === item._id) {
+                      event.imageLoading = false;
+                    }
+                    return event;
+                  });
+                  setFilterDetail(temp);
+                  console.log("Image has loaded for", item._id);
+                }}
+              />
+              <img
+                src={Loading}
+                alt="..."
+                className={`mx-auto  ${item.imageLoading ? "view" : "hide"}`}
               />
               <div className="card-body">
                 <h5 className="card-title">
