@@ -3,3 +3,9 @@
   margin: 0px;
   padding: 0px;
 }
+.hide {
+  display: none;
+}
+.view {
+  display: block;
+}
