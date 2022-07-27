@@ -2,18 +2,18 @@ import image1 from "../../images/e1.png";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { format, compareAsc } from "date-fns";
+import { format } from "date-fns";
 import Loading from '../loader/loading.svg'
 
 const Viewevents = () => {
   const [loading, setLoading] = useState(true);
   const [detail, setDetail] = useState([]);
-  const [filter, setFilter] = useState(detail);
+  const [filter, setFilteredDetail] = useState(detail);
   useEffect(() => {
     const fetchDetail = () => {
       axios.get("/api/events").then((response) => {
         setDetail(response.data);
-        setFilter(response.data)
+        setFilteredDetail(response.data);
         setLoading(false);
       });
     };
@@ -21,10 +21,10 @@ const Viewevents = () => {
   }, []);
   const search = (e) => {
     if (e.target.value === "*") {
-      setFilter(detail);
+      setFilteredDetail(detail);
     } else {
       console.log(e.target.value);
-      setFilter(
+      setFilteredDetail(
         detail.filter((x) => {
           return x.dept === e.target.value;
         })

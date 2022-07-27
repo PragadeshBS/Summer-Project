@@ -39,7 +39,7 @@ const EventDetail = () => {
         <section className="eventDetail">
           <img
             src={data.image ? `/api/events/image/${data._id}` : image1}
-            className="img-fluid my-3 rounded mx-auto d-block eventDetailImage"
+            className="card-img-top d-block mx-auto m-3"
             alt="..."
             style={{ maxWidth: "500px" }}
           />
@@ -49,6 +49,7 @@ const EventDetail = () => {
           eventName={data.eventName}
           eventStart={data.eventStartDate}
           eventEnd={data.eventEndDate}
+          dept={data.dept}
         />
         <hr />
         <EventInformation detail={data} />
