@@ -9,12 +9,12 @@ const EventAbstract = ({ register, registered, user, event, isOrganiser }) => {
         <h1 className="display-6">
           {event.eventName}
           <br />
-          <small className="text-muted">{props.dept}</small>
+          <small className="text-muted">{event.dept}</small>
         </h1>
         <h1 className="lead">
-          {format(new Date(props.eventStart), "dd MMM yyyy\th:mm a")}
-          {'\t'}-{'\t'}
-          {format(new Date(props.eventEnd), "dd MMM yyyy\th:mm a")}
+          {format(new Date(event.eventStart), "dd MMM yyyy\th:mm a")}
+          {"\t"}-{"\t"}
+          {format(new Date(event.eventEnd), "dd MMM yyyy\th:mm a")}
           {event.eventName}
         </h1>
       </div>
@@ -54,7 +54,7 @@ const EventAbstract = ({ register, registered, user, event, isOrganiser }) => {
           </span>
         )}
       </div>
-    </div >
+    </div>
   );
 };
 
