@@ -12,9 +12,9 @@ const EventAbstract = ({ register, registered, user, event, isOrganiser }) => {
           <small className="text-muted">{event.dept}</small>
         </h1>
         <h1 className="lead">
-          {format(new Date(event.eventStart), "dd MMM yyyy\th:mm a")}
+          {format(new Date(event.eventStartDate), "dd MMM yyyy\th:mm a")}
           {"\t"}-{"\t"}
-          {format(new Date(event.eventEnd), "dd MMM yyyy\th:mm a")}
+          {format(new Date(event.eventEndDate), "dd MMM yyyy\th:mm a")}
           {event.eventName}
         </h1>
       </div>

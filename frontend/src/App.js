@@ -33,17 +33,20 @@ function App() {
             />
             <Route
               path="/eventcreationform"
-              element={!user ? <Navigate to="/login" /> : <EventCreationForm />}
+              element={
+                !user ? (
+                  <Navigate to="/login?flow=eventcreationform" />
+                ) : (
+                  <EventCreationForm />
+                )
+              }
             />
             <Route path="/viewevents" element={<Viewevents />} />
             <Route
               path="/signup"
               element={!user ? <Signup /> : <Navigate to="/" />}
             />
-            <Route
-              path="/login"
-              element={!user ? <Login /> : <Navigate to="/" />}
-            />
+            <Route path="/login" element={<Login />} />
             <Route
               path="/profile"
               element={!user ? <Navigate to="/login" /> : <Profile />}
