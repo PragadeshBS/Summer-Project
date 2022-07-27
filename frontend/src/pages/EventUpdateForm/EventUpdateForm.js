@@ -24,6 +24,11 @@ const UpdateEvent = () => {
 
   const updateEvent = (data) => {
     const uploadImage = () => {
+      if (selectedImage && selectedImage.size > 5000000) {
+        setError("Image size must be less than 5 MB");
+        setSuccess("");
+        return;
+      }
       setUploading(true);
       setSuccess("");
       setError("");
