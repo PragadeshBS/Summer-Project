@@ -1,3 +1,4 @@
+import { format } from "date-fns";
 import { useNavigate } from "react-router-dom";
 
 const EventAbstract = ({ register, registered, user, event, isOrganiser }) => {
@@ -7,9 +8,15 @@ const EventAbstract = ({ register, registered, user, event, isOrganiser }) => {
       <div className="col-lg-6">
         <h1 className="display-6">
           {event.eventName}
-          <small className="text-muted"> year</small>
+          <br />
+          <small className="text-muted">{props.dept}</small>
         </h1>
-        <h1 className="lead">Event timings</h1>
+        <h1 className="lead">
+          {format(new Date(props.eventStart), "dd MMM yyyy\th:mm a")}
+          {'\t'}-{'\t'}
+          {format(new Date(props.eventEnd), "dd MMM yyyy\th:mm a")}
+          {event.eventName}
+        </h1>
       </div>
       <div className="col-lg-6 d-grid gap-2">
         {isOrganiser ? (
@@ -47,7 +54,7 @@ const EventAbstract = ({ register, registered, user, event, isOrganiser }) => {
           </span>
         )}
       </div>
-    </div>
+    </div >
   );
 };
 
