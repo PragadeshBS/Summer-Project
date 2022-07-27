@@ -35,7 +35,6 @@ function App() {
               path="/eventcreationform"
               element={!user ? <Navigate to="/login" /> : <EventCreationForm />}
             />
-            <Route path="/eventcreationform" element={<EventCreationForm />} />
             <Route path="/viewevents" element={<Viewevents />} />
             <Route
               path="/signup"

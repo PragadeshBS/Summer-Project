@@ -24,7 +24,7 @@ const ViewRegistrations = () => {
         });
       setLoading(false);
     });
-  }, []);
+  }, [id, token]);
 
   if (loading) {
     return <div>Loading...</div>;

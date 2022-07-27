@@ -5,18 +5,15 @@ import { useLogin } from "../../hooks/useLogin";
 
 const Login = () => {
   const { login, error, isLoading } = useLogin();
+
   const {
     register,
     handleSubmit,
     formState: { errors },
-    reset,
   } = useForm();
 
   const addUser = async (data) => {
     await login(data);
-    if (!error) {
-      reset();
-    }
   };
 
   return (

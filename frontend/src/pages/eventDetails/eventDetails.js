@@ -39,7 +39,7 @@ const EventDetail = () => {
           }
         });
         response.data.participants.forEach((participant) => {
-          if (participant.email == user) {
+          if (participant.email === user) {
             setRegistered(true);
             return;
           }
