@@ -37,6 +37,10 @@ const eventSchema = mongoose.Schema(
       type: mongoose.Types.ObjectId,
       ref: "EventImage",
     },
+    organisers: {
+      type: [mongoose.Schema.Types.ObjectId],
+      ref: "User",
+    },
     participants: {
       type: [mongoose.Schema.Types.ObjectId],
       ref: "User",

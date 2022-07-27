@@ -60,6 +60,7 @@ const Viewevents = () => {
               <img
                 src={item.image ? `/api/events/image/${item._id}` : image1}
                 className="card-img-top"
+                style={{ maxHeight: "200px" }}
                 alt="..."
               />
               <div className="card-body">

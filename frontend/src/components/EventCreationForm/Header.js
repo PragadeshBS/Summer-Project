@@ -1,7 +1,7 @@
 const Header = (props) => {
   return (
     <div className="header ">
-      <span className="display-5 my-4  d-block">{props.title}</span>
+      <span className="display-3 my-4  d-block">{props.title}</span>
     </div>
   );
 };

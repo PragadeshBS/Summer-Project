@@ -61,7 +61,7 @@ const Profile = () => {
         console.log(err.message);
         setLoading(false);
       });
-  }, [token]);
+  }, [token, reset]);
 
   if (loading) {
     return <div>Loading...</div>;
