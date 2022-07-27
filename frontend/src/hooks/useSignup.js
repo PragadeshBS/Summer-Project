@@ -9,7 +9,6 @@ export const useSignup = () => {
   const signup = async (data) => {
     setIsLoading(true);
     setError(null);
-    console.log(data);
 
     const response = await fetch("/api/user/signup", {
       method: "POST",

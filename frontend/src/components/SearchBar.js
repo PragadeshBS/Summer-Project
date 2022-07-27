@@ -26,7 +26,6 @@ const SearchBar = () => {
     fetchDetail();
   }, [token]);
   const search = (e) => {
-    console.log(e.target.value);
     if (e.target.value.length === 0) {
       setSearch("*");
     } else {
@@ -34,7 +33,6 @@ const SearchBar = () => {
     }
     setFilteredDetail(
       detail.filter((x) => {
-        console.log(x.eventName);
         return (
           Search === "*" || x.eventName.toLowerCase().includes(e.target.value)
         );

@@ -12,7 +12,6 @@ const Viewevents = () => {
   const [loading, setLoading] = useState(true);
   const [detail, setDetail] = useState([]);
   const [filter, setFilterDetail] = useState(detail);
-  const [imgload, setImgLoad] = useState(false);
   useEffect(() => {
     const fetchDetail = () => {
       axios.get("/api/events").then((response) => {
@@ -30,7 +29,6 @@ const Viewevents = () => {
     if (e.target.value === "*") {
       setFilterDetail(detail);
     } else {
-      console.log(e.target.value);
       setFilterDetail(
         detail.filter((x) => {
           return x.dept === e.target.value;
@@ -40,7 +38,6 @@ const Viewevents = () => {
   };
   const [Search, setSearch] = useState("*");
   const search = (e) => {
-    console.log(e.target.value);
     if (e.target.value.length === 0) {
       setSearch("*");
     } else {
@@ -48,7 +45,6 @@ const Viewevents = () => {
     }
     setFilterDetail(
       detail.filter((x) => {
-        console.log(x.eventName);
         return (
           Search === "*" || x.eventName.toLowerCase().includes(e.target.value)
         );
@@ -158,7 +154,6 @@ const Viewevents = () => {
                     return event;
                   });
                   setFilterDetail(temp);
-                  console.log("Image has loaded for", item._id);
                 }}
               />
               <img

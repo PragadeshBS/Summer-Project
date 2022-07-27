@@ -58,7 +58,6 @@ const Profile = () => {
         });
       })
       .catch((err) => {
-        console.log(err.message);
         setLoading(false);
       });
   }, [token, reset]);

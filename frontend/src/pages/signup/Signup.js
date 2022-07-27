@@ -23,7 +23,6 @@ const Signup = () => {
       .then((res) => {
         reset();
         setError("");
-        console.log(res.data);
       })
       .catch((err) => {
         setError(err.response.data.error);

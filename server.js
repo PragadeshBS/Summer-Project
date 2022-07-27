@@ -9,6 +9,11 @@ const app = express();
 
 app.use(express.json());
 
+app.use((req, res, next) => {
+  console.log(req.method, req.path);
+  next();
+});
+
 app.use("/api/events", eventRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/auth", authRoutes);
