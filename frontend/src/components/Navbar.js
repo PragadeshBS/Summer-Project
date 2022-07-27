@@ -1,6 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { useLogout } from "../hooks/useLogout";
+import SearchBar from "./SearchBar";
 
 const Navbar = () => {
   const { user } = useAuthContext();
@@ -88,15 +89,7 @@ const Navbar = () => {
             </ul>
           )}
           <form className="d-flex" role="search">
-            <input
-              className="form-control me-2"
-              type="search"
-              placeholder="Search events"
-              aria-label="Search"
-            />
-            <button className="btn btn-outline-success" type="submit">
-              Search
-            </button>
+            <SearchBar />
           </form>
         </div>
       </div>
