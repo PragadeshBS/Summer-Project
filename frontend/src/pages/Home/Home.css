@@ -1,0 +1,12 @@
+.home {
+    background-image: url("./home.svg");
+    display: flex;
+    background-size: contain;
+}
+
+.contentHome {
+    height: 50%;
+    background-color: #008dde;
+    border-radius: 5px;
+    margin: 10px;
+}
