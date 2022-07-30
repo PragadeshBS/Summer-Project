@@ -15,6 +15,9 @@ const Viewevents = () => {
   useEffect(() => {
     const fetchDetail = () => {
       axios.get("/api/events").then((response) => {
+        response.data.forEach((event) => {
+          event.imageLoading = true;
+        });
         setDetail(response.data);
         setFilterDetail(response.data);
         setLoading(false);
@@ -26,7 +29,6 @@ const Viewevents = () => {
     if (e.target.value === "*") {
       setFilterDetail(detail);
     } else {
-      console.log(e.target.value);
       setFilterDetail(
         detail.filter((x) => {
           return x.dept === e.target.value;
@@ -36,7 +38,6 @@ const Viewevents = () => {
   };
   const [Search, setSearch] = useState("*");
   const search = (e) => {
-    console.log(e.target.value);
     if (e.target.value.length === 0) {
       setSearch("*");
     } else {
@@ -44,13 +45,13 @@ const Viewevents = () => {
     }
     setFilterDetail(
       detail.filter((x) => {
-        console.log(x.eventName);
         return (
           Search === "*" || x.eventName.toLowerCase().includes(e.target.value)
         );
       })
     );
   };
+
   if (loading) {
     return (
       <div className="container d-block mx-auto">
@@ -142,9 +143,27 @@ const Viewevents = () => {
             >
               <img
                 src={item.image ? `/api/events/image/${item._id}` : image1}
-                className="card-img-top"
-                style={{ maxHeight: "200px" }}
+                className={`card-img-top ${
+                  item.imageLoading ? "hide" : "view"
+                }`}
+                style={{
+                  maxHeight: "200px",
+                }}
                 alt="..."
+                onLoad={() => {
+                  let temp = filter.map((event) => {
+                    if (event._id === item._id) {
+                      event.imageLoading = false;
+                    }
+                    return event;
+                  });
+                  setFilterDetail(temp);
+                }}
+              />
+              <img
+                src={Loading}
+                alt="..."
+                className={`mx-auto  ${item.imageLoading ? "view" : "hide"}`}
               />
               <div className="card-body">
                 <h5 className="card-title">

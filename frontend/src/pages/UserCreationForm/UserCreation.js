@@ -13,12 +13,10 @@ const UserCreation = () => {
     reset,
   } = useForm();
   const additem = (data) => {
-    console.log(data);
     axios
       .post("/api/users", data)
       .then((res) => {
         if (res.ok) {
-          console.log("success");
         }
       })
       .catch((err) => {

@@ -10,6 +10,7 @@ const SearchBar = () => {
   const [filteredDetail, setFilteredDetail] = useState(detail);
   const [Search, setSearch] = useState("*");
   const [Focus, setFocus] = useState(false);
+
   useEffect(() => {
     const fetchDetail = () => {
       axios
@@ -25,7 +26,6 @@ const SearchBar = () => {
     fetchDetail();
   }, [token]);
   const search = (e) => {
-    console.log(e.target.value);
     if (e.target.value.length === 0) {
       setSearch("*");
     } else {
@@ -33,7 +33,6 @@ const SearchBar = () => {
     }
     setFilteredDetail(
       detail.filter((x) => {
-        console.log(x.eventName);
         return (
           Search === "*" || x.eventName.toLowerCase().includes(e.target.value)
         );
@@ -42,7 +41,14 @@ const SearchBar = () => {
   };
 
   return (
-    <div className="d-flex flex-column search-container">
+    <div
+      className="d-flex flex-column search-container"
+      onBlur={() => {
+        setTimeout(() => {
+          setFocus(false);
+        }, 200);
+      }}
+    >
       <input
         className="form-control me-2"
         type="search"

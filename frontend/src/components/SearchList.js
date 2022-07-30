@@ -3,11 +3,7 @@ import "./SearchList.css";
 
 const SearchList = (props) => {
   return (
-    <div
-      onBlur={() => {
-        props.setFocus(false);
-      }}
-    >
+    <div>
       {props.loading ? (
         <div>Loading</div>
       ) : props.details.length !== 0 ? (

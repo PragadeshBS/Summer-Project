@@ -105,32 +105,19 @@ const getParticipants = async (req, res) => {
 
 const addParticipant = async (req, res) => {
   const { id } = req.params;
-  const { participantEmail } = req.body;
   if (!mongoose.Types.ObjectId.isValid(id) || !participantEmail) {
     return res.status(400).json({ error: "Invalid request" });
   }
-  // add this participant to the events participants list
-  const participant = await User.findOne({ email: participantEmail });
-  console.log(participant.id, req.user.id);
-  if (participant.id !== req.user.id) {
-    return res.status(401).json({ error: "Unauthorized req" });
-  }
-  if (!participant) {
-    return res.status(400).json({ error: "No such user" });
-  }
   const event = await Event.findByIdAndUpdate(id, {
-    $push: { participants: participant._id },
+    $push: { participants: req.user._id },
   });
   if (!event) {
     return res.status(400).json({ error: "No such event" });
   }
   // add this event to the users' participated events list
-  const user = await User.findOneAndUpdate(
-    { email: participantEmail },
-    {
-      $push: { participatedEvents: id },
-    }
-  );
+  const user = await User.findByIdAndUpdate(req.user.id, {
+    $push: { participatedEvents: id },
+  });
   res.status(200).json(event);
 };
 
@@ -146,6 +133,19 @@ const getEvent = async (req, res) => {
     return res.status(400).json({ error: "No such event" });
   }
   res.status(200).json(event);
+};
+
+const checkConflictingEvents = async (req, res) => {
+  const { from, to } = req.body;
+  const conflictingEvents = await Event.find({})
+    .where("eventStartDate")
+    .lt(to)
+    .where("eventEndDate")
+    .gt(from);
+  res.status(200).json({
+    conflict: conflictingEvents.length ? true : false,
+    events: conflictingEvents,
+  });
 };
 
 const validateEvent = (data) => {
@@ -173,4 +173,5 @@ module.exports = {
   addParticipant,
   uploadEventImage,
   getEventImage,
+  checkConflictingEvents,
 };
