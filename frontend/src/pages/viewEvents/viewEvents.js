@@ -55,7 +55,11 @@ const Viewevents = () => {
   if (loading) {
     return (
       <div className="container d-block mx-auto">
-        <h1 className="display-5 mt-5">Events</h1>
+        <div className="row mt-4">
+          <div className="col">
+            <h1 className="display-3">Events</h1>
+          </div>
+        </div>
         <div className="row mt-5 mb-5">
           <div className="col d-flex justify-content-center">
             <img
@@ -71,58 +75,58 @@ const Viewevents = () => {
   }
   return (
     <div className="container">
-      <div className="row">
+      <div className="row mt-4 align-items-center">
         <div className="col-2">
-          <h1 className="display-5 mt-5">Events</h1>
+          <h1 className="display-3">Events</h1>
         </div>
-        <div className="col-7">{/*search bar*/}</div>
-        <div className="col-3">
-          <div className="btn-group mt-5">
-            <select
+        <div className="col-4"></div>
+        <div className="col-lg-3">
+          <input
+            style={{ width: "100%", height: "75%" }}
+            className="form-control"
+            type="text"
+            id="myInput"
+            onChange={search}
+            placeholder="Search for events.."
+            title="Type in a event"
+          /></div>
+        <div className="col-lg-3">
+          <select
+            className="form-select mb-2"
+            style={{ width: "100%", marginTop: "6px" }}
+            onClick={searchdept}
+          >
+            <option
               className=""
-              style={{ height: "55%", width: "100%", marginTop: "6px" }}
-              onClick={searchdept}
+              value="*"
+              style={{ color: "red" }}
             >
-              <option
-                className="dropdown-item"
-                value="*"
-                style={{ color: "red" }}
-              >
-                All
-              </option>
-              <option className="dropdown-item" value="IT">
-                Information Technology
-              </option>
-              <option className="dropdown-item" value="EEE">
-                Electrical and Electronic Engineering
-              </option>
-              <option className="dropdown-item" value="ECE">
-                Electrical and Communication Engineering
-              </option>
-              <option className="dropdown-item" value="AE">
-                Aeronotical Engineering
-              </option>
-              <option className="dropdown-item" value="AM">
-                Automobile Engineering
-              </option>
-              <option className="dropdown-item" value="PT">
-                Production Technology
-              </option>
-              <option className="dropdown-item" value="CT">
-                Computer Science Engineering
-              </option>
-            </select>
-          </div>
+              All
+            </option>
+            <option value="IT">
+              Information Technology
+            </option>
+            <option value="EEE">
+              Electrical and Electronic Engineering
+            </option>
+            <option value="ECE">
+              Electrical and Communication Engineering
+            </option>
+            <option value="AE">
+              Aeronotical Engineering
+            </option>
+            <option value="AM">
+              Automobile Engineering
+            </option>
+            <option value="PT">
+              Production Technology
+            </option>
+            <option value="CT">
+              Computer Science Engineering
+            </option>
+          </select>
         </div>
       </div>
-      <h1 className="display-5 mt-5">Events</h1>
-      <input
-        type="text"
-        id="myInput"
-        onChange={search}
-        placeholder="Search for names.."
-        title="Type in a name"
-      />
       <div
         className="row mt-5 mb-5"
         style={{
