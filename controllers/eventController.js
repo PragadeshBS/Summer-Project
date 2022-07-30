@@ -91,6 +91,11 @@ const getEvents = async (req, res) => {
   res.status(200).json(events);
 };
 
+const getUpcomingEvents = async (req, res) => {
+  const events = await Event.find({}).where("eventEndDate").gte(new Date());
+  res.status(200).json(events);
+};
+
 const getParticipants = async (req, res) => {
   const { id } = req.params;
   if (!mongoose.Types.ObjectId.isValid(id)) {
@@ -168,6 +173,7 @@ module.exports = {
   createEvent,
   getEvents,
   getEvent,
+  getUpcomingEvents,
   getParticipants,
   updateEvent,
   addParticipant,

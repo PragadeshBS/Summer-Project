@@ -41,7 +41,14 @@ function App() {
                 )
               }
             />
-            <Route path="/viewevents" element={<Viewevents />} />
+            <Route
+              path="/upcoming-events"
+              element={<Viewevents category="UPCOMING" />}
+            />
+            <Route
+              path="/archives"
+              element={<Viewevents category="ARCHIVES" />}
+            />
             <Route
               path="/signup"
               element={!user ? <Signup /> : <Navigate to="/" />}

@@ -9,6 +9,7 @@ const {
   uploadEventImage,
   getEventImage,
   checkConflictingEvents,
+  getUpcomingEvents,
 } = require("../controllers/eventController");
 const { protect } = require("../middleware/authMiddleware");
 
@@ -20,6 +21,9 @@ const upload = multer({ storage: multerStorage });
 
 // get all events
 router.get("/", getEvents);
+
+// get upcoming events
+router.get("/upcoming-events", getUpcomingEvents);
 
 // get a specific event by id
 router.get("/:id", getEvent);
