@@ -20,6 +20,7 @@ const createEvent = async (req, res) => {
     contactPhone,
     contactEmail,
     image,
+    public,
   } = req.body;
   try {
     const event = await Event.create({
@@ -33,6 +34,7 @@ const createEvent = async (req, res) => {
       contactPhone,
       contactEmail,
       image,
+      public,
       organisers: [req.user.id],
     });
     const user = await User.findByIdAndUpdate(req.user.id, {
@@ -87,7 +89,14 @@ const getEventImage = async (req, res) => {
 };
 
 const getEvents = async (req, res) => {
-  const events = await Event.find({}).sort({ createdAt: -1 });
+  const events = await Event.find({ public: true }).sort({ createdAt: -1 });
+  res.status(200).json(events);
+};
+
+const getUpcomingEvents = async (req, res) => {
+  const events = await Event.find({ public: true })
+    .where("eventEndDate")
+    .gte(new Date());
   res.status(200).json(events);
 };
 
@@ -160,6 +169,7 @@ const validateEvent = (data) => {
     contactEmail: Joi.string().email().empty("").label("Contact email"),
     otherInfo: Joi.string().empty("").label("Other Info"),
     image: Joi.string().empty("").label("Event image"),
+    public: Joi.bool().label("Visible"),
   });
   return schema.validate(data);
 };
@@ -168,6 +178,7 @@ module.exports = {
   createEvent,
   getEvents,
   getEvent,
+  getUpcomingEvents,
   getParticipants,
   updateEvent,
   addParticipant,

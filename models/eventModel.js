@@ -45,6 +45,10 @@ const eventSchema = mongoose.Schema(
       type: [mongoose.Schema.Types.ObjectId],
       ref: "User",
     },
+    public: {
+      type: Boolean,
+      default: false
+    }
   },
   { timestamps: true }
 );

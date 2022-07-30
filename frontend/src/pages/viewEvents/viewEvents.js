@@ -8,13 +8,24 @@ import Loading from "../loader/loading.svg";
 import Highlighter from "react-highlight-words";
 import "./viewEvents.css";
 
-const Viewevents = () => {
+const Viewevents = ({ category }) => {
+  let fetchUrl;
+  switch (category) {
+    case "ARCHIVES":
+      fetchUrl = "/api/events/";
+      break;
+    case "UPCOMING":
+      fetchUrl = "/api/events/upcoming-events";
+      break;
+    default:
+      fetchUrl = "/api/events/upcoming-events";
+  }
   const [loading, setLoading] = useState(true);
   const [detail, setDetail] = useState([]);
   const [filter, setFilterDetail] = useState(detail);
   useEffect(() => {
     const fetchDetail = () => {
-      axios.get("/api/events").then((response) => {
+      axios.get(fetchUrl).then((response) => {
         response.data.forEach((event) => {
           event.imageLoading = true;
         });
@@ -24,7 +35,7 @@ const Viewevents = () => {
       });
     };
     fetchDetail();
-  }, []);
+  }, [fetchUrl]);
   const searchdept = (e) => {
     if (e.target.value === "*") {
       setFilterDetail(detail);
@@ -77,7 +88,9 @@ const Viewevents = () => {
     <div className="container">
       <div className="row mt-4 align-items-center">
         <div className="col-2">
-          <h1 className="display-3">Events</h1>
+          <h1 className="display-3">
+            {category === "UPCOMING" ? "Upcoming Events" : "Event Archives"}
+          </h1>
         </div>
         <div className="col-4"></div>
         <div className="col-lg-3">
@@ -89,41 +102,26 @@ const Viewevents = () => {
             onChange={search}
             placeholder="Search for events.."
             title="Type in a event"
-          /></div>
+          />
+        </div>
         <div className="col-lg-3">
           <select
             className="form-select mb-2"
             style={{ width: "100%", marginTop: "6px" }}
             onClick={searchdept}
           >
-            <option
-              className=""
-              value="*"
-              style={{ color: "red" }}
-            >
+            <option className="" value="*" style={{ color: "red" }}>
               All
             </option>
-            <option value="IT">
-              Information Technology
-            </option>
-            <option value="EEE">
-              Electrical and Electronic Engineering
-            </option>
+            <option value="IT">Information Technology</option>
+            <option value="EEE">Electrical and Electronic Engineering</option>
             <option value="ECE">
               Electrical and Communication Engineering
             </option>
-            <option value="AE">
-              Aeronotical Engineering
-            </option>
-            <option value="AM">
-              Automobile Engineering
-            </option>
-            <option value="PT">
-              Production Technology
-            </option>
-            <option value="CT">
-              Computer Science Engineering
-            </option>
+            <option value="AE">Aeronotical Engineering</option>
+            <option value="AM">Automobile Engineering</option>
+            <option value="PT">Production Technology</option>
+            <option value="CT">Computer Science Engineering</option>
           </select>
         </div>
       </div>

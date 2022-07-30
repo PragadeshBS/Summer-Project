@@ -70,6 +70,7 @@ const EventCreationForm = () => {
           contactPhone: data.ContactNumber,
           contactEmail: data.contactemail,
           otherInfo: data.otherinfo,
+          public: data.public,
         };
         if (imgId) {
           sdata.image = imgId;
@@ -242,6 +243,16 @@ const EventCreationForm = () => {
                   {...register("otherinfo")}
                   style={{ resize: "none" }}
                 ></textarea>
+              </div>
+              <div>
+                <label>
+                  <input
+                    type="checkbox"
+                    {...register("public")}
+                    defaultChecked={true}
+                  />{" "}
+                  Visible to others
+                </label>
               </div>
               {error && <div className="alert alert-danger w-75">{error}</div>}
               {success && (

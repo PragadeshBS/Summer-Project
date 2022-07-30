@@ -62,6 +62,7 @@ const UpdateEvent = () => {
         contactPhone: data.ContactNumber,
         contactEmail: data.contactemail,
         otherInfo: data.otherinfo,
+        public: data.public,
       };
       if (imageModified) {
         if (selectedImage) {
@@ -237,6 +238,16 @@ const UpdateEvent = () => {
                   {...register("otherinfo", { value: event.otherInfo })}
                   style={{ resize: "none" }}
                 ></textarea>
+              </div>
+              <div>
+                <label>
+                  <input
+                    type="checkbox"
+                    {...register("public")}
+                    defaultChecked={event.public}
+                  />{" "}
+                  Visible to others
+                </label>
               </div>
               {error && <div className="alert alert-danger w-75">{error}</div>}
               {success && (
