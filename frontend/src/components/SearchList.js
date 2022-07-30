@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import "./SearchList.css";
-import { useRef } from "react";
 
 const SearchList = (props) => {
   return (

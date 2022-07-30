@@ -29,6 +29,11 @@ const UpdateEvent = () => {
         setSuccess("");
         return;
       }
+      if (data.starttime > data.endtime) {
+        setError("Start time has to be lesser than end time");
+        setSuccess("");
+        return;
+      }
       setUploading(true);
       setSuccess("");
       setError("");
@@ -233,9 +238,10 @@ const UpdateEvent = () => {
                   style={{ resize: "none" }}
                 ></textarea>
               </div>
-              {error && <div className="alert alert-danger">{error}</div>}
-              {error && <div className="alert alert-danger">{error}</div>}
-              {success && <div className="alert alert-success">{success}</div>}
+              {error && <div className="alert alert-danger w-75">{error}</div>}
+              {success && (
+                <div className="alert alert-success w-75">{success}</div>
+              )}
               {uploading && (
                 <div className="alert alert-secondary w-50">
                   Uploading your image...

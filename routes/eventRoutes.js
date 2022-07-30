@@ -8,6 +8,7 @@ const {
   addParticipant,
   uploadEventImage,
   getEventImage,
+  checkConflictingEvents,
 } = require("../controllers/eventController");
 const { protect } = require("../middleware/authMiddleware");
 
@@ -25,6 +26,9 @@ router.get("/:id", getEvent);
 
 // add a new event
 router.post("/", protect, createEvent);
+
+// check for conflicting events
+router.post("/check-conflicts", protect, checkConflictingEvents);
 
 // add image to event
 router.post("/image", upload.single("img"), uploadEventImage);

@@ -5,6 +5,7 @@ import { useState } from "react";
 import axios from "axios";
 import UploadImage from "./UploadImage";
 import { useAuthContext } from "../../hooks/useAuthContext";
+import EventConflictModal from "../../components/EventConflictModal";
 
 const EventCreationForm = () => {
   const { token } = useAuthContext();
@@ -13,6 +14,12 @@ const EventCreationForm = () => {
   const [selectedImage, setSelectedImage] = useState(null);
   const [uploading, setUploading] = useState(false);
   const [success, setSuccess] = useState("");
+  const [checkingConflicts, setCheckingConflicts] = useState(false);
+  const [conflictsExist, setConflictsExist] = useState(false);
+  const [showConflictingEvents, setShowConflictingEvents] = useState(false);
+  const [conflictingEvents, setConflictingEvents] = useState([]);
+  const [showSubmitBtn, setShowSubmitBtn] = useState(false);
+
   const {
     register,
     handleSubmit,
@@ -25,57 +32,85 @@ const EventCreationForm = () => {
       setSuccess("");
       return;
     }
-    const submitEventForm = (imgId) => {
-      const sdata = {
-        eventName: data.name,
-        eventStartDate: data.starttime,
-        eventEndDate: data.endtime,
-        venue: data.venue,
-        dept: data.department,
-        contactName: data.contactname,
-        contactPhone: data.ContactNumber,
-        contactEmail: data.contactemail,
-        otherInfo: data.otherinfo,
-      };
-      if (imgId) {
-        sdata.image = imgId;
-      }
-      axios
-        .post("/api/events", sdata, {
-          headers: { Authorization: `Bearer ${token}` },
-        })
-        .then(() => {
-          setError("");
-          setSuccess("Event created successfully");
-          reset();
-        })
-        .catch((err) => {
-          setError(err.response.data.error);
-        });
-    };
-
-    const uploadImage = () => {
-      setUploading(true);
+    if (data.starttime > data.endtime) {
+      setError("Start time has to be lesser than end time");
       setSuccess("");
-      setError("");
-      const formData = new FormData();
-      formData.append("img", selectedImage);
+      return;
+    }
+    if (!showSubmitBtn) {
+      setCheckingConflicts(true);
       axios
-        .post("api/events/image", formData)
+        .post(
+          "/api/events/check-conflicts/",
+          {
+            from: data.starttime,
+            to: data.endtime,
+          },
+          { headers: { Authorization: `Bearer ${token}` } }
+        )
         .then((res) => {
-          setUploading(false);
-          setSuccess("Image uploaded successfully...");
-          submitEventForm(res.data._id);
-        })
-        .catch((err) => {
-          setError(err.message);
-          setUploading(false);
+          setCheckingConflicts(false);
+          console.log(res.data);
+          if (res.data.conflict) {
+            setConflictsExist(true);
+            setConflictingEvents(res.data.events);
+          } else {
+            setShowSubmitBtn(true);
+          }
         });
-    };
-    if (selectedImage) {
-      uploadImage();
     } else {
-      submitEventForm();
+      const submitEventForm = (imgId) => {
+        const sdata = {
+          eventName: data.name,
+          eventStartDate: data.starttime,
+          eventEndDate: data.endtime,
+          venue: data.venue,
+          dept: data.department,
+          contactName: data.contactname,
+          contactPhone: data.ContactNumber,
+          contactEmail: data.contactemail,
+          otherInfo: data.otherinfo,
+        };
+        if (imgId) {
+          sdata.image = imgId;
+        }
+        axios
+          .post("/api/events", sdata, {
+            headers: { Authorization: `Bearer ${token}` },
+          })
+          .then(() => {
+            setError("");
+            setSuccess("Event created successfully");
+            reset();
+          })
+          .catch((err) => {
+            setError(err.response.data.error);
+          });
+      };
+
+      const uploadImage = () => {
+        setUploading(true);
+        setSuccess("");
+        setError("");
+        const formData = new FormData();
+        formData.append("img", selectedImage);
+        axios
+          .post("api/events/image", formData)
+          .then((res) => {
+            setUploading(false);
+            setSuccess("Image uploaded successfully...");
+            submitEventForm(res.data._id);
+          })
+          .catch((err) => {
+            setError(err.message);
+            setUploading(false);
+          });
+      };
+      if (selectedImage) {
+        uploadImage();
+      } else {
+        submitEventForm();
+      }
     }
   };
   return (
@@ -208,21 +243,74 @@ const EventCreationForm = () => {
                   style={{ resize: "none" }}
                 ></textarea>
               </div>
-              {error && <div className="alert alert-danger">{error}</div>}
-              {success && <div className="alert alert-success">{success}</div>}
+              {error && <div className="alert alert-danger w-75">{error}</div>}
+              {success && (
+                <div className="alert alert-success w-75">{success}</div>
+              )}
               {uploading && (
-                <div className="alert alert-secondary w-50">
+                <div className="alert alert-secondary w-75">
                   Uploading your image...
                 </div>
               )}
-              <div className="form-group ">
-                <button
-                  type="submit"
-                  className="btn btn-primary my-2 ms-1 btn-lg"
-                >
-                  {selectedImage ? "Upload image & create event" : "Create"}
-                </button>
-              </div>
+              {checkingConflicts && (
+                <div className="alert alert-secondary w-75">
+                  Checking for conflicts...
+                </div>
+              )}
+              {conflictsExist && (
+                <div>
+                  <div className="alert alert-danger">
+                    One or more events are occuring in the same time frame that
+                    you have specified
+                  </div>
+                  <div className="my-2">
+                    <button
+                      type="button"
+                      onClick={() => setShowConflictingEvents(true)}
+                      className="btn btn-secondary btn-lg"
+                    >
+                      View conflicting events
+                    </button>
+                  </div>
+                  <div className="my-3">
+                    <button
+                      type="button"
+                      className="btn btn-outline-danger btn-sm"
+                      onClick={() => {
+                        setConflictsExist(false);
+                        setShowSubmitBtn(true);
+                      }}
+                    >
+                      Ignore and continue
+                    </button>
+                  </div>
+                  <EventConflictModal
+                    isOpen={showConflictingEvents}
+                    close={() => setShowConflictingEvents(false)}
+                    events={conflictingEvents}
+                  />
+                </div>
+              )}
+              {!showSubmitBtn && !conflictsExist && (
+                <div className="form-group ">
+                  <button
+                    type="submit"
+                    className="btn btn-primary my-2 ms-1 btn-lg"
+                  >
+                    Next
+                  </button>
+                </div>
+              )}
+              {showSubmitBtn && (
+                <div className="form-group ">
+                  <button
+                    type="submit"
+                    className="btn btn-primary my-2 ms-1 btn-lg"
+                  >
+                    {selectedImage ? "Upload image & create event" : "Create"}
+                  </button>
+                </div>
+              )}
             </form>
           </div>
         </div>
