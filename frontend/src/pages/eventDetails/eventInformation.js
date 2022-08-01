@@ -1,9 +1,9 @@
 const EventInformation = (props) => {
     return <div>
-        <h3>Event Info:</h3>
+        <h1>Event Info</h1>
         <div className="row ps-5">
             <div className="col-lg-2">
-                <h6>Venue</h6>
+                <h5>Venue</h5>
             </div>
             <div className="col-lg-10">
                 <h6>{props.detail.venue}</h6>
@@ -11,7 +11,7 @@ const EventInformation = (props) => {
         </div>
         <div className="row ps-5">
             <div className="col-lg-2">
-                <h6>Contact Name</h6>
+                <h5>Contact Name</h5>
             </div>
             <div className="col-lg-10">
                 <h6>{props.detail.contactName}</h6>
@@ -19,7 +19,7 @@ const EventInformation = (props) => {
         </div>
         <div className="row ps-5">
             <div className="col-lg-2">
-                <h6>Contact Number</h6>
+                <h5>Contact Number</h5>
             </div>
             <div className="col-lg-10">
                 <h6>{props.detail.contactPhone}</h6>
@@ -27,7 +27,7 @@ const EventInformation = (props) => {
         </div>
         <div className="row ps-5">
             <div className="col-lg-2">
-                <h6>Email</h6>
+                <h5>Email</h5>
             </div>
             <div className="col-lg-10">
                 <h6>{props.detail.contactEmail}</h6>
@@ -35,7 +35,7 @@ const EventInformation = (props) => {
         </div>
         <div className="row ps-5">
             <div className="col-lg-2">
-                <h6>Description</h6>
+                <h5>Description</h5>
             </div>
             <div className="col-lg-10">
                 <h6>{props.detail.otherInfo}</h6>

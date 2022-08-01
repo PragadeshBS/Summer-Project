@@ -114,7 +114,7 @@ const getParticipants = async (req, res) => {
 
 const addParticipant = async (req, res) => {
   const { id } = req.params;
-  if (!mongoose.Types.ObjectId.isValid(id) || !participantEmail) {
+  if (!mongoose.Types.ObjectId.isValid(id)) {
     return res.status(400).json({ error: "Invalid request" });
   }
   const event = await Event.findByIdAndUpdate(id, {
@@ -124,11 +124,29 @@ const addParticipant = async (req, res) => {
     return res.status(400).json({ error: "No such event" });
   }
   // add this event to the users' participated events list
-  const user = await User.findByIdAndUpdate(req.user.id, {
+  await User.findByIdAndUpdate(req.user.id, {
     $push: { participatedEvents: id },
   });
   res.status(200).json(event);
 };
+
+const removeParticipant = async (req, res) => {
+  const { id } = req.params;
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(400).json({ error: "Invalid request" });
+  }
+  const event = await Event.findByIdAndUpdate(id, {
+    $pull: { participants: req.user._id },
+  });
+  if (!event) {
+    return res.status(400).json({ error: "No such event" });
+  }
+  // remove this event from the users' participated events list
+  await User.findByIdAndUpdate(req.user.id, {
+    $pull: { participatedEvents: id },
+  });
+  res.status(200).json(event);
+}
 
 const getEvent = async (req, res) => {
   const { id } = req.params;
@@ -185,4 +203,5 @@ module.exports = {
   uploadEventImage,
   getEventImage,
   checkConflictingEvents,
+  removeParticipant
 };

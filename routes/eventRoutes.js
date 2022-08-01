@@ -10,6 +10,7 @@ const {
   getEventImage,
   checkConflictingEvents,
   getUpcomingEvents,
+  removeParticipant,
 } = require("../controllers/eventController");
 const { protect } = require("../middleware/authMiddleware");
 
@@ -45,6 +46,9 @@ router.patch("/:id", updateEvent);
 
 // add participants for an event
 router.post("/participants/:id", protect, addParticipant);
+
+// remove participant
+router.delete("/participants/:id", protect, removeParticipant);
 
 // get participants for an event
 router.get("/participants/:id", protect, getParticipants);

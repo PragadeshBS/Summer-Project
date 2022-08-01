@@ -1,58 +1,74 @@
-import { format } from "date-fns";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import UnregisterConfirmationModal from "../../components/UnregisterConfirmationModal";
 
-const EventAbstract = ({ register, registered, user, event, isOrganiser }) => {
+const EventAbstract = ({
+  register,
+  registered,
+  user,
+  event,
+  isOrganiser,
+  unregister,
+  regLoading,
+}) => {
+  const [showConfirmationModal, setShowConfirmationModal] = useState(false);
+
   const navigate = useNavigate();
   return (
-    <div className="row align-items-center">
-      <div className="col-lg-6">
-        <h1 className="display-6">
-          {event.eventName}
-          <br />
-          <small className="text-muted">{event.dept}</small>
-        </h1>
-        <h1 className="lead">
-          {format(new Date(event.eventStartDate), "dd MMM yyyy\th:mm a")}
-          {"\t"}-{"\t"}
-          {format(new Date(event.eventEndDate), "dd MMM yyyy\th:mm a")}
-        </h1>
-      </div>
-      <div className="col-lg-6 d-grid gap-2">
-        {isOrganiser ? (
-          <div>
-            <button
-              onClick={() => navigate(`/view-registrations/${event._id}`)}
-              className="btn btn-success m-3"
-            >
-              View registrations
-            </button>
-            <button
-              onClick={() => navigate(`/events/update/${event._id}`)}
-              className="btn btn-secondary m-3"
-            >
-              Update event Info
-            </button>
+    <div className="align-items-center">
+      {isOrganiser ? (
+        <div>
+          <button
+            onClick={() => navigate(`/view-registrations/${event._id}`)}
+            className="btn btn-success m-3"
+          >
+            View registrations
+          </button>
+          <button
+            onClick={() => navigate(`/events/update/${event._id}`)}
+            className="btn btn-secondary m-3"
+          >
+            Update event Info
+          </button>
+        </div>
+      ) : user ? (
+        regLoading ? (
+          <div className="alert mx-auto alert-secondary text-center">
+            Making changes...
           </div>
-        ) : user ? (
-          registered ? (
-            <span className="alert alert-success w-50 text-center mx-auto d-block">
-              You have registered for this event
-            </span>
-          ) : (
-            <button
-              onClick={register}
-              type="button"
-              className="btn btn-primary btn-lg"
-            >
-              Register Now
-            </button>
-          )
+        ) : registered ? (
+          <div>
+            <div className="alert mx-auto alert-success text-center">
+              You have registered for this event!
+            </div>
+            <div className="text-danger mx-auto text-center cursor-pointer">
+              <span
+                onClick={() => setShowConfirmationModal(true)}
+                style={{ cursor: "pointer" }}
+              >
+                Unregister
+              </span>
+            </div>
+          </div>
         ) : (
-          <span className="alert alert-secondary w-50 text-center mx-auto d-block">
-            Login to register
-          </span>
-        )}
-      </div>
+          <button
+            onClick={register}
+            type="button"
+            className="btn btn-primary btn-lg"
+          >
+            Register Now
+          </button>
+        )
+      ) : (
+        <span className="alert alert-secondary w-50 text-center mx-auto d-block">
+          Login to register
+        </span>
+      )}
+      <UnregisterConfirmationModal
+        isOpen={showConfirmationModal}
+        close={() => setShowConfirmationModal(false)}
+        unregister={unregister}
+      />
     </div>
   );
 };
