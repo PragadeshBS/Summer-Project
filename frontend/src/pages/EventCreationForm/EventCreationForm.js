@@ -14,6 +14,7 @@ const EventCreationForm = () => {
   const [selectedImage, setSelectedImage] = useState(null);
   const [uploading, setUploading] = useState(false);
   const [success, setSuccess] = useState("");
+
   const [checkingConflicts, setCheckingConflicts] = useState(false);
   const [conflictsExist, setConflictsExist] = useState(false);
   const [showConflictingEvents, setShowConflictingEvents] = useState(false);
@@ -50,7 +51,6 @@ const EventCreationForm = () => {
         )
         .then((res) => {
           setCheckingConflicts(false);
-          console.log(res.data);
           if (res.data.conflict) {
             setConflictsExist(true);
             setConflictingEvents(res.data.events);
@@ -69,6 +69,7 @@ const EventCreationForm = () => {
           contactName: data.contactname,
           contactPhone: data.ContactNumber,
           contactEmail: data.contactemail,
+          link: data.link,
           otherInfo: data.otherinfo,
           public: data.public,
         };
@@ -249,6 +250,15 @@ const EventCreationForm = () => {
               </div>
 
               <div className="form-group">
+                <label>Link</label>
+                <input
+                  type="string"
+                  className={"form-control m-3 w-75"}
+                  {...register("link")}
+                ></input>
+              </div>
+
+              <div className="form-group">
                 <label>Other Info</label>
                 <textarea
                   className="form-control m-3 w-75"
@@ -305,7 +315,7 @@ const EventCreationForm = () => {
                         setShowSubmitBtn(true);
                       }}
                     >
-                      Ignore and continue
+                      Continue
                     </button>
                   </div>
                   <EventConflictModal

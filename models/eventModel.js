@@ -37,6 +37,9 @@ const eventSchema = mongoose.Schema(
       type: mongoose.Types.ObjectId,
       ref: "EventImage",
     },
+    link: {
+      type: String,    
+    },
     organisers: {
       type: [mongoose.Schema.Types.ObjectId],
       ref: "User",

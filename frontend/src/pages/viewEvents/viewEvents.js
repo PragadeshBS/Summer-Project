@@ -110,7 +110,7 @@ const Viewevents = ({ category }) => {
             style={{ width: "100%", marginTop: "6px" }}
             onClick={searchdept}
           >
-            <option className="" value="*" style={{ color: "red" }}>
+            <option className="" value="*">
               All
             </option>
             <option value="AM">Automobile Engineering</option>

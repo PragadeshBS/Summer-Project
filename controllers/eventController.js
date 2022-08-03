@@ -19,6 +19,7 @@ const createEvent = async (req, res) => {
     contactName,
     contactPhone,
     contactEmail,
+    link,
     image,
     public,
   } = req.body;
@@ -33,6 +34,7 @@ const createEvent = async (req, res) => {
       contactName,
       contactPhone,
       contactEmail,
+      link,
       image,
       public,
       organisers: [req.user.id],
@@ -89,7 +91,10 @@ const getEventImage = async (req, res) => {
 };
 
 const getEvents = async (req, res) => {
-  const events = await Event.find({ public: true }).sort({ createdAt: -1 });
+  const events = await Event.find({ public: true })
+    .sort({ createdAt: -1 })
+    .where("eventEndDate")
+    .lt(new Date());
   res.status(200).json(events);
 };
 
@@ -146,7 +151,7 @@ const removeParticipant = async (req, res) => {
     $pull: { participatedEvents: id },
   });
   res.status(200).json(event);
-}
+};
 
 const getEvent = async (req, res) => {
   const { id } = req.params;
@@ -186,6 +191,7 @@ const validateEvent = (data) => {
     contactPhone: Joi.string().empty("").label("Contact phone"),
     contactEmail: Joi.string().email().empty("").label("Contact email"),
     otherInfo: Joi.string().empty("").label("Other Info"),
+    link: Joi.string().empty("").label("Website Link"),
     image: Joi.string().empty("").label("Event image"),
     public: Joi.bool().label("Visible"),
   });
@@ -203,5 +209,5 @@ module.exports = {
   uploadEventImage,
   getEventImage,
   checkConflictingEvents,
-  removeParticipant
+  removeParticipant,
 };

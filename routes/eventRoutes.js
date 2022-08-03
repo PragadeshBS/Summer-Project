@@ -42,7 +42,7 @@ router.post("/image", upload.single("img"), uploadEventImage);
 router.get("/image/:id", getEventImage);
 
 // update a event
-router.patch("/:id", updateEvent);
+router.patch("/:id", protect, updateEvent);
 
 // add participants for an event
 router.post("/participants/:id", protect, addParticipant);
