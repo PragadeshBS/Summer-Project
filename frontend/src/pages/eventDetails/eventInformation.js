@@ -1,7 +1,7 @@
 import { format } from "date-fns";
 
 const EventInformation = (props) => {
-  if (props.detail.link && !props.detail.link.startsWith("https://")) {
+  if (props.detail.link && !props.detail.link.startsWith("http://")) {
     props.detail.link = "https://" + props.detail.link;
   }
   return (
