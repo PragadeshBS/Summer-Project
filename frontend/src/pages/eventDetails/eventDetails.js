@@ -15,20 +15,37 @@ const EventDetail = () => {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const [registered, setRegistered] = useState(false);
+  const [registrationLoading, setRegistrationLoading] = useState(false);
 
   const [classname, setClassname] = useState("hide");
   const [loadclass, setLoadClass] = useState("view");
 
   const register = () => {
+    setRegistrationLoading(true);
     axios
       .post(
         `/api/events/participants/${data._id}`,
+        {},
         {
-          participantEmail: user,
-        },
-        { headers: { Authorization: `Bearer ${token}` } }
+          headers: { Authorization: `Bearer ${token}` },
+        }
       )
-      .then(() => setRegistered(true));
+      .then(() => {
+        setRegistered(true);
+        setRegistrationLoading(false);
+      });
+  };
+
+  const unregister = () => {
+    setRegistrationLoading(true);
+    axios
+      .delete(`/api/events/participants/${data._id}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then(() => {
+        setRegistered(false);
+        setRegistrationLoading(false);
+      });
   };
 
   useEffect(() => {
@@ -67,19 +84,16 @@ const EventDetail = () => {
   }
   return (
     <div className="container">
-      <div
-        className="row mt-5 mb-5 pb-3"
-        style={{
-          boxShadow:
-            "rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px",
-        }}
-      >
+      <div className="mt-4">
+        <h1 className="display-3">{data.eventName}</h1>
+      </div>
+      <div className="mt-5 mb-5 pb-3">
         <section className="eventDetail">
           <img
             src={data.image ? `/api/events/image/${data._id}` : image1}
             className={`card-img-top d-block mx-auto m-3 ${classname}`}
             alt="..."
-            style={{ maxWidth: "500px" }}
+            style={{ maxWidth: "400px" }}
             onLoad={() => {
               setClassname("view");
               setLoadClass("hide");
@@ -87,17 +101,23 @@ const EventDetail = () => {
           />
           <img src={Loading} alt="..." className={`mx-auto ${loadclass}`} />
         </section>
-        <hr />
-        <EventAbstract
-          event={data}
-          isOrganiser={isOrganiser}
-          user={user}
-          registered={registered}
-          register={register}
-        />
-        <hr />
-        <EventInformation detail={data} />
-        <hr />
+        <div className="row mt-5">
+          <div className="col-lg-7">
+            <EventInformation detail={data} />
+          </div>
+          <div className="col-lg-1"></div>
+          <div className="col-lg-4">
+            <EventAbstract
+              event={data}
+              isOrganiser={isOrganiser}
+              user={user}
+              registered={registered}
+              register={register}
+              unregister={unregister}
+              regLoading={registrationLoading}
+            />
+          </div>
+        </div>
       </div>
     </div>
   );

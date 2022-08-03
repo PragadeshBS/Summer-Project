@@ -7,21 +7,17 @@ const SearchBar = () => {
   const [loading, setLoading] = useState(true);
   const [detail, setDetail] = useState([]);
   const { token } = useAuthContext();
-  const [filteredDetail, setFilteredDetail] = useState(detail);
+  const [filteredDetail, setFilteredDetail] = useState([]);
   const [Search, setSearch] = useState("*");
   const [Focus, setFocus] = useState(false);
 
   useEffect(() => {
     const fetchDetail = () => {
-      axios
-        .get("/api/events", {
-          headers: { Authorization: `Bearer ${token}` },
-        })
-        .then((response) => {
-          setDetail(response.data);
-          setFilteredDetail(response.data);
-          setLoading(false);
-        });
+      axios.get("/api/events").then((response) => {
+        setDetail(response.data);
+        setFilteredDetail(response.data.slice(0, 5));
+        setLoading(false);
+      });
     };
     fetchDetail();
   }, [token]);
@@ -31,13 +27,17 @@ const SearchBar = () => {
     } else {
       setSearch(e.target.value);
     }
-    setFilteredDetail(
-      detail.filter((x) => {
-        return (
-          Search === "*" || x.eventName.toLowerCase().includes(e.target.value)
-        );
-      })
-    );
+    let tempFilteredDetails = [];
+    for (let i = 0; i < detail.length; i++) {
+      if (tempFilteredDetails.length === 5) break;
+      if (
+        Search === "*" ||
+        detail[i].eventName.toLowerCase().includes(e.target.value)
+      ) {
+        tempFilteredDetails.push(detail[i]);
+      }
+    }
+    setFilteredDetail(tempFilteredDetails);
   };
 
   return (

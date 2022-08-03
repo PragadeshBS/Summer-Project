@@ -1,7 +1,6 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import EventCreationForm from "./pages/EventCreationForm/EventCreationForm";
 import EventDetail from "./pages/eventDetails/eventDetails";
-import Home from "./pages/Home/Home";
 import Viewevents from "./pages/viewEvents/viewEvents";
 import Navbar from "./components/Navbar";
 import Signup from "./pages/signup/Signup";
@@ -25,7 +24,7 @@ function App() {
         <Navbar />
         <div className="pages">
           <Routes>
-            <Route path="/" element={<Home />} />
+            <Route path="/" element={<Viewevents category="UPCOMING" />} />
             <Route path="/eventdetails/:id" element={<EventDetail />} />
             <Route
               path="/events/update/:id"
