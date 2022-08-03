@@ -113,15 +113,17 @@ const Viewevents = ({ category }) => {
             <option className="" value="*" style={{ color: "red" }}>
               All
             </option>
-            <option value="IT">Information Technology</option>
-            <option value="EEE">Electrical and Electronic Engineering</option>
-            <option value="ECE">
-              Electrical and Communication Engineering
-            </option>
-            <option value="AE">Aeronotical Engineering</option>
             <option value="AM">Automobile Engineering</option>
-            <option value="PT">Production Technology</option>
             <option value="CT">Computer Science Engineering</option>
+            <option value="IT">Information Technology</option>
+            <option value="EEE">Electrical and Electronics Engineering</option>
+            <option value="ECE">
+              Electronics and Communication Engineering
+            </option>
+            <option value="IE">Instrumentation Engineering</option>
+            <option value="ME">Mechanical Engineering</option>
+            <option value="PT">Production Technology</option>
+            <option value="OTH">Others</option>
           </select>
         </div>
       </div>

@@ -87,13 +87,21 @@ const Signup = () => {
               </div>
               <div className="form-group">
                 <label>Department</label>
-                <input
-                  type="text"
-                  className={`form-control m-3 w-75 ${
-                    errors.dept ? signupStyles.errorInput : ""
-                  }`}
-                  {...register("dept")}
-                ></input>
+                <select {...register("dept")} className="form-select w-75 m-3">
+                  <option value="AM">Automobile Engineering</option>
+                  <option value="CT">Computer Science Engineering</option>
+                  <option value="IT">Information Technology</option>
+                  <option value="EEE">
+                    Electrical and Electronics Engineering
+                  </option>
+                  <option value="ECE">
+                    Electronics and Communication Engineering
+                  </option>
+                  <option value="IE">Instrumentation Engineering</option>
+                  <option value="ME">Mechanical Engineering</option>
+                  <option value="PT">Production Technology</option>
+                  <option value="OTH">Other</option>
+                </select>
               </div>
               <div className="form-group">
                 <label>
