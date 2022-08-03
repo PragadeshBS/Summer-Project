@@ -41,20 +41,18 @@ const EventInformation = (props) => {
           <h6>{props.detail.contactEmail}</h6>
         </div>
       </div>
-      {props.detail.link && (
-        <div className="row ps-5">
-          <div className="col-lg-2">
-            <h5>Link</h5>
-          </div>
-          <div className="col-lg-10">
-            <h6>
-              <a href={props.detail.link} target="_blank">
-                {props.details.link}
-              </a>
-            </h6>
-          </div>
+      <div className="row ps-5">
+        <div className="col-lg-2">
+          <h5>Link</h5>
         </div>
-      )}
+        <div className="col-lg-10">
+          <h6>
+            <a href={props.detail.link} target="_blank">
+              {props.detail.link}
+            </a>
+          </h6>
+        </div>
+      </div>
       <div className="row ps-5">
         <div className="col-lg-2">
           <h5>Other Info</h5>
