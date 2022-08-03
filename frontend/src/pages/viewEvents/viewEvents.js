@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { format } from "date-fns";
 import Loading from "../loader/loading.svg";
+import Pagination from "./Pagination";
 
 import Highlighter from "react-highlight-words";
 import "./viewEvents.css";
@@ -184,6 +185,9 @@ const Viewevents = ({ category }) => {
             </div>
           );
         })}
+      </div>
+      <div className="row mx-auto mb-5">
+          <Pagination data={detail} setVisibleData={setFilterDetail}/>
       </div>
     </div>
   );
