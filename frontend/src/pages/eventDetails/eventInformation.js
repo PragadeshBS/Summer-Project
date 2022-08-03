@@ -1,6 +1,9 @@
 import { format } from "date-fns";
 
 const EventInformation = (props) => {
+  if (props.detail.link && !props.detail.link.startsWith("https://")) {
+    props.detail.link = "https://" + props.detail.link;
+  }
   return (
     <div>
       <h1>Event Info</h1>
