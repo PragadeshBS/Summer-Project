@@ -1,5 +1,5 @@
 {
-  "proxy": "http://localhost:4000",
+  "proxy": "https://mitevents.herokuapp.com",
   "name": "frontend",
   "version": "0.1.0",
   "private": true,
@@ -10,6 +10,7 @@
     "axios": "^0.27.2",
     "date-fns": "^2.28.0",
     "react": "^18.2.0",
+    "react-autocomplete-input": "^1.0.18",
     "react-cssfx-loading": "^2.0.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.33.1",

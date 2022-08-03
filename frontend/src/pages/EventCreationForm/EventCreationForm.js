@@ -14,6 +14,7 @@ const EventCreationForm = () => {
   const [selectedImage, setSelectedImage] = useState(null);
   const [uploading, setUploading] = useState(false);
   const [success, setSuccess] = useState("");
+
   const [checkingConflicts, setCheckingConflicts] = useState(false);
   const [conflictsExist, setConflictsExist] = useState(false);
   const [showConflictingEvents, setShowConflictingEvents] = useState(false);
@@ -50,7 +51,6 @@ const EventCreationForm = () => {
         )
         .then((res) => {
           setCheckingConflicts(false);
-          console.log(res.data);
           if (res.data.conflict) {
             setConflictsExist(true);
             setConflictingEvents(res.data.events);
@@ -69,6 +69,7 @@ const EventCreationForm = () => {
           contactName: data.contactname,
           contactPhone: data.ContactNumber,
           contactEmail: data.contactemail,
+          link: data.link,
           otherInfo: data.otherinfo,
           public: data.public,
         };
@@ -94,7 +95,9 @@ const EventCreationForm = () => {
         setSuccess("");
         setError("");
         const formData = new FormData();
-        formData.append("img", selectedImage);
+        formData.append("img", selectedImage, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
         axios
           .post("api/events/image", formData)
           .then((res) => {
@@ -189,11 +192,24 @@ const EventCreationForm = () => {
               </div>
               <div className="form-group">
                 <label>Department</label>
-                <input
-                  type="text"
-                  className="form-control m-3 w-75"
+                <select
                   {...register("department")}
-                ></input>
+                  className="form-select w-75 m-3"
+                >
+                  <option value="AM">Automobile Engineering</option>
+                  <option value="CT">Computer Science Engineering</option>
+                  <option value="IT">Information Technology</option>
+                  <option value="EEE">
+                    Electrical and Electronics Engineering
+                  </option>
+                  <option value="ECE">
+                    Electronics and Communication Engineering
+                  </option>
+                  <option value="IE">Instrumentation Engineering</option>
+                  <option value="ME">Mechanical Engineering</option>
+                  <option value="PT">Production Technology</option>
+                  <option value="OTH">Others</option>
+                </select>
               </div>
               <div className="form-group">
                 <label>
@@ -232,6 +248,15 @@ const EventCreationForm = () => {
                     errors.contactemail ? "errorinput" : ""
                   }`}
                   {...register("contactemail", {})}
+                ></input>
+              </div>
+
+              <div className="form-group">
+                <label>Link</label>
+                <input
+                  type="string"
+                  className={"form-control m-3 w-75"}
+                  {...register("link")}
                 ></input>
               </div>
 
@@ -292,7 +317,7 @@ const EventCreationForm = () => {
                         setShowSubmitBtn(true);
                       }}
                     >
-                      Ignore and continue
+                      Continue
                     </button>
                   </div>
                   <EventConflictModal

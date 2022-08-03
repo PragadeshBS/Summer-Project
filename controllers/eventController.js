@@ -19,6 +19,7 @@ const createEvent = async (req, res) => {
     contactName,
     contactPhone,
     contactEmail,
+    link,
     image,
     public,
   } = req.body;
@@ -33,6 +34,7 @@ const createEvent = async (req, res) => {
       contactName,
       contactPhone,
       contactEmail,
+      link,
       image,
       public,
       organisers: [req.user.id],
@@ -89,7 +91,10 @@ const getEventImage = async (req, res) => {
 };
 
 const getEvents = async (req, res) => {
-  const events = await Event.find({ public: true }).sort({ createdAt: -1 });
+  const events = await Event.find({ public: true })
+    .sort({ createdAt: -1 })
+    .where("eventEndDate")
+    .lt(new Date());
   res.status(200).json(events);
 };
 
@@ -114,7 +119,7 @@ const getParticipants = async (req, res) => {
 
 const addParticipant = async (req, res) => {
   const { id } = req.params;
-  if (!mongoose.Types.ObjectId.isValid(id) || !participantEmail) {
+  if (!mongoose.Types.ObjectId.isValid(id)) {
     return res.status(400).json({ error: "Invalid request" });
   }
   const event = await Event.findByIdAndUpdate(id, {
@@ -124,8 +129,26 @@ const addParticipant = async (req, res) => {
     return res.status(400).json({ error: "No such event" });
   }
   // add this event to the users' participated events list
-  const user = await User.findByIdAndUpdate(req.user.id, {
+  await User.findByIdAndUpdate(req.user.id, {
     $push: { participatedEvents: id },
+  });
+  res.status(200).json(event);
+};
+
+const removeParticipant = async (req, res) => {
+  const { id } = req.params;
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(400).json({ error: "Invalid request" });
+  }
+  const event = await Event.findByIdAndUpdate(id, {
+    $pull: { participants: req.user._id },
+  });
+  if (!event) {
+    return res.status(400).json({ error: "No such event" });
+  }
+  // remove this event from the users' participated events list
+  await User.findByIdAndUpdate(req.user.id, {
+    $pull: { participatedEvents: id },
   });
   res.status(200).json(event);
 };
@@ -168,6 +191,7 @@ const validateEvent = (data) => {
     contactPhone: Joi.string().empty("").label("Contact phone"),
     contactEmail: Joi.string().email().empty("").label("Contact email"),
     otherInfo: Joi.string().empty("").label("Other Info"),
+    link: Joi.string().empty("").label("Website Link"),
     image: Joi.string().empty("").label("Event image"),
     public: Joi.bool().label("Visible"),
   });
@@ -185,4 +209,5 @@ module.exports = {
   uploadEventImage,
   getEventImage,
   checkConflictingEvents,
+  removeParticipant,
 };
