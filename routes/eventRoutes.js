@@ -36,7 +36,7 @@ router.post("/", protect, createEvent);
 router.post("/check-conflicts", protect, checkConflictingEvents);
 
 // add image to event
-router.post("/image", upload.single("img"), uploadEventImage);
+router.post("/image", protect, upload.single("img"), uploadEventImage);
 
 // get image for an event
 router.get("/image/:id", getEventImage);

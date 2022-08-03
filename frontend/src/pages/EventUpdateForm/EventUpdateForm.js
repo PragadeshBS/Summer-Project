@@ -73,7 +73,9 @@ const UpdateEvent = () => {
         const formData = new FormData();
         formData.append("img", selectedImage);
         axios
-          .post("/api/events/image", formData)
+          .post("/api/events/image", formData, {
+            headers: { Authorization: `Bearer ${token}` },
+          })
           .then((res) => {
             setUploading(false);
             submitEventForm(res.data._id);
@@ -107,7 +109,9 @@ const UpdateEvent = () => {
           }
         }
         axios
-          .patch(`/api/events/${id}`, sdata)
+          .patch(`/api/events/${id}`, sdata, {
+            headers: { Authorization: `Bearer ${token}` },
+          })
           .then((res) => {
             setError("");
             setSuccess("Event updated successfully");
