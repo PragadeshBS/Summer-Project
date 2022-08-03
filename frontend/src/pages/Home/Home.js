@@ -10,7 +10,6 @@ const Home = () => {
             </h1>
           </div>
           <div className="col-lg contentHome">
-
           </div>
         </div>
       </div>
