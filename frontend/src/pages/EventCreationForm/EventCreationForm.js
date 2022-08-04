@@ -37,7 +37,7 @@ const EventCreationForm = () => {
   const [conflictingEvents, setConflictingEvents] = useState([]);
   const [showSubmitBtn, setShowSubmitBtn] = useState(false);
 
-  const addEvent = (data) => {
+  const addEvent = () => {
     if (selectedImage && selectedImage.size > 5000000) {
       setError("Image size must be less than 5 MB");
       setSuccess("");
@@ -281,7 +281,6 @@ const EventCreationForm = () => {
                     type="checkbox"
                     checked={formData.public}
                     onChange={(e) =>
-                      // console.log(e.target.value)
                       setFormData({ ...formData, public: !formData.public })
                     }
                   />{" "}
