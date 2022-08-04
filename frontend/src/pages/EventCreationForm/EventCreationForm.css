@@ -7,3 +7,7 @@
 .errorinput {
   border: 2px solid #ff1d58;
 }
+.create-event-text-input {
+  resize: none;
+  height: 1rem;
+}

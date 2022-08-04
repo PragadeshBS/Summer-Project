@@ -1,9 +1,9 @@
 import { format } from "date-fns";
+import { useState } from "react";
 
 const EventInformation = (props) => {
-  if (props.detail.link && !props.detail.link.startsWith("http://")) {
-    props.detail.link = "https://" + props.detail.link;
-  }
+  const [link, setLink] = useState(props.detail.link);
+  if (link && !link.startsWith("http")) setLink("https://" + link);
   return (
     <div>
       <h1>Event Info</h1>
@@ -50,8 +50,8 @@ const EventInformation = (props) => {
         </div>
         <div className="col-lg-10">
           <h6>
-            <a href={props.detail.link} target="_blank">
-              {props.detail.link}
+            <a href={link} target="_blank" rel="noreferrer">
+              {link}
             </a>
           </h6>
         </div>

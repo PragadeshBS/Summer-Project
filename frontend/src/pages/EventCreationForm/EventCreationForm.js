@@ -1,11 +1,12 @@
 import Header from "../../components/EventCreationForm/Header";
-import { useForm } from "react-hook-form";
 import "./EventCreationForm.css";
 import { useState } from "react";
 import axios from "axios";
 import UploadImage from "./UploadImage";
 import { useAuthContext } from "../../hooks/useAuthContext";
 import EventConflictModal from "../../components/EventConflictModal";
+import TextInput from "react-autocomplete-input";
+import "react-autocomplete-input/dist/bundle.css";
 
 const EventCreationForm = () => {
   const { token } = useAuthContext();
@@ -15,25 +16,34 @@ const EventCreationForm = () => {
   const [uploading, setUploading] = useState(false);
   const [success, setSuccess] = useState("");
 
+  const [formData, setFormData] = useState({
+    eventName: "",
+    eventStartDate: "",
+    eventEndDate: "",
+    venue: "",
+    dept: "",
+    contactName: "",
+    contactPhone: "",
+    contactEmail: "",
+    link: "",
+    otherInfo: "",
+    public: true,
+  });
+  const [suggestions, setSuggestions] = useState([]);
+
   const [checkingConflicts, setCheckingConflicts] = useState(false);
   const [conflictsExist, setConflictsExist] = useState(false);
   const [showConflictingEvents, setShowConflictingEvents] = useState(false);
   const [conflictingEvents, setConflictingEvents] = useState([]);
   const [showSubmitBtn, setShowSubmitBtn] = useState(false);
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    reset,
-  } = useForm();
   const addEvent = (data) => {
     if (selectedImage && selectedImage.size > 5000000) {
       setError("Image size must be less than 5 MB");
       setSuccess("");
       return;
     }
-    if (data.starttime > data.endtime) {
+    if (formData.eventStartDate > formData.eventEndDate) {
       setError("Start time has to be lesser than end time");
       setSuccess("");
       return;
@@ -44,8 +54,8 @@ const EventCreationForm = () => {
         .post(
           "/api/events/check-conflicts/",
           {
-            from: data.starttime,
-            to: data.endtime,
+            from: formData.eventStartDate,
+            to: formData.eventStartDate,
           },
           { headers: { Authorization: `Bearer ${token}` } }
         )
@@ -60,30 +70,17 @@ const EventCreationForm = () => {
         });
     } else {
       const submitEventForm = (imgId) => {
-        const sdata = {
-          eventName: data.name,
-          eventStartDate: data.starttime,
-          eventEndDate: data.endtime,
-          venue: data.venue,
-          dept: data.department,
-          contactName: data.contactname,
-          contactPhone: data.ContactNumber,
-          contactEmail: data.contactemail,
-          link: data.link,
-          otherInfo: data.otherinfo,
-          public: data.public,
-        };
         if (imgId) {
-          sdata.image = imgId;
+          setFormData({ ...formData, image: imgId });
         }
         axios
-          .post("/api/events", sdata, {
+          .post("/api/events", formData, {
             headers: { Authorization: `Bearer ${token}` },
           })
           .then(() => {
             setError("");
             setSuccess("Event created successfully");
-            reset();
+            // reset();
           })
           .catch((err) => {
             setError(err.response.data.error);
@@ -117,6 +114,12 @@ const EventCreationForm = () => {
       }
     }
   };
+
+  const handleSubmit = (e, next) => {
+    e.preventDefault();
+    next();
+  };
+
   return (
     <div className="EventCreationPage container">
       <Header title={"Create an Event"} />
@@ -124,78 +127,74 @@ const EventCreationForm = () => {
         <div className="col-lg-8">
           <div className="EventCreationForm  my-3 py-3 px-5 border shadow rounded">
             <h3>Event details</h3>
-            <form className="pt-3" onSubmit={handleSubmit(addEvent)}>
+            <form className="pt-3" onSubmit={(e) => handleSubmit(e, addEvent)}>
               <div className="form-group">
                 <label>
                   Event Name <span className="text-danger">*</span>
                 </label>
 
-                <input
-                  type="text"
-                  {...register("name", { required: "Event name is Required" })}
-                  className={`form-control m-3 w-75 ${
-                    errors.name ? "errorinput" : ""
-                  }`}
-                ></input>
-                {errors.name && (
-                  <span className="error w-75">{errors.name.message}</span>
-                )}
+                <TextInput
+                  trigger={["", " "]}
+                  options={suggestions}
+                  required={true}
+                  value={formData.eventName}
+                  onChange={(e) => setFormData({ ...formData, eventName: e })}
+                  className="create-event-text-input form-control m-3 w-75"
+                ></TextInput>
               </div>
               <div className="form-group">
                 <label>
                   Event Start Time <span className="text-danger">*</span>
                 </label>
                 <input
+                  required={true}
                   type="datetime-local"
-                  className={`form-control m-3 w-75 ${
-                    errors.starttime ? "errorinput" : ""
-                  }`}
-                  {...register("starttime", {
-                    required: "Start time is Required",
-                  })}
+                  className="form-control m-3 w-75"
+                  value={formData.eventStartDate}
+                  onChange={(e) =>
+                    setFormData({ ...formData, eventStartDate: e.target.value })
+                  }
                 ></input>
-                {errors.starttime && (
-                  <span className={`error w-75`}>
-                    {errors.starttime.message}
-                  </span>
-                )}
               </div>
               <div className="form-group">
                 <label>Event End Time</label>
                 <input
+                  required={true}
                   type="datetime-local"
-                  className={`form-control m-3 w-75 ${
-                    errors.endtime ? "errorinput" : ""
-                  }`}
-                  {...register("endtime", {
-                    required: "End Time is Required",
-                  })}
+                  className="form-control m-3 w-75"
+                  value={formData.eventEndDate}
+                  onChange={(e) =>
+                    setFormData({ ...formData, eventEndDate: e.target.value })
+                  }
                 ></input>
-                {errors.endtime && (
-                  <span className="error w-75">{errors.endtime.message}</span>
-                )}
               </div>
               <div className="form-group">
                 <label>
                   Venue <span className="text-danger">*</span>
                 </label>
-                <input
+                <TextInput
+                  trigger={["", " "]}
+                  options={suggestions}
+                  required={true}
                   type="text"
-                  className={`form-control m-3 w-75 ${
-                    errors.venue ? "errorinput" : ""
-                  }`}
-                  {...register("venue", { required: "Venue is Required" })}
-                ></input>
-                {errors.venue && (
-                  <span className="error w-75">{errors.venue.message}</span>
-                )}
+                  className="create-event-text-input form-control m-3 w-75"
+                  value={formData.venue}
+                  onChange={(e) => setFormData({ ...formData, venue: e })}
+                ></TextInput>
               </div>
               <div className="form-group">
-                <label>Department</label>
+                <label>
+                  Department <span className="text-danger">*</span>
+                </label>
                 <select
-                  {...register("department")}
+                  value={formData.dept}
+                  onChange={(e) =>
+                    setFormData({ ...formData, dept: e.target.value })
+                  }
+                  required={true}
                   className="form-select w-75 m-3"
                 >
+                  <option value="">Choose the Department</option>
                   <option value="AM">Automobile Engineering</option>
                   <option value="CT">Computer Science Engineering</option>
                   <option value="IT">Information Technology</option>
@@ -215,66 +214,76 @@ const EventCreationForm = () => {
                 <label>
                   Contact Name <span className="text-danger">*</span>
                 </label>
-                <input
+                <TextInput
+                  trigger={["", " "]}
+                  options={suggestions}
+                  required={true}
                   type="text"
-                  className={`form-control m-3 w-75 ${
-                    errors.contactname ? "errorinput" : ""
-                  }`}
-                  {...register("contactname", {
-                    required: "Contact Name is Required",
-                  })}
-                ></input>
-                {errors.contactname && (
-                  <span className="error w-75">
-                    {errors.contactname.message}
-                  </span>
-                )}
+                  className="create-event-text-input form-control m-3 w-75"
+                  value={formData.contactName}
+                  onChange={(e) => setFormData({ ...formData, contactName: e })}
+                ></TextInput>
               </div>
               <div className="form-group">
                 <label>Contact Phone</label>
-                <input
+                <TextInput
+                  trigger={["", " "]}
+                  options={suggestions}
                   type="number"
-                  className={`form-control m-3 w-75 ${
-                    errors.ContactNumber ? "errorinput" : ""
-                  }`}
-                  {...register("ContactNumber", {})}
-                ></input>
+                  className="create-event-text-input form-control m-3 w-75"
+                  value={formData.contactPhone}
+                  onChange={(e) =>
+                    setFormData({ ...formData, contactPhone: e })
+                  }
+                ></TextInput>
               </div>
               <div className="form-group">
                 <label>Contact Email</label>
-                <input
+                <TextInput
+                  trigger={["", " "]}
+                  options={suggestions}
                   type="email"
-                  className={`form-control m-3 w-75 ${
-                    errors.contactemail ? "errorinput" : ""
-                  }`}
-                  {...register("contactemail", {})}
-                ></input>
+                  className="create-event-text-input form-control m-3 w-75"
+                  value={formData.contactEmail}
+                  onChange={(e) =>
+                    setFormData({ ...formData, contactEmail: e })
+                  }
+                ></TextInput>
               </div>
 
               <div className="form-group">
                 <label>Link</label>
                 <input
                   type="string"
-                  className={"form-control m-3 w-75"}
-                  {...register("link")}
+                  className="form-control m-3 w-75"
+                  value={formData.link}
+                  onChange={(e) =>
+                    setFormData({ ...formData, link: e.target.value })
+                  }
                 ></input>
               </div>
 
               <div className="form-group">
                 <label>Other Info</label>
-                <textarea
+                <TextInput
+                  trigger={["", " "]}
+                  options={suggestions}
                   className="form-control m-3 w-75"
                   rows="8"
-                  {...register("otherinfo")}
+                  value={formData.otherInfo}
+                  onChange={(e) => setFormData({ ...formData, otherInfo: e })}
                   style={{ resize: "none" }}
-                ></textarea>
+                ></TextInput>
               </div>
               <div>
                 <label>
                   <input
                     type="checkbox"
-                    {...register("public")}
-                    defaultChecked={true}
+                    checked={formData.public}
+                    onChange={(e) =>
+                      // console.log(e.target.value)
+                      setFormData({ ...formData, public: !formData.public })
+                    }
                   />{" "}
                   Visible to others
                 </label>
@@ -357,6 +366,8 @@ const EventCreationForm = () => {
             selectedImage={selectedImage}
             setSelectedImage={setSelectedImage}
             setImageModified={() => {}}
+            suggestions={suggestions}
+            setSuggestions={setSuggestions}
           />
         </div>
       </div>
