@@ -32,7 +32,9 @@ const EventAbstract = ({
           </button>
         </div>
       ) : user ? (
-        regLoading ? (
+        new Date(event.eventEndDate) < new Date() ? (
+          <div className="alert alert-secondary text-center">This event has ended</div>
+        ) : regLoading ? (
           <div className="alert mx-auto alert-secondary text-center">
             Making changes...
           </div>

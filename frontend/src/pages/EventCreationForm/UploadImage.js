@@ -1,15 +1,25 @@
+import axios from "axios";
+import { useState } from "react";
+
 const UploadImage = ({
   existingImage,
   setExistingImage,
   selectedImage,
   setSelectedImage,
   setImageModified,
+  suggestions,
+  setSuggestions,
 }) => {
+  const [analysing, setAnalysing] = useState(false);
+  const [noSugForImg, setNoSugForImg] = useState(false);
+
   return (
     <div className="my-3 py-3 px-5 border shadow rounded">
       <div>
-        <h3>Upload image</h3>
-        <p>Upload an image, such as a poster for the event</p>
+        <h3>Upload a Poster</h3>
+        <div className="alert alert-success rounded p-1 my-2">
+          Upload to get suggestions while filling this form!
+        </div>
         <p className="small text-muted">
           Must be &lt; 5 MB, preferred ratio 16:9
         </p>
@@ -18,7 +28,7 @@ const UploadImage = ({
             <img
               width={"250px"}
               src={existingImage || URL.createObjectURL(selectedImage)}
-              alt="..."
+              alt="..."              
               className="d-block mx-auto rounded"
             />
             <br />
@@ -28,10 +38,27 @@ const UploadImage = ({
                 setExistingImage(null);
                 setSelectedImage(null);
                 setImageModified(true);
+                setSuggestions([]);
+                setNoSugForImg(false);
               }}
             >
               Remove
             </button>
+          </div>
+        )}
+        {analysing && (
+          <div className="alert alert-secondary">
+            Analysing your image, this might take a few seconds...
+          </div>
+        )}
+        {suggestions.length > 0 && (
+          <div className="alert alert-success">
+            Suggestions are now available!
+          </div>
+        )}
+        {noSugForImg && (
+          <div className="alert alert-danger">
+            No suggestions available Upload an image that has readable text
           </div>
         )}
       </div>
@@ -43,6 +70,18 @@ const UploadImage = ({
           accept="image/*"
           className="form-control"
           onChange={(event) => {
+            setAnalysing(true);
+            setSuggestions([]);
+            setNoSugForImg(false);
+            const formData = new FormData();
+            formData.append("img", event.target.files[0]);
+            axios
+              .post("https://ocr-backendmit.herokuapp.com/api/ocr/", formData)
+              .then((res) => {
+                setAnalysing(false);
+                setSuggestions(res.data.res);
+                if (res.data.res.length === 0) setNoSugForImg(true);
+              });
             setExistingImage(null);
             setSelectedImage(event.target.files[0]);
             setImageModified(true);

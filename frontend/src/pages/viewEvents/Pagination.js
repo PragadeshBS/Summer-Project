@@ -3,7 +3,7 @@ import RowCount from "./RowCount";
 import PageNav from "./PageNav";
 import { useState, useEffect } from "react";
 
-const Pagination = ({ data, setVisibleData }) => {
+const Pagination = ({ data, setVisibleData, page }) => {
   // pagination logic
   const [curPage, setCurPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -13,6 +13,9 @@ const Pagination = ({ data, setVisibleData }) => {
     setCurPage(1);
     setRowsPerPage(parseInt(rowsPerPage));
   };
+  useEffect(() => {
+    setCurPage(1);
+  }, [page]);
   useEffect(() => {
     setVisibleData(
       data.slice(
@@ -24,16 +27,16 @@ const Pagination = ({ data, setVisibleData }) => {
 
   return (
     <>
-    <div className="text-center mb-2">
-      <RowCount curVal={rowsPerPage} setVal={changeRowsPerPage} />
-    </div>
-    <div className="text-center">
-      <PageNav
-        currentPage={curPage}
-        setCurPage={setCurPage}
-        totalNoOfPages={totalNoOfPages}
+      <div className="text-center mb-2">
+        <RowCount curVal={rowsPerPage} setVal={changeRowsPerPage} />
+      </div>
+      <div className="text-center">
+        <PageNav
+          currentPage={curPage}
+          setCurPage={setCurPage}
+          totalNoOfPages={totalNoOfPages}
         />
-    </div>
+      </div>
     </>
   );
 };

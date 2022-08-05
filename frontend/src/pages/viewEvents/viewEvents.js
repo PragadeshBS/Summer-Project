@@ -187,7 +187,11 @@ const Viewevents = ({ category }) => {
         })}
       </div>
       <div className="row mx-auto mb-5">
-          <Pagination data={detail} setVisibleData={setFilterDetail}/>
+        <Pagination
+          data={detail}
+          setVisibleData={setFilterDetail}
+          page={category}
+        />
       </div>
     </div>
   );
