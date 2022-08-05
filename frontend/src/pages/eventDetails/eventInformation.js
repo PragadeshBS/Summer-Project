@@ -12,6 +12,19 @@ const EventInformation = (props) => {
         {"\t"}-{"\t"}
         {format(new Date(props.detail.eventEndDate), "dd MMM yyyy\th:mm a")}
       </h1>
+      <div className="ps-5">
+        <h5>Organisers</h5>
+        <ul>
+          {props.detail.organisers.map((org) => {
+            return (
+              <li key={org._id}>
+                {org.userName} ({org.regNo})
+              </li>
+            );
+          })}
+        </ul>
+      </div>
+
       <div className="row ps-5">
         <div className="col-lg-2">
           <h5>Venue</h5>
