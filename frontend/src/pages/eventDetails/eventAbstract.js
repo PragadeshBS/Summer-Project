@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import UnregisterConfirmationModal from "../../components/UnregisterConfirmationModal";
+import {Rating} from 'react-simple-star-rating';
 
 const EventAbstract = ({
   register,
@@ -12,8 +13,13 @@ const EventAbstract = ({
   regLoading,
 }) => {
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
-
+  const [rating,setRating]=useState(0);
   const navigate = useNavigate();
+
+  const handlerating=(rate)=>
+  {
+    setRating(rate);
+  }
   return (
     <div className="align-items-center">
       {isOrganiser ? (
@@ -33,7 +39,18 @@ const EventAbstract = ({
         </div>
       ) : user ? (
         new Date(event.eventEndDate) < new Date() ? (
-          <div className="alert alert-secondary text-center">This event has ended</div>
+          <div className="alert alert-secondary text-center">
+            <Rating
+              onClick={handlerating}
+              ratingValue={rating}
+              size={20}
+              label 
+              transition
+              fillColor='orange'
+              emptyColor='gray'
+              className="foo"
+              />
+          </div>
         ) : regLoading ? (
           <div className="alert mx-auto alert-secondary text-center">
             Making changes...
