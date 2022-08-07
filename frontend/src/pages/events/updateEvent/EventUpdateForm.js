@@ -152,7 +152,7 @@ const UpdateEvent = () => {
         setLoading(false);
       });
     });
-  }, [id]);
+  }, [id, navigate, user]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
