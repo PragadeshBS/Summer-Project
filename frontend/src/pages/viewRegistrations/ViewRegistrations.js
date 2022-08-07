@@ -35,7 +35,7 @@ const ViewRegistrations = () => {
       })
       .then(() => {
         Store.addNotification({
-          title: "Succes!",
+          title: "Success!",
           message: "Removed all participants",
           type: "success",
           insert: "top",

@@ -1,8 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import UnregisterConfirmationModal from "../../components/UnregisterConfirmationModal";
 import { Rating } from "react-simple-star-rating";
 import { Store } from "react-notifications-component";
+import { useAuthContext } from "../../hooks/useAuthContext";
+import axios from "axios";
 
 const EventAbstract = ({
   register,
@@ -16,24 +18,67 @@ const EventAbstract = ({
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
   const [rating, setRating] = useState(0);
   const navigate = useNavigate();
-
+  const { token } = useAuthContext();
+  const [loading, setLoading] = useState(true);
   const tooltipArray = ["Terrible", "Bad", "Average", "Great", "Awesome"];
-  const handlerating = (rate) => {
-    setRating(rate);
-    Store.addNotification({
-      title: "Succes!",
-      message: "Your rating was added successfully",
-      type: "success",
-      insert: "top",
-      container: "top-right",
-      animationIn: ["animate__animated", "animate__fadeIn"],
-      animationOut: ["animate__animated", "animate__fadeOut"],
-      dismiss: {
-        duration: 3500,
-        onScreen: true,
-      },
-    });
+
+  const handlerating = (rVal) => {
+    setRating(rVal);
+    axios
+      .post(
+        `/api/ratings/${event._id}`,
+        { ratingVal: rVal / 20 },
+        { headers: { Authorization: `Bearer ${token}` } }
+      )
+      .then(() => {
+        Store.addNotification({
+          title: "Success!",
+          message: "Your rating was added successfully",
+          type: "success",
+          insert: "top",
+          container: "top-right",
+          animationIn: ["animate__animated", "animate__fadeIn"],
+          animationOut: ["animate__animated", "animate__fadeOut"],
+          dismiss: {
+            duration: 3500,
+            onScreen: true,
+          },
+        });
+      })
+      .catch((err) => {
+        Store.addNotification({
+          title: "Error!",
+          message: err.message,
+          type: "danger",
+          insert: "top",
+          container: "top-right",
+          animationIn: ["animate__animated", "animate__fadeIn"],
+          animationOut: ["animate__animated", "animate__fadeOut"],
+          dismiss: {
+            duration: 3500,
+            onScreen: true,
+          },
+        });
+      });
   };
+
+  useEffect(() => {
+    axios
+      .get(`/api/ratings/${event._id}`, {
+        headers: { Authorization: `Bearer: ${token}` },
+      })
+      .then((res) => {
+        setRating(res.data.ratingVal * 20);
+        setLoading(false);
+      })
+      .catch(() => {
+        setLoading(false);
+      });
+  }, []);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   if (regLoading) {
     return (
@@ -73,13 +118,9 @@ const EventAbstract = ({
             onClick={handlerating}
             ratingValue={rating}
             size={35}
-            label
             transition
             showTooltip
             tooltipArray={tooltipArray}
-            fillColor="orange"
-            emptyColor="gray"
-            className="foo"
           />
         </div>
       );
