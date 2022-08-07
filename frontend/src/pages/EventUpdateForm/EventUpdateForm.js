@@ -173,7 +173,7 @@ const UpdateEvent = () => {
         showSubmitBtn={showSubmitBtn}
         setShowSubmitBtn={setShowSubmitBtn}
         selectedImage={selectedImage}
-        setImageModified={() => {}}
+        setImageModified={setImageModified}
       />
     </div>
   );

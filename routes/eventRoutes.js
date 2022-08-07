@@ -1,24 +1,30 @@
 const express = require("express");
+const router = express.Router();
+const multer = require("multer");
+const multerStorage = multer.memoryStorage();
+const upload = multer({ storage: multerStorage });
+const { protect } = require("../middleware/authMiddleware");
+
 const {
   getEvents,
   createEvent,
   getEvent,
-  getParticipants,
   updateEvent,
-  addParticipant,
-  uploadEventImage,
-  getEventImage,
   checkConflictingEvents,
   getUpcomingEvents,
+} = require("../controllers/eventControllers/eventController");
+
+const {
+  uploadEventImage,
+  getEventImage,
+} = require("../controllers/eventControllers/imageController");
+
+const {
+  addParticipant,
   removeParticipant,
-} = require("../controllers/eventController");
-const { protect } = require("../middleware/authMiddleware");
-
-const router = express.Router();
-
-const multer = require("multer");
-const multerStorage = multer.memoryStorage();
-const upload = multer({ storage: multerStorage });
+  getParticipants,
+  removeAllParticipants,
+} = require("../controllers/eventControllers/participantsController");
 
 // get all events
 router.get("/", getEvents);
@@ -49,6 +55,9 @@ router.post("/participants/:id", protect, addParticipant);
 
 // remove participant
 router.delete("/participants/:id", protect, removeParticipant);
+
+// remove All participants from an event
+router.delete("/all-participants/:id", protect, removeAllParticipants);
 
 // get participants for an event
 router.get("/participants/:id", protect, getParticipants);

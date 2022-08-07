@@ -11,6 +11,8 @@ import Profile from "./pages/profile/Profile";
 import ViewRegistrations from "./pages/viewRegistrations/ViewRegistrations";
 import OrganisedEvents from "./pages/organisedEvents/OrganisedEvents";
 import ParticipatedEvents from "./pages/Participated Events/ParticipatedEvents";
+import { ReactNotifications } from 'react-notifications-component'
+import 'react-notifications-component/dist/theme.css'
 
 function App() {
   const { user, loading } = useAuthContext();
@@ -20,6 +22,7 @@ function App() {
   }
   return (
     <div className="App">
+      <ReactNotifications />
       <BrowserRouter>
         <Navbar />
         <div className="pages">

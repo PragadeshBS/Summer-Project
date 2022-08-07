@@ -1,8 +1,7 @@
-const Event = require("../models/eventModel");
-const User = require("../models/userModel");
+const Event = require("../../models/eventModel");
+const User = require("../../models/userModel");
 const mongoose = require("mongoose");
 const Joi = require("joi");
-const EventImage = require("../models/eventImageModel");
 
 const createEvent = async (req, res) => {
   const { error } = validateEvent(req.body);
@@ -39,7 +38,7 @@ const createEvent = async (req, res) => {
       public,
       organisers: [req.user.id],
     });
-    const user = await User.findByIdAndUpdate(req.user.id, {
+    await User.findByIdAndUpdate(req.user.id, {
       $push: { organizedEvents: event._id },
     });
     return res.status(200).json(event);
@@ -68,28 +67,6 @@ const updateEvent = async (req, res) => {
   res.status(200).json(event);
 };
 
-const uploadEventImage = async (req, res) => {
-  const image = {
-    data: new Buffer.from(req.file.buffer, "base64"),
-    contentType: req.file.mimetype,
-  };
-  const savedImage = await EventImage.create({ image });
-  res.send(savedImage);
-};
-
-const getEventImage = async (req, res) => {
-  const { id } = req.params;
-  if (!mongoose.Types.ObjectId.isValid(id)) {
-    return res.status(400).json({ error: "No such event" });
-  }
-  const event = await Event.findById(id).populate("image");
-  if (!event || !event.image) {
-    return res.status(400).json({ error: "No such event image" });
-  }
-  res.set("Content-type", event.image.contentType);
-  res.send(event.image.image.data);
-};
-
 const getEvents = async (req, res) => {
   const events = await Event.find({ public: true })
     .sort({ createdAt: -1 })
@@ -103,54 +80,6 @@ const getUpcomingEvents = async (req, res) => {
     .where("eventEndDate")
     .gte(new Date());
   res.status(200).json(events);
-};
-
-const getParticipants = async (req, res) => {
-  const { id } = req.params;
-  if (!mongoose.Types.ObjectId.isValid(id)) {
-    return res.status(400).json({ error: "No such event" });
-  }
-  const event = await Event.findById(id).populate("participants");
-  if (!event) {
-    return res.status(400).json({ error: "No such event" });
-  }
-  await res.status(200).json(event.participants);
-};
-
-const addParticipant = async (req, res) => {
-  const { id } = req.params;
-  if (!mongoose.Types.ObjectId.isValid(id)) {
-    return res.status(400).json({ error: "Invalid request" });
-  }
-  const event = await Event.findByIdAndUpdate(id, {
-    $push: { participants: req.user._id },
-  });
-  if (!event) {
-    return res.status(400).json({ error: "No such event" });
-  }
-  // add this event to the users' participated events list
-  await User.findByIdAndUpdate(req.user.id, {
-    $push: { participatedEvents: id },
-  });
-  res.status(200).json(event);
-};
-
-const removeParticipant = async (req, res) => {
-  const { id } = req.params;
-  if (!mongoose.Types.ObjectId.isValid(id)) {
-    return res.status(400).json({ error: "Invalid request" });
-  }
-  const event = await Event.findByIdAndUpdate(id, {
-    $pull: { participants: req.user._id },
-  });
-  if (!event) {
-    return res.status(400).json({ error: "No such event" });
-  }
-  // remove this event from the users' participated events list
-  await User.findByIdAndUpdate(req.user.id, {
-    $pull: { participatedEvents: id },
-  });
-  res.status(200).json(event);
 };
 
 const getEvent = async (req, res) => {
@@ -203,11 +132,6 @@ module.exports = {
   getEvents,
   getEvent,
   getUpcomingEvents,
-  getParticipants,
   updateEvent,
-  addParticipant,
-  uploadEventImage,
-  getEventImage,
   checkConflictingEvents,
-  removeParticipant,
 };
