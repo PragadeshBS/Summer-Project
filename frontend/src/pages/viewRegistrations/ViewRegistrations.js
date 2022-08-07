@@ -4,12 +4,14 @@ import { useParams } from "react-router-dom";
 import EventInformation from "../eventDetails/eventInformation";
 import { format } from "date-fns";
 import { useAuthContext } from "../../hooks/useAuthContext";
+import RemoveParticipantsConfirmationModal from "../../components/RemoveParticipantsConfirmationModal";
 
 const ViewRegistrations = () => {
   const [event, setEvent] = useState({});
   const [loading, setLoading] = useState(true);
   const { id } = useParams();
   const [participants, setParticipants] = useState([]);
+  const [showRemoveModal, setShowRemoveModal] = useState(false);
   const { token } = useAuthContext();
 
   useEffect(() => {
@@ -25,6 +27,11 @@ const ViewRegistrations = () => {
       setLoading(false);
     });
   }, [id, token]);
+
+  const removeParticipants = () => {
+    // 
+    setParticipants([])
+  }
 
   if (loading) {
     return <div>Loading...</div>;
@@ -62,6 +69,19 @@ const ViewRegistrations = () => {
           </tbody>
           <tbody></tbody>
         </table>
+        <div className="my-3 text-center">
+          <button
+            onClick={() => setShowRemoveModal(true)}
+            className="btn btn-danger"
+          >
+            Remove all participants
+          </button>
+          <RemoveParticipantsConfirmationModal
+            isOpen={showRemoveModal}
+            close={() => setShowRemoveModal(false)}
+            removeParticipants={removeParticipants}
+          />
+        </div>
       </div>
     </div>
   );
