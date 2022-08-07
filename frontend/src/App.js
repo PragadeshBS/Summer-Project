@@ -1,18 +1,23 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import EventCreationForm from "./pages/EventCreationForm/EventCreationForm";
-import EventDetail from "./pages/eventDetails/eventDetails";
-import Viewevents from "./pages/viewEvents/viewEvents";
-import Navbar from "./components/Navbar";
-import Signup from "./pages/signup/Signup";
-import UpdateEvent from "./pages/EventUpdateForm/EventUpdateForm";
-import Login from "./pages/login/Login";
+import { ReactNotifications } from "react-notifications-component";
+import "react-notifications-component/dist/theme.css";
+
 import { useAuthContext } from "./hooks/useAuthContext";
-import Profile from "./pages/profile/Profile";
-import ViewRegistrations from "./pages/viewRegistrations/ViewRegistrations";
-import OrganisedEvents from "./pages/organisedEvents/OrganisedEvents";
-import ParticipatedEvents from "./pages/Participated Events/ParticipatedEvents";
-import { ReactNotifications } from 'react-notifications-component'
-import 'react-notifications-component/dist/theme.css'
+
+import EventCreationForm from "./pages/events/createEvent/EventCreationForm";
+import EventDetail from "./pages/events/eventDetails/eventDetails";
+import Viewevents from "./pages/events/viewEvents/viewEvents";
+import UpdateEvent from "./pages/events/updateEvent/EventUpdateForm";
+import ViewRegistrations from "./pages/events/viewRegistrations/ViewRegistrations";
+
+import Navbar from "./components/navbar/Navbar";
+
+import Signup from "./pages/auth/signup/Signup";
+import Login from "./pages/auth/login/Login";
+
+import Profile from "./pages/user/profile/Profile";
+import OrganisedEvents from "./pages/user/organisedEvents/OrganisedEvents";
+import ParticipatedEvents from "./pages/user/participatedEvents/ParticipatedEvents";
 
 function App() {
   const { user, loading } = useAuthContext();

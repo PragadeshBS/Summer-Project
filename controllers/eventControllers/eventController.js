@@ -49,6 +49,20 @@ const createEvent = async (req, res) => {
 
 const updateEvent = async (req, res) => {
   const { id } = req.params;
+  const thisUserId = req.user._id;
+  let isOrganizer = false;
+  const organizedEvents = await User.findById(thisUserId)
+    .select("organizedEvents")
+    .populate("organizedEvents");
+  for (let i = 0; i < organizedEvents.organizedEvents.length; i++) {
+    if (organizedEvents.organizedEvents[i]._id.toString() === id) {
+      isOrganizer = true;
+      break;
+    }
+  }
+  if (!isOrganizer) {
+    return res.status(401).json({ error: "Not authorized" });
+  }
   if (!mongoose.Types.ObjectId.isValid(id)) {
     return res.status(400).json({ error: "No such event" });
   }

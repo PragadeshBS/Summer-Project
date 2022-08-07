@@ -26,6 +26,8 @@ const {
   removeAllParticipants,
 } = require("../controllers/eventControllers/participantsController");
 
+const { addOrganizer, removeOrganizer, getOrganizers } = require("../controllers/eventControllers/organizersController");
+
 // get all events
 router.get("/", getEvents);
 
@@ -55,6 +57,15 @@ router.post("/participants/:id", protect, addParticipant);
 
 // remove participant
 router.delete("/participants/:id", protect, removeParticipant);
+
+// add organizer for an event
+router.post("/organizers/:id", protect, addOrganizer);
+
+// remove organizer
+router.delete("/organizers/:eventId/:userId", protect, removeOrganizer);
+
+// get organizers for an event
+router.get("/organizers/:id", getOrganizers);
 
 // remove All participants from an event
 router.delete("/all-participants/:id", protect, removeAllParticipants);
