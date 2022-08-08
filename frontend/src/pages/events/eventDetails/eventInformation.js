@@ -2,6 +2,8 @@ import { format } from "date-fns";
 import { useState } from "react";
 import ReactWhatsapp from "react-whatsapp";
 import { FaWhatsapp } from "react-icons/fa";
+import { MdEmail } from "react-icons/md";
+import { CgWebsite } from "react-icons/cg";
 
 const EventInformation = (props) => {
   const [link, setLink] = useState(props.detail.link);
@@ -64,12 +66,15 @@ const EventInformation = (props) => {
       </div>
       <div className="row ps-5">
         <div className="col-lg-2">
-          <h5>Email</h5>
+          <h5>Contact Email</h5>
         </div>
         <div className="col-lg-10">
           <h6>
-            {props.detail.contactEmail}
-            </h6>
+            <a href={`mailto:${props.detail.contactEmail}`}>
+              <MdEmail className="mx-2 fs-4" />
+              {props.detail.contactEmail}
+            </a>
+          </h6>
         </div>
       </div>
       <div className="row ps-5">
@@ -78,7 +83,13 @@ const EventInformation = (props) => {
         </div>
         <div className="col-lg-10">
           <h6>
-            <a href={link} target="_blank" rel="noreferrer">
+            <a
+              href={link}
+              target="_blank"
+              rel="noreferrer"
+              style={{ color: "darkblue" }}
+            >
+              <CgWebsite className="mx-2 fs-4" />
               {link}
             </a>
           </h6>
