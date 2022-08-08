@@ -98,6 +98,7 @@ const UpdateEvent = () => {
           link: formData.link,
           otherInfo: formData.otherInfo,
           public: formData.public,
+          whatsapp: formData.whatsapp
         };
         if (imageModified) {
           if (selectedImage) {

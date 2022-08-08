@@ -21,6 +21,7 @@ const createEvent = async (req, res) => {
     link,
     image,
     public,
+    whatsapp,
   } = req.body;
   try {
     const event = await Event.create({
@@ -36,6 +37,7 @@ const createEvent = async (req, res) => {
       link,
       image,
       public,
+      whatsapp,
       organisers: [req.user.id],
     });
     await User.findByIdAndUpdate(req.user.id, {
@@ -142,6 +144,7 @@ const validateEvent = (data) => {
     link: Joi.string().empty("").label("Website Link"),
     image: Joi.string().empty("").label("Event image"),
     public: Joi.bool().label("Visible"),
+    whatsapp: Joi.bool().label("WhatsApp no."),
   });
   return schema.validate(data);
 };

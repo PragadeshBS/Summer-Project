@@ -38,7 +38,7 @@ const eventSchema = mongoose.Schema(
       ref: "EventImage",
     },
     link: {
-      type: String,    
+      type: String,
     },
     organisers: {
       type: [mongoose.Schema.Types.ObjectId],
@@ -50,8 +50,12 @@ const eventSchema = mongoose.Schema(
     },
     public: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
+    whatsapp: {
+      type: Boolean,
+      default: false,
+    },
   },
   { timestamps: true }
 );
