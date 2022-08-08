@@ -1,15 +1,17 @@
 const express = require("express");
 const {
   getUserDetails,
-  createUser,
   getOrganisedEvents,
   getParticipatedEvents,
+  getUserIds,
 } = require("../controllers/userController");
 const { protect } = require("../middleware/authMiddleware");
 
 const router = express.Router();
 
 router.get("/", protect, getUserDetails);
+
+router.get("/ids", getUserIds);
 
 router.get("/events-organised", protect, getOrganisedEvents);
 
