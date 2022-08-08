@@ -89,6 +89,11 @@ const getEvents = async (req, res) => {
   res.status(200).json(events);
 };
 
+const getEventIds = async (req, res) => {
+  const events = await Event.find({}).select("_id");
+  res.status(200).json(events.map((e) => e._id));
+};
+
 const getUpcomingEvents = async (req, res) => {
   const events = await Event.find({ public: true })
     .where("eventEndDate")
@@ -145,6 +150,7 @@ module.exports = {
   createEvent,
   getEvents,
   getEvent,
+  getEventIds,
   getUpcomingEvents,
   updateEvent,
   checkConflictingEvents,
