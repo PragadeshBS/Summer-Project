@@ -20,8 +20,14 @@ const getParticipatedEvents = async (req, res) => {
   res.status(200).json(user.participatedEvents);
 };
 
+const getUserIds = async (req, res) => {
+  const users = await User.find({}).select("id");
+  res.status(200).json(users.map((user) => user._id));
+};
+
 module.exports = {
   getUserDetails,
   getOrganisedEvents,
   getParticipatedEvents,
+  getUserIds,
 };

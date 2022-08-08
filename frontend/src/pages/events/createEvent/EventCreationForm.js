@@ -25,6 +25,7 @@ const EventCreationForm = () => {
     link: "",
     otherInfo: "",
     public: true,
+    whatsapp: true
   });
   const [suggestions, setSuggestions] = useState([]);
 
