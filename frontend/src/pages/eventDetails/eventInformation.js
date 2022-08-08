@@ -1,5 +1,6 @@
 import { format } from "date-fns";
 import { useState } from "react";
+import ReactWhatsapp from 'react-whatsapp';
 
 const EventInformation = (props) => {
   const [link, setLink] = useState(props.detail.link);
@@ -46,7 +47,9 @@ const EventInformation = (props) => {
           <h5>Contact Number</h5>
         </div>
         <div className="col-lg-10">
-          <h6>{props.detail.contactPhone}</h6>
+          <ReactWhatsapp number={props.detail.contactPhone} className="btn btn-success" message="get ready!">
+          {props.detail.contactPhone}
+            </ReactWhatsapp>
         </div>
       </div>
       <div className="row ps-5">
