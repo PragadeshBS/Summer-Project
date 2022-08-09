@@ -64,18 +64,22 @@ const EventAbstract = ({
   };
 
   useEffect(() => {
-    axios
-      .get(`/api/ratings/${event._id}`, {
-        headers: { Authorization: `Bearer: ${token}` },
-      })
-      .then((res) => {
-        setRating(res.data.ratingVal * 20);
-        setLoading(false);
-      })
-      .catch(() => {
-        setLoading(false);
-      });
-  }, [event._id, token]);
+    if (registered && new Date(event.eventEndDate) < new Date()) {
+      axios
+        .get(`/api/ratings/${event._id}`, {
+          headers: { Authorization: `Bearer: ${token}` },
+        })
+        .then((res) => {
+          setRating(res.data.ratingVal * 20);
+          setLoading(false);
+        })
+        .catch(() => {
+          setLoading(false);
+        });
+    } else {
+      setLoading(false);
+    }
+  }, [event._id, token, event.eventEndDate, registered]);
 
   if (loading) {
     return (

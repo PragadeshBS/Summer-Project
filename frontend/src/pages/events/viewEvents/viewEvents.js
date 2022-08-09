@@ -109,7 +109,7 @@ const Viewevents = ({ category }) => {
           <select
             className="form-select mb-2"
             style={{ width: "100%", marginTop: "6px" }}
-            onClick={searchdept}
+            onChange={searchdept}
           >
             <option className="" value="*">
               All
@@ -128,6 +128,11 @@ const Viewevents = ({ category }) => {
           </select>
         </div>
       </div>
+      {filter.length === 0 && (
+        <div className="display-6 text-center my-5">
+          No events found, check back later or try a different filter
+        </div>
+      )}
       <div
         className="row mt-5 mb-5"
         style={{

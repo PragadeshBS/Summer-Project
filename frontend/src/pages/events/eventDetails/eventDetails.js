@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Loading from "../../loader/loading.svg";
 import { useAuthContext } from "../../../hooks/useAuthContext";
+import Recommendations from "../../../components/events/Recommendations";
 
 const EventDetail = () => {
   const { user, token } = useAuthContext();
@@ -52,12 +53,14 @@ const EventDetail = () => {
     const fetchDetail = () => {
       axios.get(`/api/events/${id}`).then((response) => {
         setData(response.data);
+        // check if current user is an organizer
         response.data.organisers.forEach((organiser) => {
           if (organiser.email === user) {
             setIsOrganiser(true);
             return;
           }
         });
+        // check if current user is a participant
         response.data.participants.forEach((participant) => {
           if (participant.email === user) {
             setRegistered(true);
@@ -119,6 +122,7 @@ const EventDetail = () => {
           </div>
         </div>
       </div>
+      <Recommendations eventId={id} />
     </div>
   );
 };
