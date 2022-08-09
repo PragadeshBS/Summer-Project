@@ -19,6 +19,8 @@ import Profile from "./pages/user/profile/Profile";
 import OrganisedEvents from "./pages/user/organisedEvents/OrganisedEvents";
 import ParticipatedEvents from "./pages/user/participatedEvents/ParticipatedEvents";
 import Loading from "./pages/loader/loading.svg";
+import ForgotPassword from "./pages/auth/passwordReset/ForgotPassword";
+import PasswordReset from "./pages/auth/passwordReset/PasswordReset";
 
 function App() {
   const { user, loading } = useAuthContext();
@@ -86,6 +88,14 @@ function App() {
             <Route
               path="participated-events"
               element={user ? <ParticipatedEvents /> : <Navigate to="/login" />}
+            />
+            <Route
+              path="/forgot-password"
+              element={!user ? <ForgotPassword /> : <Navigate to="/" />}
+            />
+            <Route
+              path="/reset-password"
+              element={!user ? <PasswordReset /> : <Navigate to="/" />}
             />
           </Routes>
         </div>
