@@ -18,12 +18,22 @@ import Login from "./pages/auth/login/Login";
 import Profile from "./pages/user/profile/Profile";
 import OrganisedEvents from "./pages/user/organisedEvents/OrganisedEvents";
 import ParticipatedEvents from "./pages/user/participatedEvents/ParticipatedEvents";
+import Loading from "./pages/loader/loading.svg";
 
 function App() {
   const { user, loading } = useAuthContext();
 
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="container d-block mx-auto">
+        <h1 className="display-5 mt-5">Events</h1>
+        <div className="row mt-5 mb-5">
+          <div className="col d-flex justify-content-center">
+            <img src={Loading} alt="..." />
+          </div>
+        </div>
+      </div>
+    );
   }
   return (
     <div className="App">

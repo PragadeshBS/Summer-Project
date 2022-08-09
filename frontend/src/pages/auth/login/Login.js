@@ -29,7 +29,7 @@ const Login = () => {
   return (
     <div className="EventCreationPage container">
       <Header title={"Login"} />
-      {isLoading && <div>Loading...</div>}
+      {isLoading && <div>Just a sec...</div>}
       <div className="row">
         <div className="col-lg-8">
           <div className="EventCreationForm  my-3 py-4 px-5 border shadow rounded">
