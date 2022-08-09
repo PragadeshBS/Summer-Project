@@ -33,7 +33,7 @@ if (process.env.NODE_ENV === "production") {
 mongoose.connect(process.env.MONGO_URI).then(() => {
   app.listen(process.env.PORT, () => {
     console.log(
-      `Coonected to MongoDB\nServer running on port ${process.env.PORT}`
+      `Connected to MongoDB\nServer running on port ${process.env.PORT}`
     );
   });
 });
