@@ -68,13 +68,14 @@ const EventCreationForm = () => {
         });
     } else {
       const submitEventForm = (imgId) => {
-        if (imgId) {
-          setFormData({ ...formData, image: imgId });
-        }
         axios
-          .post("/api/events", formData, {
-            headers: { Authorization: `Bearer ${token}` },
-          })
+          .post(
+            "/api/events",
+            { ...formData, image: imgId },
+            {
+              headers: { Authorization: `Bearer ${token}` },
+            }
+          )
           .then(() => {
             setError("");
             setSuccess("Event created successfully");
