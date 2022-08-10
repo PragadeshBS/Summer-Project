@@ -25,7 +25,7 @@ const EventCreationForm = () => {
     link: "",
     otherInfo: "",
     public: true,
-    whatsapp: true
+    whatsapp: true,
   });
   const [suggestions, setSuggestions] = useState([]);
 
@@ -90,11 +90,11 @@ const EventCreationForm = () => {
         setSuccess("");
         setError("");
         const formData = new FormData();
-        formData.append("img", selectedImage, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        formData.append("img", selectedImage);
         axios
-          .post("api/events/image", formData)
+          .post("api/events/image", formData, {
+            headers: { Authorization: `Bearer ${token}` },
+          })
           .then((res) => {
             setUploading(false);
             setSuccess("Image uploaded successfully...");
