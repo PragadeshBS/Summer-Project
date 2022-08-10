@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import loginStyles from "./loginStyles.module.css";
 import { useLogin } from "../../../hooks/useLogin";
 import { useAuthContext } from "../../../hooks/useAuthContext";
-import { Navigate } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { useSearchParams } from "react-router-dom";
 
 const Login = () => {
@@ -29,7 +29,7 @@ const Login = () => {
   return (
     <div className="EventCreationPage container">
       <Header title={"Login"} />
-      {isLoading && <div>Loading...</div>}
+      {isLoading && <div>Just a sec...</div>}
       <div className="row">
         <div className="col-lg-8">
           <div className="EventCreationForm  my-3 py-4 px-5 border shadow rounded">
@@ -83,6 +83,13 @@ const Login = () => {
                 >
                   Login
                 </button>
+              </div>
+              <div>
+                <Link to="/forgot-password">
+                  <span className="text-muted small">
+                    Forgot your password?
+                  </span>
+                </Link>
               </div>
             </form>
           </div>

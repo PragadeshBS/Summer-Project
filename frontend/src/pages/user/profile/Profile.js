@@ -3,6 +3,7 @@ import ProfileStyles from "./ProfileStyles.module.css";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useAuthContext } from "../../../hooks/useAuthContext";
+import Loading from "../../loader/loading.svg";
 
 const Profile = () => {
   const [loading, setLoading] = useState(true);
@@ -63,7 +64,16 @@ const Profile = () => {
   }, [token, reset]);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="container d-block mx-auto">
+        <h1 className="display-5 mt-5">Events</h1>
+        <div className="row mt-5 mb-5">
+          <div className="col d-flex justify-content-center">
+            <img src={Loading} alt="..." />
+          </div>
+        </div>
+      </div>
+    );
   }
 
   return (

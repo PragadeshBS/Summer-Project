@@ -5,6 +5,7 @@ import EventInformation from "../eventDetails/eventInformation";
 import { useAuthContext } from "../../../hooks/useAuthContext";
 import RemoveParticipantsConfirmationModal from "../../../components/modals/RemoveParticipantsConfirmationModal";
 import { Store } from "react-notifications-component";
+import Loading from "../../loader/loading.svg";
 
 const ViewRegistrations = () => {
   const [event, setEvent] = useState({});
@@ -52,7 +53,16 @@ const ViewRegistrations = () => {
   };
 
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="container d-block mx-auto">
+        <h1 className="display-5 mt-5">Events</h1>
+        <div className="row mt-5 mb-5">
+          <div className="col d-flex justify-content-center">
+            <img src={Loading} alt="..." />
+          </div>
+        </div>
+      </div>
+    );
   }
 
   return (

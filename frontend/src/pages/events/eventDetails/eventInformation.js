@@ -77,24 +77,26 @@ const EventInformation = (props) => {
           </h6>
         </div>
       </div>
-      <div className="row ps-5">
-        <div className="col-lg-2">
-          <h5>Link</h5>
+      {link && (
+        <div className="row ps-5">
+          <div className="col-lg-2">
+            <h5>Link</h5>
+          </div>
+          <div className="col-lg-10">
+            <h6>
+              <a
+                href={link}
+                target="_blank"
+                rel="noreferrer"
+                style={{ color: "darkblue" }}
+              >
+                <CgWebsite className="mx-2 fs-4" />
+                {link}
+              </a>
+            </h6>
+          </div>
         </div>
-        <div className="col-lg-10">
-          <h6>
-            <a
-              href={link}
-              target="_blank"
-              rel="noreferrer"
-              style={{ color: "darkblue" }}
-            >
-              <CgWebsite className="mx-2 fs-4" />
-              {link}
-            </a>
-          </h6>
-        </div>
-      </div>
+      )}
       <div className="row ps-5">
         <div className="col-lg-2">
           <h5>Other Info</h5>
