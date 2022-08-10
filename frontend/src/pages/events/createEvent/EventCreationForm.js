@@ -92,12 +92,10 @@ const EventCreationForm = () => {
         const formData = new FormData();
         formData.append("img", selectedImage);
         axios
-          .post("api/events/image", formData, {
-            headers: { Authorization: `Bearer ${token}` },
-          })
+          .post("api/events/image", formData)
           .then((res) => {
             setUploading(false);
-            setSuccess("Image uploaded successfully...");
+            setSuccess("Image uploaded successfully, creating event...");
             submitEventForm(res.data._id);
           })
           .catch((err) => {
