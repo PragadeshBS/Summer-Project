@@ -10,4 +10,9 @@
   display: block;
 }
 
-
+.pop-out-card:hover {
+  box-shadow: 2px 12px 15px #999;
+}
+.pop-out-card.with-transform:hover {
+  transform: translateY(-2px);
+}
