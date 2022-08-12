@@ -3,6 +3,9 @@ const User = require("../models/userModel");
 const bcrypt = require("bcrypt");
 const passwordComplexity = require("joi-password-complexity");
 const jwt = require("jsonwebtoken");
+const nodemailer = require("nodemailer");
+const crypto = require("crypto");
+const PasswordReset = require("../models/passwordResetModel");
 
 const createUser = async (req, res) => {
   try {
@@ -115,6 +118,13 @@ const validateSignup = (data) => {
   return schema.validate(data);
 };
 
+const validatePasswordUpdate = (data) => {
+  const schema = Joi.object({
+    password: passwordComplexity().required().label("Password"),
+  });
+  return schema.validate(data);
+};
+
 const validateUpdate = (data) => {
   const schema = Joi.object({
     userName: Joi.string().required().label("Name"),
@@ -142,4 +152,74 @@ const generateToken = (id) => {
   });
 };
 
-module.exports = { login, createUser, updateUser };
+const forgotPassword = async (req, res) => {
+  const { email } = req.body;
+  const user = await User.findOne({ email });
+  if (!user) {
+    return res.status(200).json({ msg: "success" });
+  }
+  const token = generatePasswordResetToken();
+
+  await PasswordReset.create({
+    token,
+    user: user._id,
+  });
+
+  const transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      user: process.env.MAIL_USERNAME,
+      pass: process.env.MAIL_PWD,
+    },
+  });
+
+  var mailOptions = {
+    from: process.env.MAIL_USERNAME,
+    to: email,
+    subject: "Password reset - MIT Events",
+    html: `<p>Click the following link to reset your password. If you did not request for password reset, you can ignore this mail.</p>
+    <a href="https://mitevents.herokuapp.com/reset-password?token=${token}">Reset password</a>`,
+  };
+
+  transporter.sendMail(mailOptions);
+
+  res.status(200).json({ msg: "success" });
+};
+
+const generatePasswordResetToken = () => {
+  return crypto.randomBytes(128).toString("hex");
+};
+
+const resetPassword = async (req, res) => {
+  const { token, password } = req.body;
+  let yesterday = new Date();
+  yesterday.setDate(yesterday.getDate() - 1);
+  const pwdReset = await PasswordReset.findOne({ token })
+    .where("createdAt")
+    .gt(yesterday)
+    .where("expired")
+    .equals(false);
+  if (!pwdReset) {
+    return res.status(400).json({ error: "This link has expired" });
+  }
+  const { error } = validatePasswordUpdate({ password });
+  if (error) {
+    return res.status(400).json({ error: error.details[0].message });
+  }
+  const salt = await bcrypt.genSalt(10);
+  const hashedPassword = await bcrypt.hash(password, salt);
+  await User.findOneAndUpdate(
+    { _id: pwdReset.user },
+    { password: hashedPassword }
+  );
+  await PasswordReset.findOneAndUpdate({ token }, { expired: true });
+  res.status(200).json({ msg: "succcess" });
+};
+
+module.exports = {
+  login,
+  createUser,
+  updateUser,
+  forgotPassword,
+  resetPassword,
+};

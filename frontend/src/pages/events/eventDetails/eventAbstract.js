@@ -5,6 +5,7 @@ import { Rating } from "react-simple-star-rating";
 import { Store } from "react-notifications-component";
 import { useAuthContext } from "../../../hooks/useAuthContext";
 import axios from "axios";
+import Loading from "../../loader/loading.svg";
 
 const EventAbstract = ({
   register,
@@ -63,21 +64,34 @@ const EventAbstract = ({
   };
 
   useEffect(() => {
-    axios
-      .get(`/api/ratings/${event._id}`, {
-        headers: { Authorization: `Bearer: ${token}` },
-      })
-      .then((res) => {
-        setRating(res.data.ratingVal * 20);
-        setLoading(false);
-      })
-      .catch(() => {
-        setLoading(false);
-      });
-  }, [event._id, token]);
+    if (registered && new Date(event.eventEndDate) < new Date()) {
+      axios
+        .get(`/api/ratings/${event._id}`, {
+          headers: { Authorization: `Bearer: ${token}` },
+        })
+        .then((res) => {
+          setRating(res.data.ratingVal * 20);
+          setLoading(false);
+        })
+        .catch(() => {
+          setLoading(false);
+        });
+    } else {
+      setLoading(false);
+    }
+  }, [event._id, token, event.eventEndDate, registered]);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="container d-block mx-auto">
+        <h1 className="display-5 mt-5">Events</h1>
+        <div className="row mt-5 mb-5">
+          <div className="col d-flex justify-content-center">
+            <img src={Loading} alt="..." />
+          </div>
+        </div>
+      </div>
+    );
   }
 
   if (regLoading) {

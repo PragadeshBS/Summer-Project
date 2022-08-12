@@ -28,7 +28,7 @@ const UploadImage = ({
             <img
               width={"250px"}
               src={existingImage || URL.createObjectURL(selectedImage)}
-              alt="..."              
+              alt="..."
               className="d-block mx-auto rounded"
             />
             <br />
@@ -73,6 +73,7 @@ const UploadImage = ({
             setAnalysing(true);
             setSuggestions([]);
             setNoSugForImg(false);
+            setSelectedImage(event.target.files[0]);
             const formData = new FormData();
             formData.append("img", event.target.files[0]);
             axios
@@ -83,7 +84,6 @@ const UploadImage = ({
                 if (res.data.res.length === 0) setNoSugForImg(true);
               });
             setExistingImage(null);
-            setSelectedImage(event.target.files[0]);
             setImageModified(true);
           }}
         />

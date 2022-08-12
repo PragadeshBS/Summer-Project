@@ -21,6 +21,7 @@ const createEvent = async (req, res) => {
     link,
     image,
     public,
+    whatsapp,
   } = req.body;
   try {
     const event = await Event.create({
@@ -36,11 +37,14 @@ const createEvent = async (req, res) => {
       link,
       image,
       public,
+      whatsapp,
       organisers: [req.user.id],
     });
     await User.findByIdAndUpdate(req.user.id, {
       $push: { organizedEvents: event._id },
     });
+    console.log(event);
+    console.log(image);
     return res.status(200).json(event);
   } catch (error) {
     return res.status(400).json({ error: error.message });
@@ -87,6 +91,11 @@ const getEvents = async (req, res) => {
     .where("eventEndDate")
     .lt(new Date());
   res.status(200).json(events);
+};
+
+const getEventIds = async (req, res) => {
+  const events = await Event.find({}).select("_id");
+  res.status(200).json(events.map((e) => e._id));
 };
 
 const getUpcomingEvents = async (req, res) => {
@@ -137,6 +146,7 @@ const validateEvent = (data) => {
     link: Joi.string().empty("").label("Website Link"),
     image: Joi.string().empty("").label("Event image"),
     public: Joi.bool().label("Visible"),
+    whatsapp: Joi.bool().label("WhatsApp no."),
   });
   return schema.validate(data);
 };
@@ -145,6 +155,7 @@ module.exports = {
   createEvent,
   getEvents,
   getEvent,
+  getEventIds,
   getUpcomingEvents,
   updateEvent,
   checkConflictingEvents,

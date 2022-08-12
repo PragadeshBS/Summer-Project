@@ -12,6 +12,7 @@ const {
   updateEvent,
   checkConflictingEvents,
   getUpcomingEvents,
+  getEventIds,
 } = require("../controllers/eventControllers/eventController");
 
 const {
@@ -26,10 +27,17 @@ const {
   removeAllParticipants,
 } = require("../controllers/eventControllers/participantsController");
 
-const { addOrganizer, removeOrganizer, getOrganizers } = require("../controllers/eventControllers/organizersController");
+const {
+  addOrganizer,
+  removeOrganizer,
+  getOrganizers,
+} = require("../controllers/eventControllers/organizersController");
 
 // get all events
 router.get("/", getEvents);
+
+// get all event ids
+router.get("/ids", getEventIds);
 
 // get upcoming events
 router.get("/upcoming-events", getUpcomingEvents);
@@ -44,7 +52,7 @@ router.post("/", protect, createEvent);
 router.post("/check-conflicts", protect, checkConflictingEvents);
 
 // add image to event
-router.post("/image", protect, upload.single("img"), uploadEventImage);
+router.post("/image", upload.single("img"), uploadEventImage);
 
 // get image for an event
 router.get("/image/:id", getEventImage);

@@ -6,12 +6,17 @@ import { useState, useEffect } from "react";
 const Pagination = ({ data, setVisibleData, page }) => {
   // pagination logic
   const [curPage, setCurPage] = useState(1);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [rowsPerPage, setRowsPerPage] = useState(
+    localStorage.getItem("eventsPerPage")
+      ? localStorage.getItem("eventsPerPage")
+      : 5
+  );
   const totalNoOfPages = () => Math.ceil(data.length / rowsPerPage);
   const changeRowsPerPage = (rowsPerPage) => {
     //   switch to first page before making changes
     setCurPage(1);
     setRowsPerPage(parseInt(rowsPerPage));
+    localStorage.setItem("eventsPerPage", parseInt(rowsPerPage));
   };
   useEffect(() => {
     setCurPage(1);
