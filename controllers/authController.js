@@ -174,7 +174,7 @@ const forgotPassword = async (req, res) => {
   });
 
   var mailOptions = {
-    from: "prahul89893@gmail.com",
+    from: process.env.MAIL_USERNAME,
     to: email,
     subject: "Password reset - MIT Events",
     html: `<p>Click the following link to reset your password. If you did not request for password reset, you can ignore this mail.</p>

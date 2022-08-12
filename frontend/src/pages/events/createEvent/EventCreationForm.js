@@ -25,7 +25,7 @@ const EventCreationForm = () => {
     link: "",
     otherInfo: "",
     public: true,
-    whatsapp: true
+    whatsapp: true,
   });
   const [suggestions, setSuggestions] = useState([]);
 
@@ -68,13 +68,14 @@ const EventCreationForm = () => {
         });
     } else {
       const submitEventForm = (imgId) => {
-        if (imgId) {
-          setFormData({ ...formData, image: imgId });
-        }
         axios
-          .post("/api/events", formData, {
-            headers: { Authorization: `Bearer ${token}` },
-          })
+          .post(
+            "/api/events",
+            { ...formData, image: imgId },
+            {
+              headers: { Authorization: `Bearer ${token}` },
+            }
+          )
           .then(() => {
             setError("");
             setSuccess("Event created successfully");
@@ -90,14 +91,12 @@ const EventCreationForm = () => {
         setSuccess("");
         setError("");
         const formData = new FormData();
-        formData.append("img", selectedImage, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        formData.append("img", selectedImage);
         axios
           .post("api/events/image", formData)
           .then((res) => {
             setUploading(false);
-            setSuccess("Image uploaded successfully...");
+            setSuccess("Image uploaded successfully, creating event...");
             submitEventForm(res.data._id);
           })
           .catch((err) => {

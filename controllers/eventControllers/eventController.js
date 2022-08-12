@@ -43,6 +43,8 @@ const createEvent = async (req, res) => {
     await User.findByIdAndUpdate(req.user.id, {
       $push: { organizedEvents: event._id },
     });
+    console.log(event);
+    console.log(image);
     return res.status(200).json(event);
   } catch (error) {
     return res.status(400).json({ error: error.message });

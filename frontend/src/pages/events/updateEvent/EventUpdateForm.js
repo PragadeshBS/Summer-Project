@@ -77,8 +77,8 @@ const UpdateEvent = () => {
           })
           .then((res) => {
             setUploading(false);
+            setSuccess("Image uploaded successfully, updating event...");
             submitEventForm(res.data._id);
-            setSuccess("Image uploaded successfully...");
           })
           .catch((err) => {
             setError(err.message);
