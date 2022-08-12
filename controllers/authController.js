@@ -1,11 +1,11 @@
 const Joi = require("joi");
 const User = require("../models/userModel");
-const bcrypt = require("bcrypt");
 const passwordComplexity = require("joi-password-complexity");
 const jwt = require("jsonwebtoken");
 const nodemailer = require("nodemailer");
 const crypto = require("crypto");
 const PasswordReset = require("../models/passwordResetModel");
+const argon2 = require("argon2");
 
 const createUser = async (req, res) => {
   try {
@@ -30,8 +30,12 @@ const createUser = async (req, res) => {
     }
 
     // hash pwd
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt);
+    let hashedPassword;
+    try {
+      hashedPassword = await argon2.hash(password);
+    } catch (err) {
+      return res.status(500).json({ error: "Something went wrong" });
+    }
 
     const user = await User.create({
       userName,
@@ -71,8 +75,12 @@ const updateUser = async (req, res) => {
     }
     if (req.body.password) {
       // hash pwd
-      const salt = await bcrypt.genSalt(10);
-      const hashedPassword = await bcrypt.hash(req.body.password, salt);
+      let hashedPassword;
+      try {
+        hashedPassword = await argon2.hash(password);
+      } catch (err) {
+        return res.status(500).json({ error: "Something went wrong" });
+      }
       req.body.password = hashedPassword;
     }
     const user = await User.findByIdAndUpdate(id, {
@@ -95,7 +103,20 @@ const login = async (req, res) => {
     if (!user) {
       return res.status(401).json({ error: "Invalid email or password" });
     }
-    const validPassword = await bcrypt.compare(password, user.password);
+
+    // validate pwd
+    let validPassword = false;
+    try {
+      if (await argon2.verify(user.password, password)) {
+        validPassword = true;
+      } else {
+        validPassword = false;
+      }
+    } catch (err) {
+      // internal failure
+      return res.status(500).json({ error: "Something went wrong" });
+    }
+
     if (!validPassword) {
       return res.status(401).json({ error: "Invalid email or password" });
     }
@@ -206,8 +227,12 @@ const resetPassword = async (req, res) => {
   if (error) {
     return res.status(400).json({ error: error.details[0].message });
   }
-  const salt = await bcrypt.genSalt(10);
-  const hashedPassword = await bcrypt.hash(password, salt);
+  let hashedPassword;
+  try {
+    hashedPassword = await argon2.hash(password);
+  } catch (err) {
+    return res.status(400).json({ error: "Something went wrong" });
+  }
   await User.findOneAndUpdate(
     { _id: pwdReset.user },
     { password: hashedPassword }
