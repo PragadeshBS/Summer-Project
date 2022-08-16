@@ -121,11 +121,13 @@ const getEvent = async (req, res) => {
 
 const checkConflictingEvents = async (req, res) => {
   const { from, to } = req.body;
+  const startTime = new Date(new Date(from).getTime() + 16200000);
+  const endTime = new Date(new Date(to).getTime() + 16200000);
   const conflictingEvents = await Event.find({})
     .where("eventStartDate")
-    .lt(to)
+    .lt(endTime)
     .where("eventEndDate")
-    .gt(from);
+    .gt(startTime);
   res.status(200).json({
     conflict: conflictingEvents.length ? true : false,
     events: conflictingEvents,

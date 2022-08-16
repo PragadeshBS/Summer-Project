@@ -90,7 +90,7 @@ const Recommendations = ({ eventId }) => {
                   <p className="card-text">
                     {event.venue},{" "}
                     {format(
-                      new Date(event.eventStartDate),
+                      new Date(event.eventStartDate.substr(0, 16)),
                       "dd MMM yyyy\th:mm a"
                     )}
                   </p>

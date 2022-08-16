@@ -52,7 +52,11 @@ const EventDetail = () => {
   useEffect(() => {
     const fetchDetail = () => {
       axios.get(`/api/events/${id}`).then((response) => {
-        setData(response.data);
+        setData({
+          ...response.data,
+          eventStartDate: response.data.eventStartDate.substr(0, 16),
+          eventEndDate: response.data.eventEndDate.substr(0, 16),
+        });
         // check if current user is an organizer
         response.data.organisers.forEach((organiser) => {
           if (organiser.email === user) {
