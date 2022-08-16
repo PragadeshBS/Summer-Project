@@ -3,13 +3,15 @@ import axios from "axios";
 import image1 from "../../images/e1.png";
 import { format } from "date-fns";
 import { useNavigate } from "react-router-dom";
+import Loading from "../../pages/loader/loading.svg";
 
 const Recommendations = ({ eventId }) => {
+  const [loading, setLoading] = useState(true);
   const [similarEvents, setSimilarEvents] = useState([]);
   useEffect(() => {
     axios
       .get(
-        `https://ocr-backendmit.herokuapp.com/api/reccomended-events/${eventId}`
+        `https://ocr-backendmit.herokuapp.com/api/recommended-events/${eventId}`
       )
       .then((res) => {
         fetchEventDetails(res.data.similarEvents);
@@ -29,6 +31,7 @@ const Recommendations = ({ eventId }) => {
     });
     await Promise.all(promises);
     setSimilarEvents(temp);
+    setLoading(false);
   };
 
   const handleClick = (url) => {
@@ -38,6 +41,28 @@ const Recommendations = ({ eventId }) => {
     });
     navigate(url);
   };
+
+  if (loading) {
+    return (
+      <div className="container d-block mx-auto">
+        <div className="row mt-4">
+          <div className="col">
+            <h1 className="display-6">Getting recommendations...</h1>
+          </div>
+        </div>
+        <div className="row mt-5 mb-5">
+          <div className="col d-flex justify-content-center">
+            <img
+              src={Loading}
+              style={{ backgroundColor: "white" }}
+              className="img-fluid"
+              alt="..."
+            />
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div
@@ -65,7 +90,7 @@ const Recommendations = ({ eventId }) => {
                   <p className="card-text">
                     {event.venue},{" "}
                     {format(
-                      new Date(event.eventStartDate),
+                      new Date(event.eventStartDate.substr(0, 16)),
                       "dd MMM yyyy\th:mm a"
                     )}
                   </p>

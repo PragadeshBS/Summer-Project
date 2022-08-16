@@ -21,6 +21,7 @@ import ParticipatedEvents from "./pages/user/participatedEvents/ParticipatedEven
 import Loading from "./pages/loader/loading.svg";
 import ForgotPassword from "./pages/auth/passwordReset/ForgotPassword";
 import PasswordReset from "./pages/auth/passwordReset/PasswordReset";
+// import TestPage from "./TestPage";
 
 function App() {
   const { user, loading } = useAuthContext();
@@ -97,6 +98,7 @@ function App() {
               path="/reset-password"
               element={!user ? <PasswordReset /> : <Navigate to="/" />}
             />
+            {/* <Route path="/test" element={<TestPage />} /> */}
           </Routes>
         </div>
       </BrowserRouter>
