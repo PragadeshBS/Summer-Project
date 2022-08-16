@@ -181,7 +181,10 @@ const Viewevents = ({ category }) => {
                   />
                 </h5>
                 <p className="card-text">
-                  {format(new Date(item.eventStartDate), "dd MMM yyyy-h:mm a")}
+                  {format(
+                    new Date(item.eventStartDate.substr(0, 16)),
+                    "dd MMM yyyy-h:mm a"
+                  )}
                 </p>
                 <Link to={`/eventdetails/${item._id}`}>
                   <span className="btn btn-primary">View Details</span>

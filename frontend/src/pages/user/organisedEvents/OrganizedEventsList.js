@@ -21,7 +21,10 @@ const OrganizedEventsList = ({ events }) => {
               <div className="card-body">
                 <h5 className="card-title">{event.eventName}</h5>
                 <h6 className="card-subtitle mb-2 text-muted">
-                  {format(new Date(event.eventStartDate), "dd MMM yyyy-h:mm a")}
+                  {format(
+                    new Date(event.eventStartDate.substr(0, 16)),
+                    "dd MMM yyyy-h:mm a"
+                  )}
                 </h6>
                 <p className="card-text">Venue: {event.venue}</p>
                 <Link to={`/eventdetails/${event._id}`}>
