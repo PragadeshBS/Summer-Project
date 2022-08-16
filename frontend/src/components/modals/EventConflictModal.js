@@ -55,13 +55,13 @@ const EventConflictModal = ({ events, isOpen, close }) => {
                     <td>{event.eventName}</td>
                     <td>
                       {format(
-                        new Date(event.eventStartDate),
+                        new Date(event.eventStartDate.substr(0, 16)),
                         "dd MMM yyyy\th:mm a"
                       )}
                     </td>
                     <td>
                       {format(
-                        new Date(event.eventEndDate),
+                        new Date(event.eventEndDate.substr(0, 16)),
                         "dd MMM yyyy\th:mm a"
                       )}
                     </td>
