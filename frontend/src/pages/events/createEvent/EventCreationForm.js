@@ -53,7 +53,7 @@ const EventCreationForm = () => {
           "/api/events/check-conflicts/",
           {
             from: formData.eventStartDate,
-            to: formData.eventStartDate,
+            to: formData.eventEndDate,
           },
           { headers: { Authorization: `Bearer ${token}` } }
         )
