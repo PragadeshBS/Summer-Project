@@ -2,15 +2,18 @@ import Header from "../../../components/events/Header";
 import { useForm } from "react-hook-form";
 import signupStyles from "./signupStyles.module.css";
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import CustomProgressBar from "../../../components/progressBar/CustomProgressBar";
 
 const Signup = () => {
   const [error, setError] = useState("");
+  const [completed, setCompleted] = useState(0);
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
+    watch,
   } = useForm();
 
   const addUser = (data) => {
@@ -29,12 +32,29 @@ const Signup = () => {
       });
   };
 
+  useEffect(() => {
+    const subscription = watch((value) => {
+      let progress = 0;
+      if (value.userName) progress++;
+      if (value.regNo) progress++;
+      if (value.mobile) progress++;
+      if (value.dept) progress++;
+      if (value.email) progress++;
+      if (value.password) progress++;
+      if (value.confirmPassword) progress++;
+      setCompleted((progress * 100) / 7);
+    });
+    return () => subscription.unsubscribe();
+  }, [watch]);
+
   return (
     <div className="EventCreationPage container">
       <Header title={"Sign up"} />
       <div className="row">
         <div className="col-lg-8">
           <div className="EventCreationForm  my-3 py-4 px-5 border shadow rounded">
+            <span className="text-secondary">Progress</span>
+            <CustomProgressBar completed={completed} />
             <form className="pt-3" onSubmit={handleSubmit(addUser)}>
               <div className="form-group">
                 <label>
