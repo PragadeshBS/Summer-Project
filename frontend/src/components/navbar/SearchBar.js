@@ -50,7 +50,7 @@ const SearchBar = () => {
       }}
     >
       <input
-        className="form-control me-2"
+        className="form-control me-2 bg-dark border-primary"
         type="search"
         placeholder="Search events"
         aria-label="Search"

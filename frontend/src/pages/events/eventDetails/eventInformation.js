@@ -29,7 +29,7 @@ const EventInformation = (props) => {
         </ul>
       </div>
 
-      <div className="row ps-5">
+      <div className="row ps-5 bg-dark bg-dark">
         <div className="col-lg-2">
           <h5>Venue</h5>
         </div>
@@ -37,7 +37,7 @@ const EventInformation = (props) => {
           <h6>{props.detail.venue}</h6>
         </div>
       </div>
-      <div className="row ps-5">
+      <div className="row ps-5 bg-dark">
         <div className="col-lg-2">
           <h5>Contact Name</h5>
         </div>
@@ -45,7 +45,7 @@ const EventInformation = (props) => {
           <h6>{props.detail.contactName}</h6>
         </div>
       </div>
-      <div className="row ps-5">
+      <div className="row ps-5 bg-dark">
         <div className="col-lg-2">
           <h5>Contact Number</h5>
         </div>
@@ -64,7 +64,7 @@ const EventInformation = (props) => {
           </ReactWhatsapp>
         </div>
       </div>
-      <div className="row ps-5">
+      <div className="row ps-5 bg-dark">
         <div className="col-lg-2">
           <h5>Contact Email</h5>
         </div>
@@ -78,7 +78,7 @@ const EventInformation = (props) => {
         </div>
       </div>
       {link && (
-        <div className="row ps-5">
+        <div className="row ps-5 bg-dark">
           <div className="col-lg-2">
             <h5>Link</h5>
           </div>
@@ -97,7 +97,7 @@ const EventInformation = (props) => {
           </div>
         </div>
       )}
-      <div className="row ps-5">
+      <div className="row ps-5 bg-dark">
         <div className="col-lg-2">
           <h5>Other Info</h5>
         </div>

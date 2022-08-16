@@ -45,12 +45,12 @@ const Recommendations = ({ eventId }) => {
   if (loading) {
     return (
       <div className="container d-block mx-auto">
-        <div className="row mt-4">
+        <div className="row mt-4 bg-dark">
           <div className="col">
             <h1 className="display-6">Getting recommendations...</h1>
           </div>
         </div>
-        <div className="row mt-5 mb-5">
+        <div className="row mt-5 mb-i bg-dark">
           <div className="col d-flex justify-content-center">
             <img
               src={Loading}
@@ -66,18 +66,22 @@ const Recommendations = ({ eventId }) => {
 
   return (
     <div
-      className="p-3 mb-3 rounded"
+      className="p-3 mb-3 rounded bg-dark"
       style={{ boxShadow: "rgba(17, 12, 46, 0.15) 0px 48px 100px 0px" }}
     >
       <h6 className="display-6 ms-3">You might also like</h6>
-      <div className="row">
+      <div className="row bg-dark">
         {similarEvents &&
           similarEvents.map((event) => {
             return (
               <div
                 key={event._id}
-                className="mx-auto card my-2"
-                style={{ width: "18rem", cursor: "pointer" }}
+                className="mx-auto card my-2 bg-dark border-primary"
+                style={{
+                  width: "18rem",
+                  cursor: "pointer",
+                  border: "2px solid",
+                }}
                 onClick={() => handleClick(`/eventdetails/${event._id}`)}
               >
                 <img

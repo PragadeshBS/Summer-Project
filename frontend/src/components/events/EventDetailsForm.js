@@ -2,8 +2,6 @@ import EventConflictModal from "../modals/EventConflictModal";
 import TextInput from "react-autocomplete-input";
 import UploadImage from "./UploadImage";
 import EventOrganisersForm from "./EventOrganisersForm";
-import { useEffect, useState } from "react";
-import CustomProgressBar from "../progressBar/CustomProgressBar";
 
 const EventDetailsForm = ({
   handleSubmit,
@@ -32,33 +30,17 @@ const EventDetailsForm = ({
   showOrganizerForm,
   id,
 }) => {
-  const [progress, setProgress] = useState(0);
-  useEffect(() => {
-    let completed = 0;
-    if (formData.eventName) completed += 1;
-    if (formData.eventStartDate) completed += 1;
-    if (formData.eventEndDate) completed += 1;
-    if (formData.venue) completed += 1;
-    if (formData.dept) completed += 1;
-    if (formData.contactName) completed += 1;
-    if (formData.contactPhone) completed += 1;
-    if (formData.contactEmail) completed += 1;
-    if (formData.link) completed += 1;
-    if (formData.otherInfo) completed += 1;
-    setProgress((completed * 100) / 10);
-  }, [formData]);
   return (
-    <div className="row">
+    <div className="row bg-dark">
       <div className="col-lg-8">
         <div className="my-3 py-4 px-5 border shadow rounded">
           <h3>Event details</h3>
-          <span className="text-secondary">Progress</span>
-          <CustomProgressBar completed={progress} />
           <form className="pt-3" onSubmit={(e) => handleSubmit(e)}>
             <div className="form-group">
               <label>
                 Event Name <span className="text-danger">*</span>
               </label>
+
               <TextInput
                 trigger={["", " "]}
                 options={suggestions}
@@ -245,7 +227,7 @@ const EventDetailsForm = ({
                   <button
                     type="button"
                     onClick={() => setShowConflictingEvents(true)}
-                    className="btn btn-secondary btn-lg"
+                    className="btn btn-secondary btn-lg border-primary text-primary bg-dark"
                   >
                     View conflicting events
                   </button>
@@ -253,7 +235,7 @@ const EventDetailsForm = ({
                 <div className="my-3">
                   <button
                     type="button"
-                    className="btn btn-outline-danger btn-sm"
+                    className="btn btn-outline-danger btn-sm border-primary text-primary bg-dark"
                     onClick={() => {
                       setConflictsExist(false);
                       setShowSubmitBtn(true);
@@ -273,7 +255,7 @@ const EventDetailsForm = ({
               <div className="form-group ">
                 <button
                   type="submit"
-                  className="btn btn-primary my-2 ms-1 btn-lg"
+                  className="btn btn-primary my-2 ms-1 btn-lg border-primary text-primary bg-dark"
                 >
                   Next
                 </button>
@@ -283,7 +265,7 @@ const EventDetailsForm = ({
               <div className="form-group ">
                 <button
                   type="submit"
-                  className="btn btn-primary my-2 ms-1 btn-lg"
+                  className="btn btn-primary my-2 ms-1 btn-lg border-primary text-primary bg-dark"
                 >
                   {selectedImage ? "Upload image & create event" : "Create"}
                 </button>

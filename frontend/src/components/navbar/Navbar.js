@@ -8,13 +8,13 @@ const Navbar = () => {
   const { logout } = useLogout();
   const navigate = useNavigate();
   return (
-    <nav className="navbar navbar-expand-lg bg-light">
-      <div className="container-fluid">
-        <Link className="navbar-brand" to="/">
+    <nav className="navbar navbar-expand-lg bg-dark ">
+      <div className="container-fluid ">
+        <Link className="navbar-brand text-primary" to="/">
           Events
         </Link>
         <button
-          className="navbar-toggler"
+          className="navbar-toggler "
           type="button"
           data-bs-toggle="collapse"
           data-bs-target="#navbarSupportedContent"
@@ -27,17 +27,23 @@ const Navbar = () => {
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
             <li className="nav-item">
-              <Link className="nav-link active" to="/upcoming-events">
+              <Link
+                className="nav-link active text-primary"
+                to="/upcoming-events"
+              >
                 Upcoming Events
               </Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link active" to="/archives">
+              <Link className="nav-link text-primary active " to="/archives">
                 Archives
               </Link>
             </li>
-            <li className="nav-item">
-              <Link className="nav-link active" to="/eventcreationform">
+            <li className="nav-item ">
+              <Link
+                className="nav-link active text-primary"
+                to="/eventcreationform"
+              >
                 Create Event
               </Link>
             </li>
@@ -52,7 +58,7 @@ const Navbar = () => {
                   Login
                 </button>
               </div>
-              <div className="m-2">
+              <div className="m-2 ">
                 <button
                   className="btn btn-primary"
                   onClick={() => navigate("/signup")}
@@ -63,34 +69,40 @@ const Navbar = () => {
             </>
           )}
           {user && (
-            <ul className="navbar-nav">
+            <ul className="navbar-nav ">
               <li className="nav-item dropdown">
                 <span
-                  className="nav-link dropdown-toggle"
+                  className="nav-link dropdown-toggle text-primary"
                   role="button"
                   data-bs-toggle="dropdown"
                 >
                   {user}
                 </span>
-                <ul className="dropdown-menu">
+                <ul className="dropdown-menu bg-dark ">
                   <li>
-                    <Link className="dropdown-item" to="/profile">
+                    <Link className="dropdown-item text-primary" to="/profile">
                       My profile
                     </Link>
                   </li>
                   <li>
-                    <Link className="dropdown-item" to="/organised-events">
+                    <Link
+                      className="dropdown-item text-primary"
+                      to="/organised-events"
+                    >
                       Organised events
                     </Link>
                   </li>
                   <li>
-                    <Link className="dropdown-item" to="/participated-events">
+                    <Link
+                      className="dropdown-item text-primary"
+                      to="/participated-events"
+                    >
                       Participated events
                     </Link>
                   </li>
                   <li>
                     <button
-                      className="dropdown-item"
+                      className="dropdown-item text-primary"
                       onClick={() => {
                         logout();
                         navigate("/");

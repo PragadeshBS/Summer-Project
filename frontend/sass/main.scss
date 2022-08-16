@@ -1,0 +1,9 @@
+$primary: #f05454;
+$success: yellow;
+$body-color: #c2ded1;
+$body-bg: #222831;
+.dark {
+  --#{$variable-prefix}body-bg: #{$body-bg};
+}
+//import bootstrap
+@import "../node_modules/bootstrap/scss/bootstrap";

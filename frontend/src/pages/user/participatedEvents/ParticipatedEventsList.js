@@ -4,12 +4,12 @@ import image1 from "../../../images/e1.png";
 
 const ParticipatedEventsList = ({ events }) => {
   return (
-    <div className="container row">
+    <div className="container row bg-dark">
       {events &&
         events.map((event) => {
           return (
             <div
-              className="card m-5 p-1 col-1 mx-auto"
+              className="card m-5 p-1 col-1 mx-auto bg-dark"
               style={{ width: "18rem" }}
               key={event._id}
             >

@@ -1,9 +1,7 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { ReactNotifications } from "react-notifications-component";
 import "react-notifications-component/dist/theme.css";
-
 import { useAuthContext } from "./hooks/useAuthContext";
-
 import EventCreationForm from "./pages/events/createEvent/EventCreationForm";
 import EventDetail from "./pages/events/eventDetails/eventDetails";
 import Viewevents from "./pages/events/viewEvents/viewEvents";
@@ -43,6 +41,10 @@ function App() {
       <ReactNotifications />
       <BrowserRouter>
         <Navbar />
+        <hr
+          className="text-primary bg-primary h-20"
+          style={{ height: "2px" }}
+        ></hr>
         <div className="pages">
           <Routes>
             <Route path="/" element={<Viewevents category="UPCOMING" />} />

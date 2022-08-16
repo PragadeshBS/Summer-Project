@@ -65,7 +65,7 @@ const Profile = () => {
 
   if (loading) {
     return (
-      <div className="container d-block mx-auto">
+      <div className="container d-block mx-auto bg-dark">
         <h1 className="display-5 mt-5">Events</h1>
         <div className="row mt-5 mb-5">
           <div className="col d-flex justify-content-center">
@@ -79,7 +79,7 @@ const Profile = () => {
   return (
     <div className="EventCreationPage container">
       <h1 className="display-5">Profile</h1>
-      <div className="row">
+      <div className="row bg-dark">
         <div className="col-lg-8">
           <div className="EventCreationForm  my-3 py-4 px-5 border shadow rounded">
             <form className="pt-3" onSubmit={handleSubmit(updateUser)}>
@@ -188,7 +188,7 @@ const Profile = () => {
               <div className="form-group w-75 text-center">
                 <button
                   type="submit"
-                  className="btn btn-primary my-2 ms-1 btn-lg"
+                  className="btn btn-primary my-2 ms-1 btn-lg border-primary text-primary bg-dark"
                 >
                   Update Profile
                 </button>

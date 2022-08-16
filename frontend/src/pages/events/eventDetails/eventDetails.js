@@ -81,7 +81,7 @@ const EventDetail = () => {
     return (
       <div className="container d-block mx-auto">
         <h1 className="display-5 mt-5">Events</h1>
-        <div className="row mt-5 mb-5">
+        <div className="row mt-5 mb-5 bg-dark">
           <div className="col d-flex justify-content-center">
             <img src={Loading} alt="..." />
           </div>
@@ -108,7 +108,7 @@ const EventDetail = () => {
           />
           <img src={Loading} alt="..." className={`mx-auto ${loadclass}`} />
         </section>
-        <div className="row mt-5">
+        <div className="row mt-5 bg-dark">
           <div className="col-lg-7">
             <EventInformation detail={data} />
           </div>

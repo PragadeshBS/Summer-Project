@@ -87,7 +87,7 @@ const Viewevents = ({ category }) => {
   }
   return (
     <div className="container">
-      <div className="row mt-4 align-items-center">
+      <div className="row mt-4 align-items-center bg-dark text-primary">
         <div className="col-2">
           <h1 className="display-3">
             {category === "UPCOMING" ? "Upcoming Events" : "Event Archives"}
@@ -97,7 +97,7 @@ const Viewevents = ({ category }) => {
         <div className="col-lg-3">
           <input
             style={{ width: "100%", height: "75%" }}
-            className="form-control"
+            className="form-control bg-dark border-primary text-primary"
             type="text"
             id="myInput"
             onChange={search}
@@ -107,11 +107,11 @@ const Viewevents = ({ category }) => {
         </div>
         <div className="col-lg-3">
           <select
-            className="form-select mb-2"
+            className="form-select mb-2 bg-dark border-primary text-primary"
             style={{ width: "100%", marginTop: "6px" }}
             onChange={searchdept}
           >
-            <option className="" value="*">
+            <option className="text-primary bg-dark" value="*">
               All
             </option>
             <option value="AM">Automobile Engineering</option>
@@ -134,7 +134,7 @@ const Viewevents = ({ category }) => {
         </div>
       )}
       <div
-        className="row mt-5 mb-5"
+        className="row mt-5 mb-5 bg-dark"
         style={{
           boxShadow:
             "rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px",
@@ -144,8 +144,8 @@ const Viewevents = ({ category }) => {
           return (
             <div
               key={item._id}
-              className="card m-5 p-1 col-1 mx-auto pop-out-card with-transform animateText"
-              style={{ width: "18rem" }}
+              className="card m-5 p-1 col-1 mx-auto pop-out-card with-transform fadeInUp border-primary bg-dark text-light"
+              style={{ width: "18rem", border: "3px solid " }}
             >
               <img
                 src={item.image ? `/api/events/image/${item._id}` : image1}
@@ -187,14 +187,16 @@ const Viewevents = ({ category }) => {
                   )}
                 </p>
                 <Link to={`/eventdetails/${item._id}`}>
-                  <span className="btn btn-primary">View Details</span>
+                  <span className="btn btn-primary bg-dark text-primary">
+                    View Details
+                  </span>
                 </Link>
               </div>
             </div>
           );
         })}
       </div>
-      <div className="row mx-auto mb-5">
+      <div className="row mx-auto mb-5 bg-dark text-primary">
         <Pagination
           data={detail}
           setVisibleData={setFilterDetail}

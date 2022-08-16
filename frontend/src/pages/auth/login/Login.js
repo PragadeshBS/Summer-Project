@@ -30,7 +30,7 @@ const Login = () => {
     <div className="EventCreationPage container">
       <Header title={"Login"} />
       {isLoading && <div>Just a sec...</div>}
-      <div className="row">
+      <div className="row bg-dark">
         <div className="col-lg-8">
           <div className="EventCreationForm  my-3 py-4 px-5 border shadow rounded">
             {flow && (
@@ -77,10 +77,7 @@ const Login = () => {
               </div>
               {error && <div className="alert alert-danger">{error}</div>}
               <div className="form-group w-75 text-center">
-                <button
-                  type="submit"
-                  className="btn btn-primary my-2 ms-1 btn-lg"
-                >
+                <button type="submit" className="btn btn-outline-primary">
                   Login
                 </button>
               </div>

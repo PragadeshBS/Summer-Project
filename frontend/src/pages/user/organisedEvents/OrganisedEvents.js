@@ -21,10 +21,10 @@ const OrganisedEvents = () => {
 
   if (loading) {
     return (
-      <div className="container d-block mx-auto">
+      <div className="container d-block mx-auto ">
         <h1 className="display-5 mt-5">Events</h1>
         <div className="row mt-5 mb-5">
-          <div className="col d-flex justify-content-center">
+          <div className="col d-flex justify-content-center bg-dark">
             <img src={Loading} alt="..." />
           </div>
         </div>
