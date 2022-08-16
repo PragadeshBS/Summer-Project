@@ -144,7 +144,7 @@ const Viewevents = ({ category }) => {
           return (
             <div
               key={item._id}
-              className="card m-5 p-1 col-1 mx-auto pop-out-card with-transform"
+              className="card m-5 p-1 col-1 mx-auto pop-out-card with-transform fadeInUp"
               style={{ width: "18rem" }}
             >
               <img
