@@ -14,5 +14,13 @@
   box-shadow: 2px 12px 15px #999;
 }
 .pop-out-card.with-transform:hover {
-  transform: translateY(-2px);
+  transform: translateY(-30px);
+}
+.card{
+  transform-style:preserve-3d;
+  transition:.5s ease;
+}
+.card:hover{
+  box-shadow:2px 2px 0 3px blue;
+  transition: .4s ease;
 }
