@@ -6,13 +6,14 @@ const upload = multer({ storage: multerStorage });
 const { protect } = require("../middleware/authMiddleware");
 
 const {
-  getEvents,
+  getArchives,
   createEvent,
   getEvent,
   updateEvent,
   checkConflictingEvents,
   getUpcomingEvents,
   getEventIds,
+  getEvents,
 } = require("../controllers/eventControllers/eventController");
 
 const {
@@ -35,6 +36,8 @@ const {
 
 // get all events
 router.get("/", getEvents);
+
+router.get("/archives", getArchives);
 
 // get all event ids
 router.get("/ids", getEventIds);

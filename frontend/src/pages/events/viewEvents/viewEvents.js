@@ -13,7 +13,7 @@ const Viewevents = ({ category }) => {
   let fetchUrl;
   switch (category) {
     case "ARCHIVES":
-      fetchUrl = "/api/events/";
+      fetchUrl = "/api/events/archives";
       break;
     case "UPCOMING":
       fetchUrl = "/api/events/upcoming-events";
