@@ -79,7 +79,7 @@ const EventDetail = () => {
 
   if (loading) {
     return (
-      <div className="container d-block mx-auto">
+      <div className="container row d-block mx-auto">
         <h1 className="display-5 mt-5">Events</h1>
         <div className="row mt-5 mb-5">
           <div className="col d-flex justify-content-center">
@@ -90,7 +90,7 @@ const EventDetail = () => {
     );
   }
   return (
-    <div className="container">
+    <div className="container row mx-auto">
       <div className="mt-4">
         <h1 className="display-3">{data.eventName}</h1>
       </div>

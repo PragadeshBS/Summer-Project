@@ -78,9 +78,9 @@ const Profile = () => {
 
   return (
     <div className="EventCreationPage container">
-      <h1 className="display-5">Profile</h1>
       <div className="row">
-        <div className="col-lg-8">
+        <h1 className="display-3 pt-3">Profile</h1>
+        <div className="col-lg-8 mx-auto">
           <div className="EventCreationForm  my-3 py-4 px-5 border shadow rounded">
             <form className="pt-3" onSubmit={handleSubmit(updateUser)}>
               <div className="form-group">
@@ -93,12 +93,12 @@ const Profile = () => {
                   {...register("userName", {
                     required: "Name is Required",
                   })}
-                  className={`form-control m-3 w-75 ${
+                  className={`form-control m-3 ${
                     errors.userName ? ProfileStyles.errorInput : ""
                   }`}
                 ></input>
                 {errors.userName && (
-                  <span className={`${ProfileStyles.error} w-75`}>
+                  <span className={`${ProfileStyles.error} `}>
                     {errors.userName.message}
                   </span>
                 )}
@@ -107,7 +107,7 @@ const Profile = () => {
                 <label>Register Number</label>
                 <input
                   type="text"
-                  className={`form-control m-3 w-75 ${
+                  className={`form-control m-3  ${
                     errors.regNo ? ProfileStyles.errorInput : ""
                   }`}
                   {...register("regNo")}
@@ -119,7 +119,7 @@ const Profile = () => {
                 </label>
                 <input
                   type="number"
-                  className={`form-control m-3 w-75 ${
+                  className={`form-control m-3  ${
                     errors.mobile ? ProfileStyles.errorInput : ""
                   }`}
                   {...register("mobile", {
@@ -127,7 +127,7 @@ const Profile = () => {
                   })}
                 ></input>
                 {errors.mobile && (
-                  <span className={`${ProfileStyles.error} w-75`}>
+                  <span className={`${ProfileStyles.error} `}>
                     {errors.mobile.message}
                   </span>
                 )}
@@ -136,7 +136,7 @@ const Profile = () => {
                 <label>Department</label>
                 <input
                   type="text"
-                  className={`form-control m-3 w-75 ${
+                  className={`form-control m-3  ${
                     errors.dept ? ProfileStyles.errorInput : ""
                   }`}
                   {...register("dept")}
@@ -148,13 +148,13 @@ const Profile = () => {
                 </label>
                 <input
                   type="text"
-                  className={`form-control m-3 w-75 ${
+                  className={`form-control m-3  ${
                     errors.email ? ProfileStyles.errorInput : ""
                   }`}
                   {...register("email", { required: "Email is required" })}
                 ></input>
                 {errors.email && (
-                  <span className={`${ProfileStyles.error} w-75`}>
+                  <span className={`${ProfileStyles.error} `}>
                     {errors.email.message}
                   </span>
                 )}
@@ -165,7 +165,7 @@ const Profile = () => {
                 </label>
                 <input
                   type="password"
-                  className={`form-control m-3 w-75 ${
+                  className={`form-control m-3  ${
                     errors.email ? ProfileStyles.errorInput : ""
                   }`}
                   {...register("password", {})}
@@ -177,7 +177,7 @@ const Profile = () => {
                 </label>
                 <input
                   type="password"
-                  className={`form-control m-3 w-75 ${
+                  className={`form-control m-3  ${
                     errors.email ? ProfileStyles.errorInput : ""
                   }`}
                   {...register("confirmPassword", {})}
@@ -185,7 +185,7 @@ const Profile = () => {
               </div>
               {success && <div className="alert alert-success">{success}</div>}
               {error && <div className="alert alert-danger">{error}</div>}
-              <div className="form-group w-75 text-center">
+              <div className="form-group  text-center">
                 <button
                   type="submit"
                   className="btn btn-primary my-2 ms-1 btn-lg"

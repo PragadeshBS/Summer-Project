@@ -33,7 +33,7 @@ const OrganisedEvents = () => {
   }
 
   return (
-    <div className="container">
+    <div className="container row mx-auto">
       <h1 className="display-3">Organised Events</h1>
       <p className="small text-muted">Events organised by you</p>
       {events.length ? (

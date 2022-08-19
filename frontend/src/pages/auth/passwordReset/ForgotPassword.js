@@ -18,14 +18,14 @@ const ForgotPassword = () => {
       });
   };
   return (
-    <div className="EventCreationPage container">
+    <div className="EventCreationPage container row mx-auto pb-5">
       <Header title={"Reset password"} />
       <div className="row">
-        <div className="col-lg-8">
-          <div className="EventCreationForm  my-3 py-4 px-5 border shadow rounded">
+        <div className="mx-auto col-lg-8">
+          <div className="EventCreationForm py-4 px-5 border shadow rounded">
             <form className="pt-3" onSubmit={handleSubmit}>
               <div className="form-group">
-                <label className="ms-5">
+                <label>
                   Email <span className="text-danger">*</span>
                 </label>
                 <input
@@ -33,11 +33,11 @@ const ForgotPassword = () => {
                   onChange={(e) => setEmail(e.target.value)}
                   type="email"
                   placeholder="Enter your email"
-                  className="form-control mx-auto m-3 w-75"
+                  className="form-control mx-auto m-3 "
                   required={true}
                 ></input>
               </div>
-              <div className="form-group w-75 text-center">
+              <div className="form-group  text-center">
                 <button
                   type="submit"
                   className="btn btn-primary my-2 ms-1 btn-lg"

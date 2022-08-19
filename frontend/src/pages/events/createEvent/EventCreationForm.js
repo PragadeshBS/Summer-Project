@@ -119,32 +119,34 @@ const EventCreationForm = () => {
 
   return (
     <div className="EventCreationPage container">
-      <Header title={"Create an Event"} />
-      <EventDetailsForm
-        formData={formData}
-        setFormData={setFormData}
-        error={error}
-        existingImage={existingImage}
-        setExistingImage={setExistingImage}
-        setSelectedImage={setSelectedImage}
-        uploading={uploading}
-        success={success}
-        suggestions={suggestions}
-        setSuggestions={setSuggestions}
-        checkingConflicts={checkingConflicts}
-        conflictsExist={conflictsExist}
-        setConflictsExist={setConflictsExist}
-        show
-        showConflictingEvents={showConflictingEvents}
-        setShowConflictingEvents={setShowConflictingEvents}
-        conflictingEvents={conflictingEvents}
-        handleSubmit={handleSubmit}
-        showSubmitBtn={showSubmitBtn}
-        setShowSubmitBtn={setShowSubmitBtn}
-        selectedImage={selectedImage}
-        setImageModified={() => {}}
-        showOrganizerForm={false}
-      />
+      <div className="container row">
+        <Header title={"Create an Event"} />
+        <EventDetailsForm
+          formData={formData}
+          setFormData={setFormData}
+          error={error}
+          existingImage={existingImage}
+          setExistingImage={setExistingImage}
+          setSelectedImage={setSelectedImage}
+          uploading={uploading}
+          success={success}
+          suggestions={suggestions}
+          setSuggestions={setSuggestions}
+          checkingConflicts={checkingConflicts}
+          conflictsExist={conflictsExist}
+          setConflictsExist={setConflictsExist}
+          show
+          showConflictingEvents={showConflictingEvents}
+          setShowConflictingEvents={setShowConflictingEvents}
+          conflictingEvents={conflictingEvents}
+          handleSubmit={handleSubmit}
+          showSubmitBtn={showSubmitBtn}
+          setShowSubmitBtn={setShowSubmitBtn}
+          selectedImage={selectedImage}
+          setImageModified={() => {}}
+          showOrganizerForm={false}
+        />
+      </div>
     </div>
   );
 };
