@@ -33,7 +33,7 @@ const ParticipatedEvents = () => {
   }
 
   return (
-    <div className="container">
+    <div className="container mx-auto row">
       <h1 className="display-3">Participated Events</h1>
       <p className="small text-muted">Events participated by you</p>
       {events.length ? (

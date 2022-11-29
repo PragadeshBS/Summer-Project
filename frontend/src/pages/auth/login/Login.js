@@ -28,41 +28,43 @@ const Login = () => {
 
   return (
     <div className="EventCreationPage container">
-      <Header title={"Login"} />
       {isLoading && <div>Just a sec...</div>}
-      <div className="row">
-        <div className="col-lg-8">
-          <div className="EventCreationForm  my-3 py-4 px-5 border shadow rounded">
+      <div className="row pb-5">
+        <div className="px-5">
+          <Header title={"Login"} />
+        </div>
+        <div className="col-lg-8 mx-auto">
+          <div className="EventCreationForm py-4 px-3 border shadow rounded">
             {flow && (
-              <div className="alert alert-info w-75 text-center mx-auto">
+              <div className="alert alert-info text-center mx-auto">
                 Login to continue...
               </div>
             )}
             <form className="pt-3" onSubmit={handleSubmit(addUser)}>
               <div className="form-group">
-                <label className="ms-5">
+                <label>
                   Email <span className="text-danger">*</span>
                 </label>
                 <input
                   type="text"
-                  className={`form-control mx-auto m-3 w-75 ${
+                  className={`form-control mx-auto m-3  ${
                     errors.email ? loginStyles.errorInput : ""
                   }`}
                   {...register("email", { required: "Email is required" })}
                 ></input>
                 {errors.email && (
-                  <span className={`${loginStyles.error} w-75`}>
+                  <span className={`${loginStyles.error} `}>
                     {errors.email.message}
                   </span>
                 )}
               </div>
               <div className="form-group">
-                <label className="ms-5">
+                <label>
                   Password <span className="text-danger">*</span>
                 </label>
                 <input
                   type="password"
-                  className={`form-control m-3 mx-auto w-75 ${
+                  className={`form-control m-3 mx-auto  ${
                     errors.email ? loginStyles.errorInput : ""
                   }`}
                   {...register("password", {
@@ -70,13 +72,13 @@ const Login = () => {
                   })}
                 ></input>
                 {errors.password && (
-                  <span className={`${loginStyles.error} w-75`}>
+                  <span className={`${loginStyles.error} `}>
                     {errors.password.message}
                   </span>
                 )}
               </div>
               {error && <div className="alert alert-danger">{error}</div>}
-              <div className="form-group w-75 text-center">
+              <div className="form-group  text-center">
                 <button
                   type="submit"
                   className="btn btn-primary my-2 ms-1 btn-lg"

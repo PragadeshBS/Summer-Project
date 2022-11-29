@@ -86,6 +86,11 @@ const updateEvent = async (req, res) => {
 };
 
 const getEvents = async (req, res) => {
+  const events = await Event.find({ public: true }).sort({ createdAt: -1 });
+  res.status(200).json(events);
+};
+
+const getArchives = async (req, res) => {
   const events = await Event.find({ public: true })
     .sort({ createdAt: -1 })
     .where("eventEndDate")
@@ -161,6 +166,7 @@ const validateEvent = (data) => {
 module.exports = {
   createEvent,
   getEvents,
+  getArchives,
   getEvent,
   getEventIds,
   getUpcomingEvents,

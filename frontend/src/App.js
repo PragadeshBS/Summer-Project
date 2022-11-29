@@ -21,6 +21,7 @@ import ParticipatedEvents from "./pages/user/participatedEvents/ParticipatedEven
 import Loading from "./pages/loader/loading.svg";
 import ForgotPassword from "./pages/auth/passwordReset/ForgotPassword";
 import PasswordReset from "./pages/auth/passwordReset/PasswordReset";
+import Header from "./components/templates/Header";
 // import TestPage from "./TestPage";
 
 function App() {
@@ -28,7 +29,7 @@ function App() {
 
   if (loading) {
     return (
-      <div className="container d-block mx-auto">
+      <div className="container row d-block mx-auto">
         <h1 className="display-5 mt-5">Events</h1>
         <div className="row mt-5 mb-5">
           <div className="col d-flex justify-content-center">
@@ -42,8 +43,9 @@ function App() {
     <div className="App">
       <ReactNotifications />
       <BrowserRouter>
+        <Header />
         <Navbar />
-        <div className="pages">
+        <div style={{ backgroundImage: `url("/static/images/bg.png")` }}>
           <Routes>
             <Route path="/" element={<Viewevents category="UPCOMING" />} />
             <Route path="/eventdetails/:id" element={<EventDetail />} />

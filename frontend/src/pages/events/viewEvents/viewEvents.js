@@ -13,7 +13,7 @@ const Viewevents = ({ category }) => {
   let fetchUrl;
   switch (category) {
     case "ARCHIVES":
-      fetchUrl = "/api/events/";
+      fetchUrl = "/api/events/archives";
       break;
     case "UPCOMING":
       fetchUrl = "/api/events/upcoming-events";
@@ -67,12 +67,12 @@ const Viewevents = ({ category }) => {
   if (loading) {
     return (
       <div className="container d-block mx-auto">
-        <div className="row mt-4">
+        <div className="row">
           <div className="col">
             <h1 className="display-3">Events</h1>
           </div>
         </div>
-        <div className="row mt-5 mb-5">
+        <div className="row mb-5">
           <div className="col d-flex justify-content-center">
             <img
               src={Loading}
@@ -87,7 +87,7 @@ const Viewevents = ({ category }) => {
   }
   return (
     <div className="container">
-      <div className="row mt-4 align-items-center">
+      <div className="row align-items-center">
         <div className="col-2">
           <h1 className="display-3">
             {category === "UPCOMING" ? "Upcoming Events" : "Event Archives"}
@@ -133,13 +133,7 @@ const Viewevents = ({ category }) => {
           No events found, check back later or try a different filter
         </div>
       )}
-      <div
-        className="row mt-5 mb-5"
-        style={{
-          boxShadow:
-            "rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px",
-        }}
-      >
+      <div className="row">
         {filter.map((item) => {
           return (
             <div
@@ -194,7 +188,7 @@ const Viewevents = ({ category }) => {
           );
         })}
       </div>
-      <div className="row mx-auto mb-5">
+      <div className="row pb-5">
         <Pagination
           data={detail}
           setVisibleData={setFilterDetail}

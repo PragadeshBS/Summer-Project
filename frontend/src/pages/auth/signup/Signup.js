@@ -49,10 +49,12 @@ const Signup = () => {
 
   return (
     <div className="EventCreationPage container">
-      <Header title={"Sign up"} />
-      <div className="row">
-        <div className="col-lg-8">
-          <div className="EventCreationForm  my-3 py-4 px-5 border shadow rounded">
+      <div className="row pb-5">
+        <div className="px-5">
+          <Header title={"Sign Up"} />
+        </div>
+        <div className="col-lg-8 mx-auto">
+          <div className="EventCreationForm my-3 py-4 px-5 border shadow rounded">
             <span className="text-secondary">Progress</span>
             <CustomProgressBar completed={completed} />
             <form className="pt-3" onSubmit={handleSubmit(addUser)}>
@@ -66,12 +68,12 @@ const Signup = () => {
                   {...register("userName", {
                     required: "Name is Required",
                   })}
-                  className={`form-control m-3 w-75 ${
+                  className={`form-control m-3  ${
                     errors.userName ? signupStyles.errorInput : ""
                   }`}
                 ></input>
                 {errors.userName && (
-                  <span className={`${signupStyles.error} w-75`}>
+                  <span className={`${signupStyles.error} `}>
                     {errors.userName.message}
                   </span>
                 )}
@@ -80,7 +82,7 @@ const Signup = () => {
                 <label>Register Number</label>
                 <input
                   type="text"
-                  className={`form-control m-3 w-75 ${
+                  className={`form-control m-3  ${
                     errors.regNo ? signupStyles.errorInput : ""
                   }`}
                   {...register("regNo")}
@@ -92,7 +94,7 @@ const Signup = () => {
                 </label>
                 <input
                   type="number"
-                  className={`form-control m-3 w-75 ${
+                  className={`form-control m-3  ${
                     errors.mobile ? signupStyles.errorInput : ""
                   }`}
                   {...register("mobile", {
@@ -100,14 +102,14 @@ const Signup = () => {
                   })}
                 ></input>
                 {errors.mobile && (
-                  <span className={`${signupStyles.error} w-75`}>
+                  <span className={`${signupStyles.error} `}>
                     {errors.mobile.message}
                   </span>
                 )}
               </div>
               <div className="form-group">
                 <label>Department</label>
-                <select {...register("dept")} className="form-select w-75 m-3">
+                <select {...register("dept")} className="form-select  m-3">
                   <option value="AM">Automobile Engineering</option>
                   <option value="CT">Computer Science Engineering</option>
                   <option value="IT">Information Technology</option>
@@ -129,13 +131,13 @@ const Signup = () => {
                 </label>
                 <input
                   type="text"
-                  className={`form-control m-3 w-75 ${
+                  className={`form-control m-3  ${
                     errors.email ? signupStyles.errorInput : ""
                   }`}
                   {...register("email", { required: "Email is required" })}
                 ></input>
                 {errors.email && (
-                  <span className={`${signupStyles.error} w-75`}>
+                  <span className={`${signupStyles.error} `}>
                     {errors.email.message}
                   </span>
                 )}
@@ -146,7 +148,7 @@ const Signup = () => {
                 </label>
                 <input
                   type="password"
-                  className={`form-control m-3 w-75 ${
+                  className={`form-control m-3  ${
                     errors.email ? signupStyles.errorInput : ""
                   }`}
                   {...register("password", {
@@ -154,7 +156,7 @@ const Signup = () => {
                   })}
                 ></input>
                 {errors.password && (
-                  <span className={`${signupStyles.error} w-75`}>
+                  <span className={`${signupStyles.error} `}>
                     {errors.password.message}
                   </span>
                 )}
@@ -165,7 +167,7 @@ const Signup = () => {
                 </label>
                 <input
                   type="password"
-                  className={`form-control m-3 w-75 ${
+                  className={`form-control m-3  ${
                     errors.email ? signupStyles.errorInput : ""
                   }`}
                   {...register("confirmPassword", {
@@ -173,13 +175,13 @@ const Signup = () => {
                   })}
                 ></input>
                 {errors.confirmPassword && (
-                  <span className={`${signupStyles.error} w-75`}>
+                  <span className={`${signupStyles.error} `}>
                     {errors.confirmPassword.message}
                   </span>
                 )}
               </div>
               {error && <div className="alert alert-danger">{error}</div>}
-              <div className="form-group w-75 text-center">
+              <div className="form-group  text-center">
                 <button
                   type="submit"
                   className="btn btn-primary my-2 ms-1 btn-lg"
