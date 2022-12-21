@@ -10,9 +10,7 @@ const Recommendations = ({ eventId }) => {
   const [similarEvents, setSimilarEvents] = useState([]);
   useEffect(() => {
     axios
-      .get(
-        `https://ocr-backendmit.herokuapp.com/api/recommended-events/${eventId}`
-      )
+      .get(`http://127.0.0.1:8000/api/recommended-events/${eventId}`)
       .then((res) => {
         fetchEventDetails(res.data.similarEvents);
       });

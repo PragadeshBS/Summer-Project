@@ -77,7 +77,7 @@ const UploadImage = ({
             const formData = new FormData();
             formData.append("img", event.target.files[0]);
             axios
-              .post("https://ocr-backendmit.herokuapp.com/api/ocr/", formData)
+              .post("http://127.0.0.1:8000/api/ocr/", formData)
               .then((res) => {
                 setAnalysing(false);
                 setSuggestions(res.data.res);
