@@ -34,7 +34,7 @@ def getSimilarEvents(event):
         event_index = event_ids.index(event_id)
         rating = i['ratingVal']
         user_rating_map[user_id][event_index] = rating
-    
+
     df = pd.DataFrame(user_rating_map, index=event_ids)
     knn = NearestNeighbors(metric='cosine', algorithm='brute')
     knn.fit(df.values)
@@ -42,9 +42,9 @@ def getSimilarEvents(event):
     index_user_likes = df.index.tolist().index(event)
     sim_events = indices[index_user_likes].tolist()
     event_distances = distances[index_user_likes].tolist()
-    id_event = sim_events.index(index_user_likes)    
-
-    sim_events.remove(index_user_likes)
-    event_distances.pop(id_event)
+    if(index_user_likes in sim_events):
+        id_event = sim_events.index(index_user_likes)
+        sim_events.remove(index_user_likes)
+        event_distances.pop(id_event)
 
     return [df.index[i] for i in sim_events]
