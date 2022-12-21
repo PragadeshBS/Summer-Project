@@ -8,6 +8,7 @@ import CustomProgressBar from "../../../components/progressBar/CustomProgressBar
 const Signup = () => {
   const [error, setError] = useState("");
   const [completed, setCompleted] = useState(0);
+  const [success, setSuccess] = useState(false);
   const {
     register,
     handleSubmit,
@@ -24,6 +25,7 @@ const Signup = () => {
     axios
       .post("/api/auth/signup", data)
       .then(() => {
+        setSuccess(true);
         reset();
         setError("");
       })
@@ -181,6 +183,11 @@ const Signup = () => {
                 )}
               </div>
               {error && <div className="alert alert-danger">{error}</div>}
+              {success && (
+                <div className="alert alert-success">
+                  Account created successfully, proceed to login
+                </div>
+              )}
               <div className="form-group  text-center">
                 <button
                   type="submit"
